@@ -36,7 +36,7 @@ module.exports.loop = function () {
     var cur_room = Game.rooms['E19S58'];
 
     if (init) {
-        Memory.spawnQueue = ['energyMiner', 'energyMiner', 'energyMiner'].concat(shuffle([
+        Memory.spawnQueue = ['energyMiner', 'energyMiner', 'energyMiner', 'energyMiner'].concat(shuffle([
             'upgrader', 'upgrader', 'upgrader',
             //'harvester', 'harvester', 'harvester', 'harvester',
             'mover', 'mover',
