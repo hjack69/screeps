@@ -7,7 +7,7 @@
  * mod.thing == 'a thing'; // true
  */
 
-var waitingArea = {'x':8, 'y':17};
+var waitingArea = {'x':7, 'y':15};
 
 var manage = function(creep) {
     if (creep.memory.queue == 'entering') {
