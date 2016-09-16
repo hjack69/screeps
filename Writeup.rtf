@@ -1,0 +1,139 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
+{\fonttbl\f0\fnil\fcharset0 Calibri;\f1\fnil\fcharset129 AppleSDGothicNeo-Regular;}
+{\colortbl;\red255\green255\blue255;\red146\green146\blue146;\red146\green146\blue146;}
+\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl360\partightenfactor0
+
+\f0\b\fs28 \cf0 \cb1 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Current Path:
+\b0\fs24 \
+/Users/jack/Library/Application Support/Screeps/scripts/screeps.com/testing\
+\
+\pard\pardeftab720\sl360\qj\partightenfactor0
+
+\b\fs28 \cf0 Current philosophy:
+\b0\fs24 \
+	1) Always be harvesting the maximum possible amount of energy, even if it goes unused (it never goes unused, who are you kidding?)\
+	2) Minimize congestion\
+	3) Minimize defenses when not being attacked, boost when attackers are present\
+	4) Focus on upgrading and maintenance \
+An energy queue minimizes congestion, while a special energyMiner role maximizes energy harvesting. \
+Defenders wait around until there\'92s an attacker. 3 while peaceful, 5-7 while under attack. Emergency phase set by Towers, automatically unset.\
+Maintainers and wallMaintainers specialized at maintaining, Towers also maintain a little.\
+\
+
+\b\fs28 Proceses:
+\b0\fs24 \
+\
+
+\b Phases:\
+	
+\b0 Phases allow me to roll out additional functionality easily, while maintaining older functionality for later use. Ideally this would allow a quick recovery from death, minimizing the amount of coding I\'92d have to re-do in the case of death. \
+	Each phase has a corresponding key in the Memory dictionary where any phase-specific data is stored. Currently this is mainly the spawn queue.\
+	Data that is shared by the phases is kept under the room in memory, things like the energy queue and which containers movers should ignore. \
+	Current phases are:\
+		I) Emergency\
+			1) Can be automatically activated upon enemy detection in room\
+			2) Automatically deactivates and reverts to previous phase when no enemies are found in the room\
+			3) Spawns only necessary and defensive roles (spawners, energyMiners, upgraders, defenders, healers, wallMaintainers), any existing non-necessary roles automatically swarm the nearest attacker to slow it down\
+		II) phase1\
+			1) To be used while building containers for phase 2\
+			2) No energyMiners\
+			3) The energy queue should make harvesting creeps do the actual harvesting\
+		III) phase2\
+			1) energyMiner role, sole purpose is to mine for energy and deposit it into a nearby container\
+			2) The energy queue makes harvesting creeps collect from one of the available energyMiner containers\
+\
+
+\b Roles:
+\b0 \
+	Builder:\
+		Enters queue when energy is empty, builds at construction sites when filled\
+		Building priority: Walls >> !Roads >> Anything\
+		Defaults to Maintainer\
+		\cb1 \outl0\strokewidth0 Swarm in Emergency\
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 		Body: WORK x2, CARRY x3, MOVE x2; 450e\cb1 \outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 	Claimer:\
+		Currently needs explicit directions on where to go and what to do, configurable in role file\
+		Swarm in Emergency\
+		Body: CLAIM x1, MOVE x1; 650e\
+	Defender:\
+		Looks for hostile creeps, attacks if found, moves out of the way if not found\
+		Continues in Emergency\
+		Body: ATTACK x3, MOVE x3; 390e\
+	Energy Miner:\
+		Harvests energy from source, dumps energy into nearby container\
+		Requires container id and harvesting spot in creep memory\
+		Continues in Emergency\
+		Body: WORK x7, CARRY x1, MOVE x1; 800e\
+	Harvester:\
+		**depreciated** kept for legacy, see spawner\
+		Body: WORK x1, CARRY x1, MOVE x2; 250e\
+	Healer:\
+		Searches for any injured creep, heals if found, gets out of the way otherwise\
+		Continues in Emergency\
+		Body: HEAL x1, MOVEx2; 350e\
+	Hoarder:\
+		Moves energy from source containers to storage for safe keeping\
+		Defaults to Mover\
+		Swarms in Emergency\
+		Body: WORK x1, CARRY x4, MOVE x4; 500e\
+	Maintainer:\
+		Finds structures with low hits and repairs them\
+		Repair priority: Containers, Roads, Towers half hits >> Containers, Roads, Towers less than full\
+		Defaults to Tower Filler\
+		Swarms in Emergency\
+		Body: WORK x2, CARRY x2, MOVE x2; 400e\
+	Mover:\cb1 \outl0\strokewidth0 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 		Moves energy from source containers to other containers, attempts to speed up upgrading a bit\
+		Defaults to Upgrader\
+		Swarms in Emergency\
+		Body: WORK x1, CARRY x2, MOVE x2; 300e\cb1 \outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 	Paver:\cb1 \outl0\strokewidth0 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 		Constructs Roads only\
+		Defaults to Builder\
+		Swarms in Emergency\
+		Body: WORK x1, CARRY x2, MOVE x2; 300e\cb1 \outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 	Spawner:\cb1 \outl0\strokewidth0 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 		Powers the spawner and extensions\
+		Defaults to Mover\
+		Continues in Emergency\
+		Body: WORK x1, CARRY x2, MOVE x2; 300e\cb1 \outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 	Tower Filler:\cb1 \outl0\strokewidth0 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 		Powers the Towers\
+		Defaults to Mover\
+		Continues in Emergency\
+		Body: WORK x1, CARRY x2, MOVE x2; 300e \cb1 \outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 	Upgrader:\cb1 \outl0\strokewidth0 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 		Upgrades the controller, can take power from nearby containers before entering queue\
+		Continues in Emergency\
+		Body: WORK x2, CARRY x3, MOVE x2; 450e\cb1 \outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 	Wall Maintainer:\cb1 \outl0\strokewidth0 \
+\pard\pardeftab720\sl360\qj\partightenfactor0
+\cf0 		Repairs Walls and Ramparts\
+		Repair priority: less than 500k >> less than half >> less than full\
+		Defaults to Maintainer\
+		Continues in Emergency\
+		Body: WORK x2, CARRY x2, MOVE x2; 400e\
+\
+
+\b Plans:
+\b0 \
+	Improve creep death detection: currently using ticksToLive; could keep a list of creeps, update at the end of the tick, and at the beginning of the next tick just check if they\'92re still alive\
+	Improve Claim role 
+\f1 \uc0\u8628 
+\f0 \
+	Implement a deployment function to send creeps to other rooms. I\'92m thinking deploying some harvesters to surrounding rooms, get a little extra incoming energy. Wouldn\'92t hurt to get it working with some builders or maybe make a Bodyguard role for protection. }
