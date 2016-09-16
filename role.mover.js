@@ -1,33 +1,34 @@
-var roleBuilder = require('role.builder');
-
-var roleMover = {
-
-    /** @param {Creep} creep **/
-    run: function(creep) {
-        
+var roleUpgrader = require('role.upgrader');
+// Mover
+var role = {
+    phase1: function(creep) {
         if (creep.carry.energy == 0) {
-            creep.memory.queue = 'entering';
+            creep.memory.qstate = 'entering';
             creep.say('harvesting');
         }
         else {
-            var targets = creep.room.find(FIND_STRUCTURES, {
-                filter: (structure) => {
-                    return ([STRUCTURE_CONTAINER].indexOf(structure.structureType) > -1) &&
-                        _.sum(structure.store) < structure.storeCapacity &&
-                        structure.id != creep.room.prefContainerID;
-                }
-            });
+            var targets = creep.room.find(FIND_STRUCTURES, { filter: (structure) => {
+                return structure.structureType == STRUCTURE_CONTAINER &&
+                    _.sum(structure.store) < structure.storeCapacity &&
+                    creep.room.memory.ignoreContainers.indexOf(structure.id) == -1;
+            }});
             if (targets.length > 0) {
                 if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
+                    creep.moveTo(targets[0], {reusePath: 10});
                 }
             }
             else {
-                roleBuilder.run(creep);
+                roleUpgrader.phase1(creep);
             }
-            creep.say('moving');
         }
-    }
+    },
+	emergency: function(creep) {
+	    var targets = Memory.currentEnemies
+	    if (targets.length) {
+	        creep.moveTo(targets[0].pos);
+	    }
+	}
 };
+role.phase2 = role.phase1;
 
-module.exports = roleMover;
+module.exports = role;

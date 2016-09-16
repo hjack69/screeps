@@ -1,32 +1,32 @@
 var roleBuilder = require('role.builder');
-
-var rolePaver = {
-
-    run: function(creep) {
-        
+// Paver
+var role = {
+    phase1: function(creep) {
         if (creep.carry.energy == 0) {
-            creep.memory.queue = 'entering';
+            creep.memory.qstate = 'entering';
             creep.say('harvesting');
         }
         else {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES, {
-                    filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_ROAD) &&
-                            structure.progress < structure.progressTotal;
-                    }
-            });
+            var targets = creep.room.find(FIND_CONSTRUCTION_SITES, { filter: (structure) => {
+                return structure.structureType == STRUCTURE_ROAD;
+            }});
             if(targets.length) {
                 if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
+                    creep.moveTo(targets[0], {reusePath: 10});
                 }
             }
             else {
-                roleBuilder.run(creep);
+                roleBuilder.phase1(creep);
             }
-            creep.say('paving');
         }
-        
+	},
+	emergency: function(creep) {
+	    var targets = Memory.currentEnemies
+	    if (targets.length) {
+	        creep.moveTo(targets[0].pos);
+	    }
 	}
 };
+role.phase2 = role.phase1;
 
-module.exports = rolePaver;
+module.exports = role;

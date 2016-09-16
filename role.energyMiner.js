@@ -1,31 +1,36 @@
-var roleEnergyMiner = {
-
-    /** @param {Creep} creep **/
-    run: function(creep) {
-        if (creep.carry.energy == 0 && creep.memory.action == 'dumping') {
-            creep.memory.action = 'harvesting';
+// Energy Miner
+var role = {
+    phase1: function(creep) {
+        var roleHarvester = require('role.harvester');
+        roleHarvester.phase1(creep);
+    },
+    phase2: function(creep) {
+        if (creep.carry.energy == 0 && (creep.memory.doing == 'dumping' || creep.memory.doing == '')) {
+            creep.memory.doing = 'harvesting';
         }
-        else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
-            creep.memory.action = 'dumping';
+        else if (creep.carry.energy == creep.carryCapacity && creep.memory.doing == 'harvesting') {
+            creep.memory.doing = 'dumping';
         }
 
-        if (creep.memory.action == 'harvesting') {
-            var source = creep.room.find(FIND_SOURCES)[0];
-            creep.moveTo(5, 12);
+        if (creep.memory.doing == 'harvesting') {
+            var source = Game.getObjectById(creep.memory.sourceid);
+            if (creep.pos.x != creep.memory.spot.x || creep.pos.y != creep.memory.spot.y) {
+                creep.moveTo(creep.memory.spot.x, creep.memory.spot.y);
+            }
             if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source);
+                creep.moveTo(creep.memory.spot.x, creep.memory.spot.y);
             }
         }
-        else if (creep.memory.action == 'dumping') {
-            var prefContainer = Game.getObjectById(creep.room.memory.srcID);
-            if (_.sum(prefContainer.store) < prefContainer.storeCapacity) {
-                creep.moveTo(5, 12);
-                if (creep.transfer(prefContainer, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(prefContainer);
+        else if (creep.memory.doing == 'dumping') {
+            var dump = Game.getObjectById(creep.memory.dumpid);
+            if (_.sum(dump.store) < dump.storeCapacity) {
+                if (creep.transfer(dump, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(dump);
                 }
             }
         }
     }
 };
+role.emergency = role.phase2;
 
-module.exports = roleEnergyMiner;
+module.exports = role;

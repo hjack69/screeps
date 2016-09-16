@@ -1,34 +1,27 @@
-var queue = require('queue');
-
-
-var roleUpgrader = {
-
-    /** @param {Creep} creep **/
-    run: function(creep) {
-        
+// Upgrader
+var role = {
+    phase1: function(creep) {
         if (creep.carry.energy == 0) {
-            creep.memory.queue = 'entering';
-            creep.say('harvesting');
-            
-            var containers = creep.room.find(FIND_STRUCTURES, {filter: (structure) => {return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= creep.carryCapacity)}});
-            if (containers.length > 0) {
-                if (creep.withdraw(containers[0], RESOURCE_ENERGY, creep.carryCapacity) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(containers[0].pos);
+            var containers = creep.room.find(FIND_STRUCTURES, {filter: (structure) => {return (structure.structureType == STRUCTURE_CONTAINER && structure.store[RESOURCE_ENERGY] >= creep.carryCapacity && creep.room.memory.ignoreContainers.indexOf(structure.id) == -1)}});
+            if (containers.length) {
+                var closest = creep.pos.findClosestByRange(containers);
+                if (creep.withdraw(closest, RESOURCE_ENERGY, creep.carryCapacity) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(closest.pos, {reusePath: 10});
                 }
             }
             else {
-                creep.memory.queue = 'entering';
                 creep.say('harvesting');
+                creep.memory.qstate = 'entering';
             }
         }
         else {
             if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(creep.room.controller);
+                creep.moveTo(creep.room.controller, {reusePath: 10});
             }
-            creep.say('upgrading');
         }
-        
     }
 };
+role.phase2 = role.phase1;
+role.emergency = role.phase1;
 
-module.exports = roleUpgrader;
+module.exports = role;

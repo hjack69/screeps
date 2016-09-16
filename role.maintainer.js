@@ -1,49 +1,42 @@
 var roleTowerFiller = require('role.towerFiller');
-
-var roleMaintainer = {
-
-    /** @param {Creep} creep **/
-    run: function(creep) {
-        
+// Maintainer
+var role = {
+    phase1: function(creep) {
         if (creep.carry.energy == 0) {
-            creep.memory.queue = 'entering';
             creep.say('harvesting');
+            creep.memory.qstate = 'entering';
         }
         else {
-            var targets = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(structure.structureType) > -1) && structure.hits < structure.hitsMax/2;
-                    }
-            });
-            for (var t in targets) {
-                if (targets[t].hits < 100) {
-                    targets.unshift(targets[t]);
-                }
-            }
+            var targets = creep.room.find(FIND_STRUCTURES, { filter: (structure) => {
+                return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(structure.structureType) > -1) && structure.hits < structure.hitsMax/2;
+            }});
             if (targets.length > 0) {
                 if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
+                    creep.moveTo(targets[0], {reusePath: 10});
                 }
             }
             else {
-                targets = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(structure.structureType) > -1) && structure.hits < structure.hitsMax;
-                    }
-                });
+                targets = creep.room.find(FIND_STRUCTURES, { filter: (structure) => {
+                    return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(structure.structureType) > -1) && structure.hits < structure.hitsMax;
+                }});
                 if (targets.length > 0) {
                     if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(targets[0]);
+                        creep.moveTo(targets[0], {reusePath: 10});
                     }
                 }
                 else {
-                    roleTowerFiller.run(creep);
+                    roleTowerFiller.phase1(creep);
                 }
             }
-            creep.say('repairing');
         }
-        
-    }
+    },
+	emergency: function(creep) {
+	    var targets = Memory.currentEnemies
+	    if (targets.length) {
+	        creep.moveTo(targets[0].pos);
+	    }
+	}
 };
+role.phase2 = role.phase1;
 
-module.exports = roleMaintainer;
+module.exports = role;
