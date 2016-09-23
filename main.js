@@ -22,7 +22,7 @@ var bodies = require('bodies').bodies;
 
 
 var spawn = function (r) {
-    var room = Game.rooms[r].memory[Game.rooms[r].phase];
+    var room = Game.rooms[r].memory[Game.rooms[r].memory.phase];
     if (room.spawnq.length) {
         var body = bodies[room.spawnLevel][room.spawnq[0].role];
         // if no spawners for current room
@@ -72,7 +72,7 @@ module.exports.loop = function () {
 
         // Compare aliveLastTick with Game.creeps (if no aliveLastTick, set to aliveThisTick and move on)
             // spawn accordingly, clear memory, logify
-        if (Memory.aliveLastTick) {
+        if (Memory.aliveLastTick.length) {
             for (var n in Memory.aliveLastTick) {
                 if (!Game.creeps[n]) {
                     var cMem = Memory.creeps[n].memory;
