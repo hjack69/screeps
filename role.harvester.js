@@ -1,6 +1,18 @@
+/**
+ * TEMPORARY DEPRECIATION
+ * CONVERT TO SIPHON/THIEF
+ */
+
 var roleMover = require('role.mover');
 // Harvester
 var role = {
+    targets: function() {
+        var out = {};
+        for (var r in Memory.myRooms) {
+
+        }
+        return out;
+    },
     phase1: function(creep) {
         if (creep.carry.energy == 0) {
             creep.memory.qstate = 'entering';
@@ -20,6 +32,37 @@ var role = {
             }
         }
     },
+    phase2: function(creep) {
+        if (creep.carry.energy == 0 && creep.memory.action == 'dumping') {
+            creep.memory.action = 'harvesting';
+        }
+        else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
+            creep.memory.action = 'dumping';
+        }
+        
+        if (creep.memory.action == 'harvesting') {
+            if (creep.room.name != 'E58S7') {
+                creep.moveTo(new RoomPosition(25, 25, 'E58S7'));
+            }
+            else {
+                var target = creep.room.find(FIND_SOURCES)[0];
+                if (creep.harvest(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target)
+                }
+            }
+        }
+        else if (creep.memory.action == 'dumping') {
+            if (creep.room.name != 'E58S8') {
+                creep.moveTo(new RoomPosition(25,25,'E58S8'));
+            }
+            else {
+                var target = Game.getObjectById('57d62ea571b05ff46c40f97a');
+                if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                }
+            }
+        }
+    },
 	emergency: function(creep) {
 	    var targets = Memory.currentEnemies
 	    if (targets.length) {
@@ -27,6 +70,5 @@ var role = {
 	    }
 	}
 };
-role.phase2 = role.phase1;
 
 module.exports = role;

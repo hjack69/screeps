@@ -1,22 +1,57 @@
 var roleMover = require('role.mover');
 // Tower Filler
 var role = {
-    phase1: function(creep) {
-        if (creep.carry.energy == 0) {
-            creep.memory.qstate = 'entering';
-            creep.say('harvesting');
+    targets: function() {
+        var out = {};
+        for (var r in Memory.myRooms) {
+            out[r] = {
+                'harvesting':Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] >= creep.carryCapacity}}),
+                'filling':Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType==STRUCTURE_TOWER && s.energy<s.energyCapacity}})
+            };
+        }
+        return out;
+    },
+    phase1: function(creep, t) {
+        if (creep.room.name != creep.memory.home) {
+            creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
         else {
-            var targets = creep.room.find(FIND_STRUCTURES, { filter: (structure) => {
-                return (structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
-            }});
-            if (targets.length > 0) {
-                if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {reusePath: 10});
+            if (!creep.memory.action || (creep.carry.energy == 0 && creep.memory.action == 'filling')) {
+                creep.memory.action = 'harvesting';
+            }
+            else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
+                creep.memory.action = 'filling';
+            }
+
+            var tlist = t.towerFiller[creep.memory.home];
+            if (creep.memory.action == 'harvesting') {
+                var target = null;
+                if (tlist.harvesting.length) {
+                    target = creep.pos.findClosestByRange(tlist.harvesting);
+                }
+                if (target) {
+                    if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
+                    }
+                }
+                else {
+                    creep.memory.qstate = 'entering';
                 }
             }
-            else {
-                roleMover.phase1(creep);
+            else if (creep.memory.action == 'filling') {
+                var target = null;
+                if (tlist.filling.length) {
+                    target = creep.pos.findClosestByRange(tlist.filling);
+                }
+                if (target) {
+                    if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
+                    }
+                }
+                else {
+                    var moverRole = require('role.mover');
+                    moverRole[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                }
             }
         }
     }

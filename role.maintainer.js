@@ -1,40 +1,48 @@
-var roleTowerFiller = require('role.towerFiller');
 // Maintainer
 var role = {
-    phase1: function(creep) {
-        if (creep.carry.energy == 0) {
-            creep.say('harvesting');
-            creep.memory.qstate = 'entering';
+    targets: function() {
+        var out = {};
+        for (var r in Memory.myRooms) {
+            out[r] = [
+                Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(structure.structureType) > -1) && structure.hits < structure.hitsMax/2}}),
+                Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(structure.structureType) > -1) && structure.hits < structure.hitsMax}})
+            ];
+        }
+        return out;
+    },
+    phase1: function(creep, t) {
+        if (creep.room.name != creep.memory.home) {
+            creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
         else {
-            var targets = creep.room.find(FIND_STRUCTURES, { filter: (structure) => {
-                return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(structure.structureType) > -1) && structure.hits < structure.hitsMax/2;
-            }});
-            if (targets.length > 0) {
-                if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {reusePath: 10});
-                }
+            if (creep.carry.energy == 0) {
+                creep.memory.qstate = 'entering';
+                var queue = require('queue');
+                queue[Game.rooms[creep.memory.home].memory.phase](creep);
             }
             else {
-                targets = creep.room.find(FIND_STRUCTURES, { filter: (structure) => {
-                    return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(structure.structureType) > -1) && structure.hits < structure.hitsMax;
-                }});
-                if (targets.length > 0) {
-                    if(creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(targets[0], {reusePath: 10});
+                var tlist = t.maintainer[creep.memory.home];
+                var target = null;
+                for (var i=0; i<tlist.length; i++) {
+                    if (tlist[i].length) {
+                        target = tlist.findClosestByRange(tlist[i]);
+                    }
+                }
+                if (target) {
+                    if (creep.repair(target) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
                     }
                 }
                 else {
-                    roleTowerFiller.phase1(creep);
+                    var upgrader = require('role.upgrader');
+                    upgrader[Game.rooms[creep.memory.home].phase](creep);
                 }
             }
         }
     },
 	emergency: function(creep) {
-	    var targets = Memory.currentEnemies
-	    if (targets.length) {
-	        creep.moveTo(targets[0].pos);
-	    }
+	    var e = require('emergency');
+        e.emergency(creep);
 	}
 };
 role.phase2 = role.phase1;

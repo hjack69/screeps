@@ -1,41 +1,40 @@
 var phases = require('phases');
 var roleTower = {
-    phase1: function(tower) {
-        
-        var enemies = tower.room.find(FIND_HOSTILE_CREEPS);
-        if (enemies.length > 0) {
-            tower.attack(enemies[0]);
-            phases.emergency();
+    targets: function() {
+        var out = {};
+        for (var r in Memory.myRooms) {
+            out[r] = {
+                hostiles: Game.rooms[r].find(FIND_HOSTILE_CREEPS),
+                injured: Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return (c.hits< c.hitsMax)}}),
+                structures: [
+                    Game.rooms[r].find(FIND_MY_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL|| s.structureType==STRUCTURE_RAMPART) && s.hits<100000}}),
+                    Game.rooms[r].find(FIND_MY_STRUCTURES, {filter:(s)=>{return (s.structureType!=STRUCTURE_WALL) && s.hits < s.hitsMax/2}})
+                ]
+            };
+        }
+        return out;
+    },
+    phase1: function(tower, t) {
+        var tlist = t.tower[t.room];
+        if (tlist.hostiles.length) {
+            tower.attack(tower.pos.findClosestByRange(tlist.hostiles));
+            // Set emergency phase?
+        }
+        else if(tlist.injured.length) {
+            tower.heal(tower.pos.findClosestByRange(tlist.injured));
         }
         else {
-            var injured = tower.room.find(FIND_MY_CREEPS, {
-                filter: (creep) => {
-                    return creep.hits < creep.hitsMax;
+            var target = null;
+            for (var i=0; i<tlist.structures; i++) {
+                if (tlist.structures[i].length) {
+                    target = tower.pos.findClosestByRange(tlist.structures[i]);
+                    break;
                 }
-            });
-            if (injured.length > 0) {
-                tower.heal(injured[0]);
             }
-            else {
-                var walls = tower.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_WALL || structure.structureType == STRUCTURE_RAMPART) && structure.hits < 100000;
-                    }
-                });
-                if (walls.length > 0) {
-                    tower.repair(walls[0]);
-                }
-                else {
-                    walls = tower.room.find(FIND_STRUCTURES, {filter: (structure) => {
-                        return structure.structureType == STRUCTURE_RAMPART || structure.structureType == STRUCTURE_ROAD && structure.hits < structure.hitsMax/2;
-                    }});
-                    if (walls.length > 0) {
-                        tower.repair(walls[0]);
-                    }
-                }
+            if (target) {
+                tower.repair(target);
             }
         }
-        
     }
 };
 roleTower.phase2 = roleTower.phase1;

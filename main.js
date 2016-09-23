@@ -1,133 +1,118 @@
-var roles = {harvester: require('role.harvester'),
-             upgrader: require('role.upgrader'),
-             builder: require('role.builder'),
-             paver: require('role.paver'),
-             maintainer: require('role.maintainer'),
-             mover: require('role.mover'),
-             towerFiller: require('role.towerFiller'),
-             spawner: require('role.spawner'),
-             energyMiner: require('role.energyMiner'),
-             defender: require('role.defender'),
-             healer: require('role.healer'),
-             wallMaintainer: require('role.wallMaintainer'),
-             hoarder: require('role.hoarder'),
-             claimer: require('role.claimer'),
-            };
-var roleTower = require('tower');
+var roles = {
+    //harvester: require('role.harvester'),
+    upgrader: require('role.upgrader'),
+    builder: require('role.builder'),
+    paver: require('role.paver'),
+    maintainer: require('role.maintainer'),
+    mover: require('role.mover'),
+    towerFiller: require('role.towerFiller'),
+    spawner: require('role.spawner'),
+    energyMiner: require('role.energyMiner'),
+    defender: require('role.defender'),
+    healer: require('role.healer'),
+    wallMaintainer: require('role.wallMaintainer'),
+    //hoarder: require('role.hoarder'),
+    //claimer: require('role.claimer'),
+    tower: require('tower'),
+    linker: require('link')
+};
 var queue = require('queue');
-
 var phases = require('phases');
+var bodies = require('bodies').bodies;
 
-var body_types = {'harvester': [WORK, CARRY, MOVE, MOVE],
-                  'upgrader': [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
-                  'builder': [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
-                  'paver': [WORK, CARRY, CARRY, MOVE, MOVE],
-                  'maintainer': [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
-                  'wallMaintainer': [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
-                  'mover': [WORK, CARRY, CARRY, MOVE, MOVE],
-                  'towerFiller': [WORK, CARRY, CARRY, MOVE, MOVE],
-                  'spawner': [WORK, CARRY, CARRY, MOVE, MOVE],
-                  'energyMiner': [WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
-                  'defender': [ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE],
-                  'healer': [HEAL, MOVE, MOVE],
-                  'hoarder': [WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
-                  'claimer': [CLAIM, MOVE],
-                 };
 
+var spawn = function (r) {
+    var room = Game.rooms[r].memory[Game.rooms[r].phase];
+    if (room.spawnq.length) {
+        var body = bodies[room.spawnLevel][room.spawnq[0].role];
+        // if no spawners for current room
+        if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.home == r;}}).length) {
+            body = bodies[0][room.spawnq[0].role];
+        }
+        var newName = Game.getObjectById(room.spawn).createCreep(body, undefined, room.spawnq[0]);
+        if (newName != ERR_BUSY && newName != ERR_NOT_ENOUGH_ENERGY) {
+            console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName);
+            room.spawnq.shift();
+        }
+    }
+};
 
 module.exports.loop = function () {
-
-    if (Memory.phasestr) {
-        phases[Memory.phasestr]();
-        var curphase = Memory[Memory.phasestr];
-        var curroom = Game.rooms[Memory.home];
-
-        if (curphase.spawnq) {
-            if (curphase.spawnq.length > 0) {
-                var newName = '';
-                if (curphase.spawnq[0].role == 'energyMiner' && curroom.find(FIND_MY_CREEPS, {filter: (c) => {return c.memory.role == 'energyMiner'}}).length < 2) {
-                    newName = Game.spawns[Memory.mainspawn].createCreep([WORK, CARRY, MOVE, MOVE], undefined, curphase.spawnq[0]);
-                }
-                else {
-                    newName = Game.spawns[Memory.mainspawn].createCreep(body_types[curphase.spawnq[0].role], undefined, curphase.spawnq[0]);
-                }
-                if (newName != -4 && newName != -6) {
-                    var new_type = curphase.spawnq.shift().role;
-                    console.log('Spawning new ' + new_type + ': ' + newName);
-                }
+    if (Memory.doRunThings) {
+        for (var room in Memory.myRooms) {
+            var curroom = Game.rooms[room].memory;
+            phases[curroom.phase]();
+            // Set correct number of current harvesting creeps
+            for (var i=0; i<curroom[curroom.phase].energyInfo.length; i++) {
+                curroom[curroom.phase].energyInfo[i].harvesting = Game.rooms[room].find(FIND_MY_CREEPS, {filter:(c)=>{return (c.memory.qstate=='harvesting' && c.memory.qindex==i && c.memory.home==room)}}).length;
             }
-        } else {console.log('Spawn Queue not set up.');}
-
-        for (var i=0; i < curroom.memory.qpositions.length; i++) {
-            curroom.memory.qpositions[i].harvesting = 0;
-            if (Game.getObjectById(curroom.memory.energyq[i][0]) == null) {
-                curroom.memory.energyq[i].shift();
-            }
+            // Run spawning algorithm (described above, each room gets it's own spawn queue)
+            spawn(room);
         }
+
+        // Set targets (cuts down on CPU time by only searching for targets once per role per tick)
+        var targets = {};
+        for (var r in roles) {
+            targets[r] = roles[r].targets();
+        }
+
+        var next = [];
+        // Run correct role per creep
         for (var name in Game.creeps) {
             var creep = Game.creeps[name];
-            if (creep.memory.qstate == 'harvesting') {
-                creep.room.memory.qpositions[creep.memory.qindex].harvesting += 1;
-            }
-        }
-        for(var name in Game.creeps) {
-            var creep = Game.creeps[name];
-            if ((creep.memory.role != 'energyMiner' && creep.memory.role != 'defender' && creep.memory.role != 'healer') && creep.memory.qstate != '') {
-                queue[Memory.phasestr](creep);
+            var creepHomePhase = Game.rooms[creep.memory.home].memory.phase;
+            if (creep.memory.qstate != '') {
+                queue[creepHomePhase](creep);
             }
             else {
-                roles[creep.memory.role][Memory.phasestr](creep);
+                roles[creep.memory.role][creepHomePhase](creep, targets);
             }
-            if (creep.ticksToLive == 1) {
-                if (creep.memory.role == 'energyMiner') {
-                    Memory[creep.memory.phase].spawnq.unshift(creep.memory)
+            next.push(name);
+        }
+
+        // Compare aliveLastTick with Game.creeps (if no aliveLastTick, set to aliveThisTick and move on)
+            // spawn accordingly, clear memory, logify
+        if (Memory.aliveLastTick) {
+            for (var n in Memory.aliveLastTick) {
+                if (!Game.creeps[n]) {
+                    var cMem = Memory.creeps[n].memory;
+                    var cID = Memory.creeps[n].id;
+                    var cRoom = Game.rooms[cMem.home].memory;
+                    if (cMem.qstate != '') {
+                        var i = cRoom[cRoom.phase].energyQ.indexOf(cID);
+                        if (i>-1) {
+                            cRoom[cMem.phase].splice(i, 1);
+                        }
+                    }
+                    cMem.qstate = '';
+                    if (cMem.role == 'energyMiner' || cMem.role == 'spawner') {
+                        cRoom[cMem.phase].spawnq.unshift(cID);
+                    }
+                    else {
+                        cRoom[cMem.phase].spawnq.push(cID);
+                    }
+                    console.log(n + ' (' + cMem.role + ')' + ' dieded.');
+                    delete Memory.creeps[n];
                 }
-                else {
-                    if (creep.memory.role == 'spawner') {
-                        Memory[creep.memory.phase].spawnq.unshift(creep.memory);
-                    }
-                    else if (creep.memory.phase == Memory.phasestr) {
-                        Memory[creep.memory.phase].spawnq.push(creep.memory);
-                    }
-                    if (creep.memory.qstate != '') {
-                        var ind = curroom.memory.energyq[creep.memory.qindex].indexOf(creep.id);
-                        curroom.memory.energyq[creep.memory.qindex].splice(ind, 1);
-                        creep.memory.qstate = '';
-                    }
-                }
-                console.log(creep.name + ' is dying (' + creep.memory.role + ', ' + creep.memory.phase + ')');
+            }
+        }
+        Memory.aliveLastTick = next;
+
+
+        // Run towers
+        for (var room in Memory.myRooms) {
+            for (var t in Game.rooms[room].find(FIND_MY_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_TOWER}})) {
+                roles.tower[Game.rooms[room].memory.phase](t, targets);
+            }
+            for (var l in Game.rooms[room].find(FIND_MY_STRUCTURES, {filter:(s) => {return s.structureType == STRUCTURE_LINK}})) {
+                roles.linker[Game.rooms[room].memory.phase](l, targets);
             }
         }
 
-        var towers = curroom.find(FIND_STRUCTURES, {filter: (struct) => {return struct.structureType == STRUCTURE_TOWER}});
-        for (var i=0; i < towers.length; i++) {
-            roleTower[Memory.phasestr](towers[i]);
-            if (!Memory.needsNotify) {
-                Memory.needsNotify = true;
-                Game.notify('Tower has been built');
-            }
+        // Notify about 90% CPU limit (maybe add bucket amount)
+        if (Game.cpu.getUsed() > Game.cpu.tickLimit*0.90) {
+            Game.notify('More that 90% CPU time used this tick, '+Game.cpu.bucket+' in bucket');
+            console.log('More that 90% CPU time used this tick, '+Game.cpu.bucket+' in bucket');
         }
-        
-        if (Memory.lastClear >= 2000) {
-            for(var i in Memory.creeps) {if(!Game.creeps[i]) {delete Memory.creeps[i];}}
-            Memory.lastClear = 0;
-        }
-        else {
-            Memory.lastClear += 1
-        }
-        
-        if(Game.cpu.getUsed() > Game.cpu.tickLimit*0.90) {
-            Game.notify("Used more than 90% of current limit!");
-        }
-        
-        if (Game.time == 13692718) {
-            Game.notify('Room E58S7 is ready for reservation');
-        }
-        
-        // if (curroom.find(FIND_STRUCTURES, {filter:(structure)=>{return structure.structureType==STRUCTURE_STORAGE}}).length && Memory.needsNotify) {
-        //     Memory.needsNotify = false;
-        //     Game.notify('Storage finished building!');
-        //     curphase.spawnq.push({'role':'hoarder', 'qstate':'', 'qindex':0, 'phase':'phase2'});
-        // }
     }
-}
+};

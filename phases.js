@@ -7,105 +7,125 @@ var shuffle = function(arr) {
         arr[j] = temp;
     }
     return arr;
-}
-
-var creepDict = function(r, p) {
-    return {'role':r, 'qstate':'', 'qindex':0, 'phase':p}
-}
+};
 
 phases = {
     emergency: function() {
-        Memory.currentEnemies = Game.rooms[Memory.home].find(FIND_HOSTILE_CREEPS);
-        if (!Memory.emergencysetup) {
-            Memory.revertphase = Memory.phasestr;
-            Memory.phasestr = 'emergency';
-            Memory.emergency = {};
-            Memory.emergency.spawnq = [
-                creepDict('defender', 'emergency'), creepDict('defender', 'emergency'), creepDict('defender', 'emergency'), creepDict('defender', 'emergency'),
-                creepDict('healer', 'emergency'), creepDict('healer', 'emergency'), creepDict('healer', 'emergency'), creepDict('healer', 'emergency'),
-                creepDict('towerFiller', 'emergency'), creepDict('towerFiller', 'emergency'),
-                creepDict('wallMaintainer', 'emergency'), creepDict('wallMaintainer', 'emergency'),
-                creepDict('upgrader', 'emergency'), creepDict('upgrader', 'emergency')
-            ]
-            var spawnersToMake = 3-Game.rooms[Memory.home].find(FIND_MY_CREEPS,{filter:(creep)=>{return creep.memory.role=='spawner'}}).length
-            for (var i=0; i < spawnersToMake; i++) {
-                Memory.emergency.spawnq.push(creepDict('spawner', 'emergency'));
+        // yup
+    },
+    phase1: function(r) {
+        // energy containers not built yet
+    },
+    phase2: function(r) {
+        // start energy mining
+        var room = Game.rooms[r];
+        if (!room.memory.phase2setup) {
+            room.memory.phase2 = {
+                spawnq:[],
+                spawn: '',
+                spawnLevel: 0,
+                energyQ: [],
+                energyInfo: []
+            };
+            if (r == 'E58S8') {
+                room.memory.phase2.spawn = 'S1';
+                room.memory.phase2.spawnq = [
+                    // 4 energy miners
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:13, y:12}, dumpid:'', sourceid:'', home:'E58S8', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:22, y:15}, dumpid:'', sourceid:'', home:'E58S8', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:22, y:16}, dumpid:'', sourceid:'', home:'E58S8', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:22, y:17}, dumpid:'', sourceid:'', home:'E58S8', qstate:'', qindex:0}].concat(shuffle([
+                    // 2 builders
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    // 2 maintainers
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    // 2 movers
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    // 1 paver
+                    {role:'paver', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    // 2 spawners
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    // 3 towerFillers
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    // 3 upgraders
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    // 2 wallMaintainers
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    // 1 healer
+                    {role:'healer', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    // 2 defenders
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E58S8'},
+                ]));
+                room.memory.phase2.energyQ = [[],[]];
+                room.memory.phase2.energyInfo = [
+                    {harvesting:0, canharvest:1, waitingpos:{x:12, y:12}, qdirection:{x:-1, y:-1}, targetid:''},
+                    {harvesting:0, canharvest:1, waitingpos:{x:23, y:14}, qdirection:{x:1, y:0}, targetid:''}
+                ]
             }
-            Game.rooms[Memory.home].find(FIND_MY_CREEPS, {filter:(creep)=>{return creep.memory.role == 'energyMiner'}}).forEach(c => c.memory.phase = 'emergency');
-            Memory.emergency.spawnq = shuffle(Memory.emergency.spawnq);
-            Memory.emergencysetup = true;
-            Game.notify('Emergency initiated at ' + Game.time);
-        }
-        else if (Memory.currentEnemies.length == 0) {
-            Game.rooms[Memory.home].find(FIND_MY_CREEPS, {filter:(creep)=>{return creep.memory.role == 'energyMiner'}}).forEach(c => c.memory.phase = Memory.revertphase);
-            Game.notify('Emergency ended at '+ Game.time);
-            Memory.phasestr = Memory.revertphase;
+            else if (r == 'E58S7') {
+                room.memory.phase2.spawn = 'S2';
+                room.memory.phase2.spawnq = [
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:14, y:22}, dumpid:'', sourceid:'', home:'E58S7', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:15, y:22}, dumpid:'', sourceid:'', home:'E58S7', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:43, y:24}, dumpid:'', sourceid:'', home:'E58S7', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:43, y:23}, dumpid:'', sourceid:'', home:'E58S7', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:44, y:23}, dumpid:'', sourceid:'', home:'E58S7', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:45, y:23}, dumpid:'', sourceid:'', home:'E58S7', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:45, y:24}, dumpid:'', sourceid:'', home:'E58S7', qstate:'', qindex:0},
+                ].concat(shuffle([
+                    // 2 builders
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    // 2 maintainers
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    // 2 movers
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    // 1 paver
+                    {role:'paver', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    // 2 spawners
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    // 3 towerFillers
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    // 3 upgraders
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    // 2 wallMaintainers
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    // 1 healer
+                    {role:'healer', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    // 2 defenders
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E58S7'},
+                ]));
+                room.memory.phase2.energyQ = [[],[]];
+                room.memory.phase2.energyInfo = [
+                    {harvesting:0, canharvest:1, waitingpos:{x:17, y:27}, qdirection:{x:-1, y:0}, targetid:''},
+                    {harvesting:0, canharvest:1, waitingpos:{x:42, y:23}, qdirection:{x:-1, y:0}, targetid:''}
+                ]
+            }
+            room.memory.phase2setup = true;
         }
     },
-    phase1: function() {
-        if (!Memory.phase1setup) {
-            Memory.phase1 = {};
-            Memory.phase1.base = 'E58S8';
-            Memory.phasestr = 'phase1';
-            Memory.mainspawn = 'S1';
-            Memory.phase1.spawnq = [
-                creepDict('upgrader', 'phase1'),
-                creepDict('spawner', 'phase1'),
-                creepDict('upgrader', 'phase1'),
-                creepDict('builder', 'phase1'),
-                creepDict('builder', 'phase1'),
-                creepDict('upgrader', 'phase1'),
-                creepDict('paver', 'phase1'),
-                creepDict('paver', 'phase1'),
-                creepDict('builder', 'phase1')
-            ];
-            Game.rooms[Memory.phase1.base].memory.energyq = []
-            for (var i in Game.rooms[Memory.phase1.base].find(FIND_SOURCES)) {
-                Game.rooms[Memory.phase1.base].memory.energyq.push([]);
-            }
-            Game.rooms[Memory.phase1.base].memory.qpositions = [
-                {'targetid': '579faa720700be0674d30ffe', 'waitingpos': {'x': 23, 'y': 14}, 'qdirection': {'x': 1, 'y': 1}, 'canharvest':3, 'harvesting':0},
-                {'targetid': '579faa720700be0674d30ffd', 'waitingpos': {'x': 11, 'y': 12}, 'qdirection': {'x': -1, 'y': -1}, 'canharvest':1, 'harvesting':0},
-            ];
-            Game.rooms[Memory.phase1.base].memory.ignoreContainers = [];
-            Memory.phase1setup = true;
-        }
+    phase3: function(r) {
+        //
     },
-    phase2: function() {
-        if (!Memory.phase2setup) {
-            Memory.phase2 = {};
-            Memory.phase2.base = 'E58S8';
-            Memory.mainspawn = 'S1';
-            Memory.phase2.spawnq = [
-                {'role':'energyMiner', 'doing':'dumping', 'sourceid':'579faa720700be0674d30ffd', 'spot':{'x':13, 'y':12}, 'dumpid':'57d610127ad9eb17488d16da', 'phase':'phase2'},
-                {'role':'energyMiner', 'doing':'dumping', 'sourceid':'579faa720700be0674d30ffe', 'spot':{'x':22, 'y':15}, 'dumpid':'57d62ea571b05ff46c40f97a', 'phase':'phase2'},
-                {'role':'energyMiner', 'doing':'dumping', 'sourceid':'579faa720700be0674d30ffe', 'spot':{'x':22, 'y':16}, 'dumpid':'57d62ea571b05ff46c40f97a', 'phase':'phase2'},
-                {'role':'energyMiner', 'doing':'dumping', 'sourceid':'579faa720700be0674d30ffe', 'spot':{'x':22, 'y':17}, 'dumpid':'57d62ea571b05ff46c40f97a', 'phase':'phase2'},
-                creepDict('upgrader', 'phase2')
-            ].concat(shuffle([
-                creepDict('upgrader', 'phase2'), creepDict('upgrader', 'phase2'), creepDict('upgrader', 'phase2'),
-                creepDict('paver', 'phase2'), creepDict('paver', 'phase2'), creepDict('paver', 'phase2'), creepDict('paver', 'phase2'),
-                creepDict('maintainer', 'phase2'), creepDict('maintainer', 'phase2'),
-                creepDict('wallMaintainer', 'phase2'), creepDict('wallMaintainer', 'phase2'),
-                creepDict('spawner', 'phase2'), creepDict('spawner', 'phase2'), creepDict('spawner', 'phase2'),
-                creepDict('mover', 'phase2'), creepDict('mover', 'phase2'),
-                creepDict('builder', 'phase2'), creepDict('builder', 'phase2'),
-                creepDict('towerFiller', 'phase2'), creepDict('towerFiller', 'phase2'),
-                creepDict('defender', 'phase2'), creepDict('defender', 'phase2'), creepDict('healer', 'phase2')
-            ]));
-            Game.rooms[Memory.phase2.base].memory.energyq = []
-            for (var i in Game.rooms[Memory.phase2.base].find(FIND_SOURCES)) {
-                Game.rooms[Memory.phase2.base].memory.energyq.push([]);
-            }
-            Game.rooms[Memory.phase1.base].memory.qpositions = [
-                {'targetid': '57d62ea571b05ff46c40f97a', 'waitingpos': {'x': 23, 'y': 14}, 'qdirection': {'x': 1, 'y': 0}, 'canharvest':1, 'harvesting':0},
-                {'targetid': '57d610127ad9eb17488d16da', 'waitingpos': {'x': 12, 'y': 12}, 'qdirection': {'x': -1, 'y': -1}, 'canharvest':1, 'harvesting':0},
-            ];
-            Game.rooms[Memory.phase2.base].memory.ignoreContainers = ['57d610127ad9eb17488d16da', '57d62ea571b05ff46c40f97a'];
-            Memory.phasestr = 'phase2';
-            Memory.phase2setup = true;
-        }
-    }
-}
+};
 
 module.exports = phases;

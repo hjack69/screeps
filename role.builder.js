@@ -1,48 +1,47 @@
 // Builder
 var role = {
-    phase1: function(creep) {
+    targets: function() {
+        var out = {};
+        for (var r in Memory.myRooms) {
+            out[r] = [
+                Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType == STRUCTURE_WALL)}}),
+                Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType != STRUCTURE_ROAD)}}),
+                Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType != STRUCTURE_ROAD)}}),
+                Game.rooms[r].find(FIND_CONSTRUCTION_SITES)
+            ];
+        }
+        return out;
+    },
+    phase1: function(creep, t) {
+        if (creep.room.name != creep.memory.home) {
+            creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
+        }
+
         if (creep.carry.energy == 0) {
             creep.memory.qstate = 'entering';
             creep.say('harvesting');
         }
         else {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES, { filter: (structure) => {
-                return (structure.structureType == STRUCTURE_WALL);
-            }});
-            if (targets.length) {
-                if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {reusePath: 10});
+            var tlist = t.builder[creep.memory.home];
+            var target = null;
+            for (var i=0; i<tlist.length; i++) {
+                if (tlist.length) {
+                    target = creep.pos.findClosestByRange(tlist);
+                    break;
                 }
             }
+            if (target) {
+                creep.moveTo(target);
+            }
             else {
-                targets = creep.room.find(FIND_CONSTRUCTION_SITES , { filter: (structure) => {
-                    return (structure.structureType != STRUCTURE_ROAD);
-                }});
-                if (targets.length) {
-                    if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(targets[0], {reusePath: 10});
-                    }
-                }
-                else {
-                    targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-                    if (targets.length) {
-                        if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                            creep.moveTo(targets[0], {reusePath: 10});
-                        }
-                    }
-                    else {
-                        var roleMaintainer = require('role.maintainer');
-                        roleMaintainer.phase1(creep);
-                    }
-                }
+                var upgraderRole = require('role.upgrader');
+                upgraderRole[creep.memory.phase](creep);
             }
         }
 	},
 	emergency: function(creep) {
-	    var targets = Memory.currentEnemies
-	    if (targets.length) {
-	        creep.moveTo(targets[0].pos);
-	    }
+	    var emergencyRole = require('emergency');
+        emergencyRole.emergency(creep);
 	}
 };
 role.phase2 = role.phase1;

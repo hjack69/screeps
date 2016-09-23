@@ -1,30 +1,34 @@
 var roleBuilder = require('role.builder');
 // Paver
 var role = {
-    phase1: function(creep) {
+    targets: function() {
+        var out = {};
+        for (var r in Memory.myRooms) {
+            out[r] = Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter:(s)=>{return s.structureType == STRUCTURE_ROAD}});
+        }
+        return out;
+    },
+    phase1: function(creep, t) {
         if (creep.carry.energy == 0) {
             creep.memory.qstate = 'entering';
-            creep.say('harvesting');
         }
         else {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES, { filter: (structure) => {
-                return structure.structureType == STRUCTURE_ROAD;
-            }});
-            if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {reusePath: 10});
+            var tlist = t.builder[creep.memory.home];
+            var target = creep.pos.findClosestByRange(tlist);
+            if (target) {
+                if (creep.build(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
                 }
             }
             else {
-                roleBuilder.phase1(creep);
+                var builderRole = require('role.builder');
+                builderRole[Game.rooms[creep.memory.home]](creep, t);
             }
         }
 	},
-	emergency: function(creep) {
-	    var targets = Memory.currentEnemies
-	    if (targets.length) {
-	        creep.moveTo(targets[0].pos);
-	    }
+	emergency: function(creep, t) {
+	    var e = require('emergency');
+        e.emergency(creep, t);
 	}
 };
 role.phase2 = role.phase1;

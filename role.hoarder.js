@@ -1,6 +1,18 @@
+/**
+ * TEMPORARILY DEPRECIATED
+ * MAY NEED IN FUTURE FOR MINING
+ */
+
 var roleMover = require('role.mover');
 // Hoarder
 var role = {
+    targets: function() {
+        var out = {};
+        for (var r in Memory.myRooms) {
+
+        }
+        return out;
+    },
     phase1: function(creep) {
         if (creep.carry.energy == 0) {
             creep.say('harvesting');

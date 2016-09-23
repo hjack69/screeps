@@ -1,34 +1,49 @@
-var roleUpgrader = require('role.upgrader');
 // Mover
 var role = {
-    phase1: function(creep) {
-        if (creep.carry.energy == 0) {
-            creep.memory.qstate = 'entering';
-            creep.say('harvesting');
+    targets: function() {
+        var ignore = [];
+        var out = {};
+        for (var r in Memory.myRooms) {
+            out[r] = [
+                Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_LINK && s.energy < s.energyCapacity}),
+                Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_CONTAINER && _.sum(s.store) < s.storeCapacity && ignore.indexOf(s.id) == -1}})
+            ];
+        }
+        return out;
+    },
+    phase1: function(creep, t) {
+        if (creep.room.name != creep.memory.home) {
+            creep.moveTo(25, 25, creep.memory.home)
         }
         else {
-            var targets = creep.room.find(FIND_STRUCTURES, { filter: (structure) => {
-                return structure.structureType == STRUCTURE_CONTAINER &&
-                    _.sum(structure.store) < structure.storeCapacity &&
-                    creep.room.memory.ignoreContainers.indexOf(structure.id) == -1;
-            }});
-            if (targets.length > 0) {
-                if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {reusePath: 10});
-                }
+            if (creep.carry.energy == 0) {
+                creep.memory.qstate = 'entering'
             }
             else {
-                roleUpgrader.phase1(creep);
+                var tlist = t.mover[creep.memory.home];
+                var target = null;
+                for (var i=0; i<tlist.length; i++) {
+                    if (tlist[i].length) {
+                        target = creep.pos.findClosestByRange(tlist[i]);
+                        break;
+                    }
+                }
+                if (target) {
+                    if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
+                    }
+                }
+                else {
+                    var upgraderRole = require('upgrader');
+                    upgraderRole[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                }
             }
         }
     },
-	emergency: function(creep) {
-	    var targets = Memory.currentEnemies
-	    if (targets.length) {
-	        creep.moveTo(targets[0].pos);
-	    }
+	emergency: function(creep, t) {
+	    var e = require('emergency');
+        e.emergency(creep);
 	}
 };
-role.phase2 = role.phase1;
 
 module.exports = role;
