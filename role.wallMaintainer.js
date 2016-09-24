@@ -5,8 +5,8 @@ var role = {
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [
                 Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL||s.structureType==STRUCTURE_RAMPART) && s.hits<500000}}),
-                Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL|| s.structureType==STRUCTURE_RAMPAR) && s.hits< s.hitsMax/2}}),
-                Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL|| s.structureType==STRUCTURE_RAMPAR) && s.hits< s.hitsMax}})
+                Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL|| s.structureType==STRUCTURE_RAMPART) && s.hits< s.hitsMax/2}}),
+                Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL|| s.structureType==STRUCTURE_RAMPART) && s.hits< s.hitsMax}})
             ];
         }
         return out;
