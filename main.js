@@ -29,7 +29,7 @@ var spawn = function (r) {
         if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.home == r;}}).length) {
             body = bodies[0][room.spawnq[0].role];
         }
-        var newName = Game.getObjectById(room.spawn).createCreep(body, undefined, room.spawnq[0]);
+        var newName = Game.spawns[room.spawn].createCreep(body, undefined, room.spawnq[0]);
         if (newName != ERR_BUSY && newName != ERR_NOT_ENOUGH_ENERGY) {
             console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName);
             room.spawnq.shift();
