@@ -2,8 +2,8 @@
 var role = {
     targets: function() {
         var out = {waiting:{
-            E58S8: new RoomPosition(),
-            E58S7: new RoomPosition()
+            E58S8: new RoomPosition(33, 46, 'E58S8'),
+            E58S7: new RoomPosition(36, 6, 'E58S7')
         }};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = Game.rooms[r].find(FIND_HOSTILE_CREEPS);

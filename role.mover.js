@@ -1,7 +1,7 @@
 // Mover
 var role = {
     targets: function() {
-        var ignore = [];
+        var ignore = ['57d610127ad9eb17488d16da', '57d62ea571b05ff46c40f97a', '57e5c6ea1edb65e960465b5d', '57e4e774ca8a16370cb176fb'];
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [
