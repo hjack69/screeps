@@ -6,7 +6,7 @@ var role = {
             E58S7: [],
         };
         var out = {};
-        for (var r in Memory.myRooms) {
+        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [];
             for (var i=0; i < only_these[r].length; i++) {
                 out[r].push(room.getObjectById(only_these[r][i]));

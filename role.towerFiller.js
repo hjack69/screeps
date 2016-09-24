@@ -3,7 +3,7 @@ var roleMover = require('role.mover');
 var role = {
     targets: function() {
         var out = {};
-        for (var r in Memory.myRooms) {
+        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = {
                 'harvesting':Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] >= creep.carryCapacity}}),
                 'filling':Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType==STRUCTURE_TOWER && s.energy<s.energyCapacity}})

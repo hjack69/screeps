@@ -39,15 +39,16 @@ var spawn = function (r) {
 
 module.exports.loop = function () {
     if (Memory.doRunThings) {
-        for (var room in Memory.myRooms) {
-            var curroom = Game.rooms[room].memory;
-            phases[curroom.phase]();
+        for (var i in Memory.myRooms) {
+            var r = Memory.myRooms[i];
+            var curroom = Game.rooms[r].memory;
+            phases[curroom.phase](r);
             // Set correct number of current harvesting creeps
             for (var i=0; i<curroom[curroom.phase].energyInfo.length; i++) {
-                curroom[curroom.phase].energyInfo[i].harvesting = Game.rooms[room].find(FIND_MY_CREEPS, {filter:(c)=>{return (c.memory.qstate=='harvesting' && c.memory.qindex==i && c.memory.home==room)}}).length;
+                curroom[curroom.phase].energyInfo[i].harvesting = Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return (c.memory.qstate=='harvesting' && c.memory.qindex==i && c.memory.home==r)}}).length;
             }
             // Run spawning algorithm (described above, each room gets it's own spawn queue)
-            spawn(room);
+            spawn(r);
         }
 
         // Set targets (cuts down on CPU time by only searching for targets once per role per tick)
@@ -100,12 +101,14 @@ module.exports.loop = function () {
 
 
         // Run towers
-        for (var room in Memory.myRooms) {
-            for (var t in Game.rooms[room].find(FIND_MY_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_TOWER}})) {
-                roles.tower[Game.rooms[room].memory.phase](t, targets);
+        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+            var towers = Game.rooms[r].find(FIND_MY_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_TOWER}})
+            for (var t in towers) {
+                roles.tower[Game.rooms[r].memory.phase](towers[t], targets);
             }
-            for (var l in Game.rooms[room].find(FIND_MY_STRUCTURES, {filter:(s) => {return s.structureType == STRUCTURE_LINK}})) {
-                roles.linker[Game.rooms[room].memory.phase](l, targets);
+            var links = Game.rooms[r].find(FIND_MY_STRUCTURES, {filter:(s) => {return s.structureType == STRUCTURE_LINK}});
+            for (var l in links) {
+                roles.linker[Game.rooms[r].memory.phase](links[l], targets);
             }
         }
 

@@ -2,7 +2,7 @@
 var role = {
     targets: function() {
         var out = {};
-        for (var r in Memory.myRooms) {
+        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_SPAWN || s.structureType==STRUCTURE_EXTENSION) && s.energy< s.energyCapacity}});
         }
         return out;

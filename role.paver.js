@@ -3,7 +3,7 @@ var roleBuilder = require('role.builder');
 var role = {
     targets: function() {
         var out = {};
-        for (var r in Memory.myRooms) {
+        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter:(s)=>{return s.structureType == STRUCTURE_ROAD}});
         }
         return out;

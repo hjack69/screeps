@@ -5,7 +5,7 @@ var role = {
             E58S8: new RoomPosition(),
             E58S7: new RoomPosition()
         }};
-        for (var r in Memory.myRooms) {
+        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [
                 Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return c.hits < c.hitsMax/2}}),
                 Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return c.hits < c.hitsMax}})
