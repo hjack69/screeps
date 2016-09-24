@@ -44,7 +44,7 @@ module.exports.loop = function () {
             var curroom = Game.rooms[r].memory;
             phases[curroom.phase](r);
             // Set correct number of current harvesting creeps
-            for (var j=0; i<curroom[curroom.phase].energyInfo.length; j++) {
+            for (var j=0; j<curroom[curroom.phase].energyInfo.length; j++) {
                 curroom[curroom.phase].energyInfo[j].harvesting = Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return (c.memory.qstate=='harvesting' && c.memory.qindex==j && c.memory.home==r)}}).length;
             }
             // Run spawning algorithm (described above, each room gets it's own spawn queue)
