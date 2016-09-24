@@ -1,4 +1,3 @@
-var roleMaintainer = require('role.maintainer');
 // Wall Maintainer
 var role = {
     targets: function() {
