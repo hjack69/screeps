@@ -66,7 +66,12 @@ module.exports.loop = function () {
                 queue[creepHomePhase](creep);
             }
             else {
-                roles[creep.memory.role][creepHomePhase](creep, targets);
+                try {
+                    roles[creep.memory.role][creepHomePhase](creep, targets);
+                }
+                catch (err) {
+                    console.log(name);
+                }
             }
             next.push(name);
         }
