@@ -38,7 +38,7 @@ var queue = {
         }
     },
     phase2: function(creep) {
-        var roomMem = Game.rooms[creep.memory.home].memory;
+        var roomMem = Game.rooms[creep.memory.home].memory.phase2;
         if (creep.memory.qstate == 'entering') {
             var qindex = 0;
             for (var i=0; i < roomMem.energyQ.length; i++) {
