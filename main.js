@@ -11,6 +11,7 @@ var roles = {
     defender: require('role.defender'),
     healer: require('role.healer'),
     wallMaintainer: require('role.wallMaintainer'),
+    scruffy: require('role.scruffy'),
     //hoarder: require('role.hoarder'),
     //claimer: require('role.claimer'),
     tower: require('tower'),
@@ -26,18 +27,19 @@ var spawn = function (r) {
     if (room.spawnq.length) {
         var body = bodies[room.spawnLevel][room.spawnq[0].role];
         // if no spawners for current room
-        if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.home == r;}}).length) {
+        if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.memory.home == r;}}).length == 0) {
             body = bodies[0][room.spawnq[0].role];
         }
         var newName = Game.spawns[room.spawn].createCreep(body, undefined, room.spawnq[0]);
         if (newName != ERR_BUSY && newName != ERR_NOT_ENOUGH_ENERGY) {
-            console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName);
+            console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName + ', at ' + room.spawn);
             room.spawnq.shift();
         }
     }
 };
 
 module.exports.loop = function () {
+    Memory.doRunThings = true;
     if (Memory.doRunThings) {
         for (var i in Memory.myRooms) {
             var r = Memory.myRooms[i];
@@ -70,7 +72,7 @@ module.exports.loop = function () {
                     roles[creep.memory.role][creepHomePhase](creep, targets);
                 }
                 catch (err) {
-                    console.log(name);
+                    //console.log(name);
                 }
             }
             next.push(name);
@@ -79,25 +81,19 @@ module.exports.loop = function () {
         // Compare aliveLastTick with Game.creeps (if no aliveLastTick, set to aliveThisTick and move on)
             // spawn accordingly, clear memory, logify
         if (Memory.aliveLastTick.length) {
-            for (var n in Memory.aliveLastTick) {
+            for (var i in Memory.aliveLastTick) {
+                var n = Memory.aliveLastTick[i];
                 if (!Game.creeps[n]) {
-                    var cMem = Memory.creeps[n].memory;
-                    var cID = Memory.creeps[n].id;
+                    var cMem = Memory.creeps[n];
                     var cRoom = Game.rooms[cMem.home].memory;
-                    if (cMem.qstate != '') {
-                        var i = cRoom[cRoom.phase].energyQ.indexOf(cID);
-                        if (i>-1) {
-                            cRoom[cMem.phase].splice(i, 1);
-                        }
-                    }
                     cMem.qstate = '';
                     if (cMem.role == 'energyMiner' || cMem.role == 'spawner') {
-                        cRoom[cMem.phase].spawnq.unshift(cID);
+                        cRoom[cMem.phase].spawnq.unshift(cMem);
                     }
                     else {
-                        cRoom[cMem.phase].spawnq.push(cID);
+                        cRoom[cMem.phase].spawnq.push(cMem);
                     }
-                    console.log(n + ' (' + cMem.role + ')' + ' dieded.');
+                    console.log(n + ' (' + cMem.role + ', ' + cMem.home + ')' + ' dieded.');
                     delete Memory.creeps[n];
                 }
             }

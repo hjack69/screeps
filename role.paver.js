@@ -13,7 +13,7 @@ var role = {
             creep.memory.qstate = 'entering';
         }
         else {
-            var tlist = t.builder[creep.memory.home];
+            var tlist = t.paver[creep.memory.home];
             var target = creep.pos.findClosestByRange(tlist);
             if (target) {
                 if (creep.build(target) == ERR_NOT_IN_RANGE) {
@@ -22,7 +22,7 @@ var role = {
             }
             else {
                 var builderRole = require('role.builder');
-                builderRole[Game.rooms[creep.memory.home]](creep, t);
+                builderRole[Game.rooms[creep.memory.home].memory.phase](creep, t);
             }
         }
 	},

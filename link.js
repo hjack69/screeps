@@ -1,7 +1,7 @@
 var role = {
     targets: function() {
         return {
-            E58S8: {from: [], to: []}, // from:ids, to:objects
+            E58S8: {from: ['57ddbf52c64074f64e2f1d2d'], to: [Game.getObjectById('57ddccbe3379dcf753c3be11')]}, // from:ids, to:objects
             E58S7: {from: [], to: []}
         };
     },

@@ -2,14 +2,14 @@
 var role = {
     targets: function() {
         var only_these = {
-            E58S8: [],
-            E58S7: [],
+            E58S8: ['57ddccbe3379dcf753c3be11', '57e6db7bbcab27ca4a433cfc'],
+            E58S7: ['57e72d8feb8681b8219282aa'],
         };
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [];
-            for (var i=0; i < only_these[r].length; i++) {
-                out[r].push(room.getObjectById(only_these[r][i]));
+            for (var j=0; j < only_these[r].length; j++) {
+                out[r].push(Game.getObjectById(only_these[r][j]));
             }
         }
         return out;
@@ -20,7 +20,7 @@ var role = {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
         else {
-            if (!creep.memory.action) {
+            if (creep.memory.action != 'harvesting' && creep.memory.action != 'upgrading') {
                 creep.memory.action = 'harvesting';
             }
             else if (creep.carry.energy == 0 && creep.memory.action == 'upgrading') {
@@ -31,17 +31,8 @@ var role = {
             }
 
             if (creep.memory.action == 'harvesting') {
-                var tlist = t.upgrader[creep.memory.role];
-                var target = null;
-                for (var i=0; i<tlist.length; i++) {
-                    if (tlist[i].length) {
-                        target = creep.pos.findClosestByRange(tlist[i], {filter:(s)=>{
-                                return (s.structureType == STRUCTURE_LINK && s.energy >= creep.carryCapacity) ||
-                                       (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] >= creep.carryCapacity);
-                        }});
-                        if (target) {break;}
-                    }
-                }
+                var tlist = t.upgrader[creep.memory.home];
+                var target = creep.pos.findClosestByRange(tlist, {filter:(s)=>{return (s.structureType == STRUCTURE_LINK && s.energy >= creep.carryCapacity) || (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] >= creep.carryCapacity)}});
                 if (target) {
                     if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(target);

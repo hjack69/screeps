@@ -1,11 +1,11 @@
 // Mover
 var role = {
     targets: function() {
-        var ignore = ['57d610127ad9eb17488d16da', '57d62ea571b05ff46c40f97a', '57e5c6ea1edb65e960465b5d', '57e4e774ca8a16370cb176fb'];
+        var ignore = ['57d610127ad9eb17488d16da', '57d62ea571b05ff46c40f97a', '57e5c6ea1edb65e960465b5d', '57e4e774ca8a16370cb176fb', '57ddccbe3379dcf753c3be11'];
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [
-                Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_LINK && s.energy < s.energyCapacity}}),
+                Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_LINK && s.energy < s.energyCapacity && ignore.indexOf(s.id) == -1}}),
                 Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_CONTAINER && _.sum(s.store) < s.storeCapacity && ignore.indexOf(s.id) == -1}})
             ];
         }
@@ -34,8 +34,8 @@ var role = {
                     }
                 }
                 else {
-                    var upgraderRole = require('upgrader');
-                    upgraderRole[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                    var upgraderRole = require('role.upgrader');
+                    upgraderRole[creep.memory.phase](creep, t);
                 }
             }
         }
@@ -45,5 +45,6 @@ var role = {
         e.emergency(creep);
 	}
 };
+role.phase2 = role.phase1;
 
 module.exports = role;

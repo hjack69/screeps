@@ -4,7 +4,7 @@ var queue = {
         if (creep.memory.qstate == 'entering') {
             var qindex = 0;
             for (var i=0; i < roomMem.energyQ.length; i++) {
-                if (roomMem.energyQ[i].length < roomMem.energyQ[qindex].length) {
+                if (roomMem.energyQ[i].length < roomMem.energyQ[qindex].length && Game.getObjectById(roomMem.energyInfo[i].targetid).store[RESOURCE_ENERGY] >= creep.carryCapacity) {
                     qindex = i;
                 }
             }
@@ -39,6 +39,9 @@ var queue = {
     },
     phase2: function(creep) {
         var roomMem = Game.rooms[creep.memory.home].memory.phase2;
+        if (!Game.getObjectById(roomMem.energyQ[creep.memory.qindex][0])) {
+            roomMem.energyQ[creep.memory.qindex].shift();
+        }
         if (creep.memory.qstate == 'entering') {
             var qindex = 0;
             for (var i=0; i < roomMem.energyQ.length; i++) {

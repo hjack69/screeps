@@ -1,4 +1,3 @@
-var roleMover = require('role.mover');
 // Tower Filler
 var role = {
     targets: function() {
@@ -16,7 +15,7 @@ var role = {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
         else {
-            if (!creep.memory.action || (creep.carry.energy == 0 && creep.memory.action == 'filling')) {
+            if ((creep.memory.action != 'harvesting' && creep.memory.action != 'filling') || (creep.carry.energy == 0 && creep.memory.action == 'filling')) {
                 creep.memory.action = 'harvesting';
             }
             else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
@@ -39,10 +38,7 @@ var role = {
                 }
             }
             else if (creep.memory.action == 'filling') {
-                var target = null;
-                if (tlist.filling.length) {
-                    target = creep.pos.findClosestByRange(tlist.filling);
-                }
+                var target = creep.pos.findClosestByRange(tlist.filling);
                 if (target) {
                     if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(target);
@@ -50,7 +46,7 @@ var role = {
                 }
                 else {
                     var moverRole = require('role.mover');
-                    moverRole[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                    moverRole[creep.memory.phase](creep, t);
                 }
             }
         }

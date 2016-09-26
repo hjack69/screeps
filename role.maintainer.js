@@ -17,15 +17,14 @@ var role = {
         else {
             if (creep.carry.energy == 0) {
                 creep.memory.qstate = 'entering';
-                var queue = require('queue');
-                queue[Game.rooms[creep.memory.home].memory.phase](creep);
             }
             else {
                 var tlist = t.maintainer[creep.memory.home];
                 var target = null;
                 for (var i=0; i<tlist.length; i++) {
                     if (tlist[i].length) {
-                        target = tlist.findClosestByRange(tlist[i]);
+                        target = tlist[i][0];//creep.pos.findClosestByRange(tlist[i]);
+                        break;
                     }
                 }
                 if (target) {
@@ -35,7 +34,7 @@ var role = {
                 }
                 else {
                     var upgrader = require('role.upgrader');
-                    upgrader[Game.rooms[creep.memory.home].phase](creep);
+                    upgrader[Game.rooms[creep.memory.home].memory.phase](creep);
                 }
             }
         }

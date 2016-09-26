@@ -15,7 +15,7 @@ var roleTower = {
         return out;
     },
     phase1: function(tower, t) {
-        var tlist = t.tower[t.room];
+        var tlist = t.tower[tower.room.name];
         if (tlist.hostiles.length) {
             tower.attack(tower.pos.findClosestByRange(tlist.hostiles));
             // Set emergency phase?
@@ -25,7 +25,7 @@ var roleTower = {
         }
         else {
             var target = null;
-            for (var i=0; i<tlist.structures; i++) {
+            for (var i=0; i<tlist.structures.length; i++) {
                 if (tlist.structures[i].length) {
                     target = tower.pos.findClosestByRange(tlist.structures[i]);
                     break;

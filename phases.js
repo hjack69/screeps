@@ -75,8 +75,8 @@ phases = {
             else if (r == 'E58S7') {
                 room.memory.phase2.spawn = 'S2';
                 room.memory.phase2.spawnq = [
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:14, y:22}, dumpid:'', sourceid:'579faa720700be0674d30ffa', home:'E58S7', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:15, y:22}, dumpid:'', sourceid:'579faa720700be0674d30ffa', home:'E58S7', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:14, y:22}, dumpid:'57e5c6ea1edb65e960465b5d', sourceid:'579faa720700be0674d30ffa', home:'E58S7', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:15, y:22}, dumpid:'57e5c6ea1edb65e960465b5d', sourceid:'579faa720700be0674d30ffa', home:'E58S7', qstate:'', qindex:0},
                     {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:43, y:24}, dumpid:'57e4e774ca8a16370cb176fb', sourceid:'579faa720700be0674d30ffb', home:'E58S7', qstate:'', qindex:0},
                     {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:43, y:23}, dumpid:'57e4e774ca8a16370cb176fb', sourceid:'579faa720700be0674d30ffb', home:'E58S7', qstate:'', qindex:0},
                     {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:44, y:23}, dumpid:'57e4e774ca8a16370cb176fb', sourceid:'579faa720700be0674d30ffb', home:'E58S7', qstate:'', qindex:0},

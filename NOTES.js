@@ -1,4 +1,6 @@
-Memory.phase2.spawnq.unshift({'role':'spawner', 'qstate':'', 'qindex':0, 'phase':'phase2'});
-Memory.phase2.spawnq.push({'role':'defender', 'phase':'phase2'});
+Memory.rooms.E58S8.phase2.spawnq.unshift({'role':'', 'qstate':'', 'qindex':0, 'phase':'phase2', 'home':'E58S8'});
+Memory.rooms.E58S7.phase2.spawnq.unshift({'role':'', 'qstate':'', 'qindex':0, 'phase':'phase2', 'home':'E58S7'});
+
+var randint = function(s, b) {return Math.floor((Math.random()*b)+s);}
 
 for(var i in Memory.creeps) {if(!Game.creeps[i]) {delete Memory.creeps[i];}}

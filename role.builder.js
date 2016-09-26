@@ -6,7 +6,6 @@ var role = {
             out[r] = [
                 Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType == STRUCTURE_WALL)}}),
                 Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType != STRUCTURE_ROAD)}}),
-                Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType != STRUCTURE_ROAD)}}),
                 Game.rooms[r].find(FIND_CONSTRUCTION_SITES)
             ];
         }
@@ -25,13 +24,15 @@ var role = {
             var tlist = t.builder[creep.memory.home];
             var target = null;
             for (var i=0; i<tlist.length; i++) {
-                if (tlist.length) {
-                    target = creep.pos.findClosestByRange(tlist);
+                if (tlist[i].length) {
+                    target = creep.pos.findClosestByRange(tlist[i]);
                     break;
                 }
             }
             if (target) {
-                creep.moveTo(target);
+                if (creep.build(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                }
             }
             else {
                 var upgraderRole = require('role.upgrader');

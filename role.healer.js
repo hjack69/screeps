@@ -32,7 +32,7 @@ var role = {
                 }
             }
             else {
-                creep.moveTo(t.waiting[creep.memory.home]);
+                creep.moveTo(t.healer.waiting[creep.memory.home]);
             }
         }
     }
