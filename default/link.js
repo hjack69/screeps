@@ -2,7 +2,7 @@ var role = {
     targets: function() {
         return {
             E58S8: {from: ['57ddbf52c64074f64e2f1d2d'], to: [Game.getObjectById('57ddccbe3379dcf753c3be11')]}, // from:ids, to:objects
-            E58S7: {from: [], to: []}
+            E58S7: {from: ['57eadbb2962b285967d49c7c'], to: [Game.getObjectById('57eaef4a0fe7d4d93854953c')]}
         };
     },
     phase1: function(l, t) {
@@ -10,7 +10,7 @@ var role = {
             var tlist = t.linker[l.room.name];
             if (tlist.from.indexOf(l.id)>-1) {
                 if (tlist.to.length) {
-                    l.transferEnergy(l.pos.findClosestByRange(tlist.to, {filter:(s)=>{return s.energy<s.energyCapacity/2}}));
+                    l.transferEnergy(l.pos.findClosestByRange(tlist.to, {filter:(s)=>{return s.energy<s.energyCapacity}}));
                 }
             }
         }

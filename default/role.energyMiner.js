@@ -4,7 +4,7 @@ var role = {
         return null;
     },
     phase1: function(creep) {
-        var roleHarvester = require('role.harvester');
+        var roleHarvester = require('role.spawner');
         roleHarvester.phase1(creep);
     },
     phase2: function(creep) {
@@ -33,9 +33,14 @@ var role = {
             }
             else if (creep.memory.action == 'dumping') {
                 var dump = Game.getObjectById(creep.memory.dumpid);
-                if (_.sum(dump.store) < dump.storeCapacity) {
-                    if (creep.transfer(dump, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(dump);
+                if (dump != null) {
+                    if (dump.hits < dump.hitsMax/2) {
+                        creep.repair(dump);
+                    }
+                    else if (_.sum(dump.store) < dump.storeCapacity) {
+                        if (creep.transfer(dump, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(dump);
+                        }
                     }
                 }
             }

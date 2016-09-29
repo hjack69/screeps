@@ -14,7 +14,7 @@ var role = {
         }
         else {
             var tlist = t.paver[creep.memory.home];
-            var target = creep.pos.findClosestByRange(tlist);
+            var target = tlist[0]; //creep.pos.findClosestByRange(tlist);
             if (target) {
                 if (creep.build(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);

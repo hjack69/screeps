@@ -2,14 +2,17 @@
 var role = {
     targets: function() {
         var only_these = {
-            E58S8: ['57ddccbe3379dcf753c3be11', '57e6db7bbcab27ca4a433cfc'],
-            E58S7: ['57e72d8feb8681b8219282aa'],
+            E58S8: ['57ddccbe3379dcf753c3be11', '57e99414f4a2fb44238e7cdb'],
+            E58S7: ['57eaef4a0fe7d4d93854953c', '57e72d8feb8681b8219282aa'],
         };
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [];
             for (var j=0; j < only_these[r].length; j++) {
-                out[r].push(Game.getObjectById(only_these[r][j]));
+                var t = Game.getObjectById(only_these[r][j])
+                if (t) {
+                    out[r].push(t);
+                }
             }
         }
         return out;
@@ -20,6 +23,17 @@ var role = {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
         else {
+            // var currents = creep.room.lookForAt(LOOK_STRUCTURES, creep.pos);
+            // var f = false;
+            // for (var i=0; i<currents.length; i++) {
+            //     if (currents[i].structureType == STRUCTURE_ROAD) {
+            //         f = true;
+            //     }
+            // }
+            // if (!f && !creep.room.lookForAt(LOOK_CONSTRUCTION_SITES).length) {
+            //     console.log('paving here')
+            //     creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+            // }
             if (creep.memory.action != 'harvesting' && creep.memory.action != 'upgrading') {
                 creep.memory.action = 'harvesting';
             }

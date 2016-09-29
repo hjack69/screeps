@@ -27,7 +27,8 @@ var spawn = function (r) {
     if (room.spawnq.length) {
         var body = bodies[room.spawnLevel][room.spawnq[0].role];
         // if no spawners for current room
-        if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.memory.home == r;}}).length == 0) {
+        if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.memory.home == r;}}).length == 0 ||
+            Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'energyMiner' && creep.memory.home == r;}}).length == 0) {
             body = bodies[0][room.spawnq[0].role];
         }
         var newName = Game.spawns[room.spawn].createCreep(body, undefined, room.spawnq[0]);
@@ -58,7 +59,7 @@ module.exports.loop = function () {
         for (var r in roles) {
             targets[r] = roles[r].targets();
         }
-
+    
         var next = [];
         // Run correct role per creep
         for (var name in Game.creeps) {

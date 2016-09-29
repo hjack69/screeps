@@ -23,7 +23,7 @@ var role = {
                 var target = null;
                 for (var i=0; i<tlist.length; i++) {
                     if (tlist[i].length) {
-                        target = tlist[i][0];//creep.pos.findClosestByRange(tlist[i]);
+                        target = tlist[i][0]; //creep.pos.findClosestByRange(tlist[i]);
                         break;
                     }
                 }
