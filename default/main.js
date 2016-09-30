@@ -15,6 +15,7 @@ var roles = {
     resourceMiner: require('role.resourceMiner'),
     //hoarder: require('role.hoarder'),
     //claimer: require('role.claimer'),
+    drudge: require('role.drudge'),
     tower: require('tower'),
     linker: require('link')
 };

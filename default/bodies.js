@@ -54,6 +54,7 @@ module.exports = {bodies:[
         hoarder: [WORK, CARRY, MOVE],
         claimer: [CLAIM, ATTACK, MOVE, MOVE],
         scruffy: [WORK, CARRY, MOVE, CARRY, MOVE],
+        drudge: [MOVE, MOVE, MOVE],
         resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     },
     // controller level 4, 20 extensions, 1300 max
