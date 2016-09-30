@@ -16,6 +16,7 @@ module.exports = {bodies:[
         hoarder: [WORK, CARRY, CARRY, MOVE, MOVE],
         claimer: [WORK, CARRY, CARRY, MOVE, MOVE],
         scruffy: [WORK, CARRY, CARRY, MOVE, MOVE],
+        resourceMiner: [WORK, WORK, CARRY, MOVE],
     },
     // controller level 2, 5 extensions, 550 max
     {
@@ -34,6 +35,7 @@ module.exports = {bodies:[
         hoarder: [WORK, CARRY, CARRY, MOVE, MOVE],
         claimer: [ATTACK, ATTACK, MOVE, MOVE],
         scruffy: [WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+        resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     },
     // controller level 3, 10 extensions, 800 max
     {
@@ -46,12 +48,13 @@ module.exports = {bodies:[
         mover: [WORK, CARRY, MOVE, CARRY, MOVE],
         towerFiller: [WORK, CARRY, MOVE, CARRY, MOVE],
         spawner: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
-        energyMiner: [WORK, WORK, WORK, WORK, CARRY, MOVE],
+        energyMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
         defender: [TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE],
         healer: [HEAL, HEAL, MOVE, MOVE, MOVE],
         hoarder: [WORK, CARRY, MOVE],
         claimer: [CLAIM, ATTACK, MOVE, MOVE],
         scruffy: [WORK, CARRY, MOVE, CARRY, MOVE],
+        resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     },
     // controller level 4, 20 extensions, 1300 max
     {
@@ -70,6 +73,7 @@ module.exports = {bodies:[
         hoarder: [WORK, CARRY, MOVE],
         claimer: [CLAIM, MOVE, MOVE],
         scruffy: [WORK, CARRY, MOVE, CARRY, MOVE, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, CARRY, MOVE, CARRY, MOVE, MOVE],
+        resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
     },
     // controller level 5, 30 extensions, 1800 max
     {
