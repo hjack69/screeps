@@ -41,5 +41,6 @@ var role = {
 
     }
 };
+role.phase2 = role.phase1;
 
 module.exports = role;
