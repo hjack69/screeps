@@ -24,7 +24,7 @@ var role = {
             creep.memory.action = 'dumping';
         }
 
-        var tlist = t[creep.memory.home];
+        var tlist = t.resourceMiner[creep.memory.home];
         if (creep.memory.action == 'mining') {
             var target = creep.pos.findClosestByRange(tlist.mines);
             if (creep.harvest(target) == ERR_NOT_IN_RANGE) {
