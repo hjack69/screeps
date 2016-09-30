@@ -2,12 +2,17 @@
 role = {
     targets: function() {
         var h = new RoomPosition(31, 21, 'E56S7');
+        var t = {target: null, s_targ: null};
+        try {
+            t = {target: h.findClosestByRange(FIND_HOSTILE_SPAWNS), s_targ: h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_EXTENSION}})};
+        }
+        catch(err) {}
         var out = {
             deploy: false,
             stage: new RoomPosition(18, 34, 'E58S8'),
             dest: 'E56S7',
-            target: h.findClosestByRange(FIND_HOSTILE_SPAWNS),
-            sec_target: h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=>{return s.structureType == STRUCTURE_EXTENSION}})
+            target: t.target,
+            sec_target: t.s_targ
         };
         return out;
     },
