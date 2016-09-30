@@ -13,6 +13,7 @@ var roles = {
     wallMaintainer: require('role.wallMaintainer'),
     scruffy: require('role.scruffy'),
     resourceMiner: require('role.resourceMiner'),
+    hunter: require('role.hunter'),
     //hoarder: require('role.hoarder'),
     //claimer: require('role.claimer'),
     drudge: require('role.drudge'),

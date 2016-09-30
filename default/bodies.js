@@ -50,6 +50,7 @@ module.exports = {bodies:[
         spawner: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
         energyMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
         defender: [TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE],
+        hunter: [TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE],
         healer: [HEAL, HEAL, MOVE, MOVE, MOVE],
         hoarder: [WORK, CARRY, MOVE],
         claimer: [CLAIM, ATTACK, MOVE, MOVE],
