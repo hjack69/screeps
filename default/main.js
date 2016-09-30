@@ -93,7 +93,7 @@ module.exports.loop = function () {
                     if (cMem.role == 'energyMiner' || cMem.role == 'spawner') {
                         cRoom[cMem.phase].spawnq.unshift(cMem);
                     }
-                    else {
+                    else if (cMem.role != 'Drudge') {
                         cRoom[cMem.phase].spawnq.push(cMem);
                     }
                     console.log(n + ' (' + cMem.role + ', ' + cMem.home + ')' + ' dieded.');
