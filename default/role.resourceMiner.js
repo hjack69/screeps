@@ -4,7 +4,7 @@ var role = {
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = {
-                mines: Game.rooms[r].find(FIND_STRUCTURES, {filter: (s)=>{return s.structureType == STRUCTURE_EXTRACTOR}}),
+                mines: Game.rooms[r].find(FIND_STRUCTURES, {filter: (s)=>{return s.structureType == FIND_MINERALS}}),
                 dump: Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_STORAGE}})
             }
         }
