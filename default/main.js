@@ -15,7 +15,7 @@ var roles = {
     resourceMiner: require('role.resourceMiner'),
     hunter: require('role.hunter'),
     //hoarder: require('role.hoarder'),
-    //claimer: require('role.claimer'),
+    claimer: require('role.claimer'),
     drudge: require('role.drudge'),
     tower: require('tower'),
     linker: require('link')
@@ -43,8 +43,7 @@ var spawn = function (r) {
 };
 
 module.exports.loop = function () {
-    Memory.doRunThings = true;
-    if (Memory.doRunThings) {
+    if (false) {
         for (var i in Memory.myRooms) {
             var r = Memory.myRooms[i];
             var curroom = Game.rooms[r].memory;
@@ -94,7 +93,7 @@ module.exports.loop = function () {
                     if (cMem.role == 'energyMiner' || cMem.role == 'spawner') {
                         cRoom[cMem.phase].spawnq.unshift(cMem);
                     }
-                    else if (cMem.role != 'Drudge') {
+                    else if (cMem.role != 'drudge' && cMem.role != 'hunter') {
                         cRoom[cMem.phase].spawnq.push(cMem);
                     }
                     console.log(n + ' (' + cMem.role + ', ' + cMem.home + ')' + ' dieded.');

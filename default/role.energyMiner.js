@@ -4,7 +4,7 @@ var role = {
         return null;
     },
     phase1: function(creep) {
-        var roleHarvester = require('role.spawner');
+        var roleHarvester = require('role.builder');
         roleHarvester.phase1(creep);
     },
     phase2: function(creep) {

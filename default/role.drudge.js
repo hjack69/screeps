@@ -1,16 +1,19 @@
 // Drudge
 var role = {
     targets: function() {
-        var out = [new RoomPosition(25, 25, 'E59S7')];
+        var out = [new RoomPosition(8, 40, 'E60S7')];
         return out;
     },
     phase1: function(creep, t) {
         var tlist = t.drudge;
-        if (tlist.length) {
-            creep.moveTo(tlist[0]);
+        if (creep.room.name != 'E56S7') {
+            creep.moveTo(new RoomPosition(25, 25, 'E56S7'));
         }
         else {
-            console.log('Fuck you, guy')
+            var targ = Game.getObjectById('579faa4f0700be0674d30c93');
+            creep.moveTo(targ);
+            var t = creep.harvest(targ);
+            //console.log(t)
         }
     }
 };

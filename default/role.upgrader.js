@@ -2,8 +2,10 @@
 var role = {
     targets: function() {
         var only_these = {
-            E58S8: ['57ddccbe3379dcf753c3be11', '57e99414f4a2fb44238e7cdb'],
-            E58S7: ['57eaef4a0fe7d4d93854953c', '57e72d8feb8681b8219282aa'],
+            //E58S8: ['57ddccbe3379dcf753c3be11', '57ef8408a10a26f35ae5c1a1', '57e99414f4a2fb44238e7cdb'],
+            //E58S7: ['57eaef4a0fe7d4d93854953c', '57e72d8feb8681b8219282aa'],
+            E13S56: [],
+            E16S57: [],
         };
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
