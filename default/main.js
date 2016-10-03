@@ -14,6 +14,7 @@ var roles = {
     scruffy: require('role.scruffy'),
     resourceMiner: require('role.resourceMiner'),
     hunter: require('role.hunter'),
+    support: require('role.support'),
     //hoarder: require('role.hoarder'),
     claimer: require('role.claimer'),
     drudge: require('role.drudge'),

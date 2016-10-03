@@ -4,10 +4,12 @@ var role = {
         return null;
     },
     phase1: function(creep, t) {
-        creep.moveTo(new RoomPosition(26, 39, 'E16S57'));
+        creep.memory.dontSpawn = true;
+        var r = 'E13S55';
+        creep.moveTo(new RoomPosition(8, 34, r));
         try {
-            if (creep.claimController(Game.rooms.E56S7.controller) == ERR_GCL_NOT_ENOUGH) {
-                creep.reserveController(Game.rooms.E56S7.controller);
+            if (creep.claimController(Game.rooms[r].controller) == ERR_GCL_NOT_ENOUGH) {
+                creep.reserveController(Game.rooms[r].controller);
             }
         }
         catch (err) {

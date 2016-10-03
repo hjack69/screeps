@@ -1,15 +1,14 @@
-// Hunter
-role = {
+// Support
+var role = {
     targets: function() {
         var r = 'E11S59';
         var h = new RoomPosition(21, 22, r);
-        var ignoreOwners = ['roboboy'];
+        var includeOwners = ['the_beanstalk', 'roboboy'];
         var t = {target: null, s_targ: null, t_targ: null};
         try {
             t = {
-                target: h.findClosestByRange(FIND_HOSTILE_SPAWNS, {filter: (s) => {return ignoreOwners.indexOf(s.owner) == -1}}),
-                s_targ: h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_EXTENSION && ignoreOwners.indexOf(s.owner) == -1}}),
-                t_targ: h.findClosestByRange(FIND_HOSTILE_CREEPS, {filter: (s) => {return ignoreOwners.indexOf(s.owner) == -1}})
+                target: h.findClosestByRange(FIND_CREEPS, {filter: (s) => {return s.hits < s.hitsMax/2 && ignoreOwners.indexOf(s.owner.username) == -1}}),
+                s_targ: h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.hits < s.hitsMax && ignoreOwners.indexOf(s.owner.username) == -1}}),
             };
         }
         catch(err) {}
@@ -55,6 +54,5 @@ role = {
         }
     }
 };
-role.phase2 = role.phase1;
 
 module.exports = role;

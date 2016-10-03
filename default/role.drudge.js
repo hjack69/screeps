@@ -1,19 +1,47 @@
 // Drudge
 var role = {
     targets: function() {
-        var out = [new RoomPosition(8, 40, 'E60S7')];
+        var r = 'E13S55';
+        var out = {dest: r, targets: [], sources: []};
+        try {
+            out.targets = Game.rooms[r].find(FIND_CONSTRUCTION_SITES);
+            out.sources = Game.rooms[r].find(FIND_SOURCES);
+            out.controller = Game.rooms[r].controller;
+        } catch(err) {}
         return out;
     },
     phase1: function(creep, t) {
         var tlist = t.drudge;
-        if (creep.room.name != 'E56S7') {
-            creep.moveTo(new RoomPosition(25, 25, 'E56S7'));
+        if (creep.room.name != tlist.dest) {
+            creep.moveTo(new RoomPosition(25, 25, r));
         }
         else {
-            var targ = Game.getObjectById('579faa4f0700be0674d30c93');
-            creep.moveTo(targ);
-            var t = creep.harvest(targ);
-            //console.log(t)
+            if (!creep.memory.action) {creep.memory.action = 'harvesting';}
+            if (creep.carry.energy == 0 && creep.memory.action == 'building') {
+                creep.memory.action = 'harvesting';
+            }
+            else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
+                creep.memory.action = 'building';
+            }
+
+            if (creep.memory.action == 'harvesting') {
+                var t = creep.pos.findClosestByRange(tlist.sources);
+                if (t && creep.harvest(t) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(t);
+                }
+            }
+            else if (creep.memory.action == 'building' && creep.memory.workingOn == 'builder') {
+                var t = creep.pos.findClosestByRange(tlist.targets);
+                if (t && creep.build(t) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(t);
+                }
+            }
+            else if (creep.memory.action == 'building' && creep.memory.workingOn == 'upgrader') {
+                var t = tlist.controller;
+                if (t && creep.upgradeController(t) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(t);
+                }
+            }
         }
     }
 };
