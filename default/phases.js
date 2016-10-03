@@ -185,6 +185,46 @@ phases = {
                     {harvesting:0, canharvest:1, waitingpos:{x:40, y:29}, qdirection:{x:1, y:-1}, targetid:'579fa9960700be0674d2f922'}
                 ]
             }
+            else if (r == 'E13S55') {
+                room.memory.phase1.spawn = 'S2';
+                room.memory.phase1.spawnq = [
+                    {role:'spawner', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    {role:'spawner', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                ].concat(shuffle([
+                    // 2 builders
+                    {role:'builder', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    {role:'builder', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    // 2 maintainers
+                    {role:'maintainer', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    {role:'maintainer', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    // 2 movers
+                    {role:'mover', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    {role:'mover', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    // 1 paver
+                    {role:'paver', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    // 3 towerFillers
+                    {role:'towerFiller', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    {role:'towerFiller', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    {role:'towerFiller', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    // 3 upgraders
+                    {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    // 2 wallMaintainers
+                    {role:'wallMaintainer', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    {role:'wallMaintainer', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    // 1 healer
+                    {role:'healer', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    // 2 defenders
+                    {role:'defender', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                    {role:'defender', phase:'phase1', qstate:'', qindex:0, home:'E13S55'},
+                ]));
+                room.memory.phase1.energyQ = [[],[]];
+                room.memory.phase1.energyInfo = [
+                    {harvesting:0, canharvest:3, waitingpos:{x:32, y:7}, qdirection:{x:1, y:1}, targetid:'579fa98c0700be0674d2f7f7'},
+                    {harvesting:0, canharvest:1, waitingpos:{x:10, y:43}, qdirection:{x:1, y:1}, targetid:'579fa98c0700be0674d2f7f9'}
+                ]
+            }
             room.memory.phase1setup = true;
         }
     },
