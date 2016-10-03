@@ -4,7 +4,9 @@ var role = {
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [
+                Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (s) => {return s.structureType == STRUCTURE_CONTAINER}}),
                 Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType == STRUCTURE_WALL)}}),
+                Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType == STRUCTURE_TOWER)}}),
                 Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType != STRUCTURE_ROAD)}}),
                 Game.rooms[r].find(FIND_CONSTRUCTION_SITES)
             ];
@@ -18,7 +20,6 @@ var role = {
 
         if (creep.carry.energy == 0) {
             creep.memory.qstate = 'entering';
-            creep.say('harvesting');
         }
         else {
             var tlist = t.builder[creep.memory.home];
@@ -35,8 +36,8 @@ var role = {
                 }
             }
             else {
-                var upgraderRole = require('role.upgrader');
-                upgraderRole[creep.memory.phase](creep);
+                var upgraderRole = require('role.paver');
+                upgraderRole[creep.memory.phase](creep, t);
             }
         }
 	},

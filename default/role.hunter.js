@@ -1,16 +1,21 @@
 // Hunter
 role = {
     targets: function() {
-        var h = new RoomPosition(21, 22, 'E56S7');
+        var r = 'E11S59'
+        var h = new RoomPosition(21, 22, r);
         var t = {target: null, s_targ: null, t_targ: null};
         try {
-            t = {target: h.findClosestByRange(FIND_HOSTILE_SPAWNS), s_targ: h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_EXTENSION}}), t_targ: h.findClosestByRange(FIND_HOSTILE_CREEPS)};
+            t = {
+                target: h.findClosestByRange(FIND_HOSTILE_SPAWNS), 
+                s_targ: h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_EXTENSION}}), 
+                t_targ: h.findClosestByRange(FIND_HOSTILE_CREEPS)
+            };
         }
         catch(err) {}
         var out = {
             deploy: false,
-            stage: new RoomPosition(18, 34, 'E58S8'),
-            dest: 'E56S7',
+            stage: new RoomPosition(6, 45, 'E13S56'),
+            dest: r,
             target: t.target,
             sec_target: t.s_targ,
             t_target: t.t_targ,

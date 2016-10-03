@@ -1,7 +1,7 @@
 // Mover
 var role = {
     targets: function() {
-        var ignore = [];
+        var ignore = ['57f09d7d99b6bea33c43e80e', '57f0bdd56445f349303092a0'];
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [
@@ -34,7 +34,7 @@ var role = {
                     }
                 }
                 else {
-                    var upgraderRole = require('role.upgrader');
+                    var upgraderRole = require('role.spawner');
                     upgraderRole[creep.memory.phase](creep, t);
                 }
             }

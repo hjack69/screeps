@@ -4,7 +4,7 @@ var role = {
         var only_these = {
             //E58S8: ['57ddccbe3379dcf753c3be11', '57ef8408a10a26f35ae5c1a1', '57e99414f4a2fb44238e7cdb'],
             //E58S7: ['57eaef4a0fe7d4d93854953c', '57e72d8feb8681b8219282aa'],
-            E13S56: [],
+            E13S56: ['57f1f2cf53ad09df4053ec8e'],
             E16S57: [],
         };
         var out = {};
@@ -36,17 +36,17 @@ var role = {
             //     console.log('paving here')
             //     creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
             // }
-            if (creep.memory.action != 'harvesting' && creep.memory.action != 'upgrading') {
-                creep.memory.action = 'harvesting';
+            if (creep.memory.action != 'uharvesting' && creep.memory.action != 'upgrading') {
+                creep.memory.action = 'uharvesting';
             }
             else if (creep.carry.energy == 0 && creep.memory.action == 'upgrading') {
-                creep.memory.action = 'harvesting';
+                creep.memory.action = 'uharvesting';
             }
-            else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
+            else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'uharvesting') {
                 creep.memory.action = 'upgrading';
             }
 
-            if (creep.memory.action == 'harvesting') {
+            if (creep.memory.action == 'uharvesting') {
                 var tlist = t.upgrader[creep.memory.home];
                 var target = creep.pos.findClosestByRange(tlist, {filter:(s)=>{return (s.structureType == STRUCTURE_LINK && s.energy >= creep.carryCapacity) || (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] >= creep.carryCapacity)}});
                 if (target) {

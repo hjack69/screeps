@@ -43,7 +43,7 @@ var spawn = function (r) {
 };
 
 module.exports.loop = function () {
-    if (false) {
+    if (true) {
         for (var i in Memory.myRooms) {
             var r = Memory.myRooms[i];
             var curroom = Game.rooms[r].memory;
@@ -90,11 +90,13 @@ module.exports.loop = function () {
                     var cMem = Memory.creeps[n];
                     var cRoom = Game.rooms[cMem.home].memory;
                     cMem.qstate = '';
-                    if (cMem.role == 'energyMiner' || cMem.role == 'spawner') {
-                        cRoom[cMem.phase].spawnq.unshift(cMem);
-                    }
-                    else if (cMem.role != 'drudge' && cMem.role != 'hunter') {
-                        cRoom[cMem.phase].spawnq.push(cMem);
+                    if (!cMem.dontSpawn) {
+                        if (cMem.role == 'energyMiner' || cMem.role == 'spawner') {
+                            cRoom[cMem.phase].spawnq.unshift(cMem);
+                        }
+                        else {
+                            cRoom[cMem.phase].spawnq.push(cMem);
+                        }
                     }
                     console.log(n + ' (' + cMem.role + ', ' + cMem.home + ')' + ' dieded.');
                     delete Memory.creeps[n];

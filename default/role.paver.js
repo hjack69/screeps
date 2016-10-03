@@ -1,4 +1,3 @@
-var roleBuilder = require('role.builder');
 // Paver
 var role = {
     targets: function() {
@@ -21,7 +20,7 @@ var role = {
                 }
             }
             else {
-                var builderRole = require('role.builder');
+                var builderRole = require('role.upgrader');
                 builderRole[Game.rooms[creep.memory.home].memory.phase](creep, t);
             }
         }

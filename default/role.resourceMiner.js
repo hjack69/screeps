@@ -8,8 +8,8 @@ var role = {
                 dump: Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_STORAGE}})
             }
         }
-        out.E58S8.resource = RESOURCE_UTRIUM;
-        out.E58S7.resource = RESOURCE_LEMERGIUM;
+        //out.E58S8.resource = RESOURCE_UTRIUM;
+        //out.E58S7.resource = RESOURCE_LEMERGIUM;
         return out;
     },
     phase1: function(creep, t)  {

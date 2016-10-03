@@ -11,10 +11,11 @@ var role = {
         return out;
     },
     phase1: function(creep, t) {
+        var tlist = t.towerFiller[creep.memory.home];
         if (creep.room.name != creep.memory.home) {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
-        else {
+        else if (tlist.filling.length) {
             if ((creep.memory.action != 'harvesting' && creep.memory.action != 'filling') || (creep.carry.energy == 0 && creep.memory.action == 'filling')) {
                 creep.memory.action = 'harvesting';
             }
@@ -22,7 +23,6 @@ var role = {
                 creep.memory.action = 'filling';
             }
 
-            var tlist = t.towerFiller[creep.memory.home];
             if (creep.memory.action == 'harvesting') {
                 var target = null;
                 if (tlist.harvesting.length) {
@@ -44,11 +44,11 @@ var role = {
                         creep.moveTo(target);
                     }
                 }
-                else {
-                    var moverRole = require('role.mover');
-                    moverRole[creep.memory.phase](creep, t);
-                }
             }
+        }
+        else {
+            var moverRole = require('role.mover');
+            moverRole[creep.memory.phase](creep, t);
         }
     }
 };

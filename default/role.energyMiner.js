@@ -30,6 +30,9 @@ var role = {
                 if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(creep.memory.spot.x, creep.memory.spot.y);
                 }
+                if (source.energy == 0) {
+                    creep.memory.action = 'dumping';
+                }
             }
             else if (creep.memory.action == 'dumping') {
                 var dump = Game.getObjectById(creep.memory.dumpid);
