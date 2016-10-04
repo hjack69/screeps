@@ -13,7 +13,7 @@ var role = {
     phase1: function(creep, t) {
         var tlist = t.drudge;
         if (creep.room.name != tlist.dest) {
-            creep.moveTo(new RoomPosition(25, 25, r));
+            creep.moveTo(new RoomPosition(25, 25, tlist.dest));
         }
         else {
             if (!creep.memory.action) {creep.memory.action = 'harvesting';}
@@ -25,21 +25,21 @@ var role = {
             }
 
             if (creep.memory.action == 'harvesting') {
-                var t = creep.pos.findClosestByRange(tlist.sources);
-                if (t && creep.harvest(t) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(t);
+                var target = creep.pos.findClosestByRange(tlist.sources);
+                if (target && creep.harvest(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
                 }
             }
             else if (creep.memory.action == 'building' && creep.memory.workingOn == 'builder') {
-                var t = creep.pos.findClosestByRange(tlist.targets);
-                if (t && creep.build(t) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(t);
+                var target = creep.pos.findClosestByRange(tlist.targets);
+                if (target && creep.build(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
                 }
             }
             else if (creep.memory.action == 'building' && creep.memory.workingOn == 'upgrader') {
-                var t = tlist.controller;
-                if (t && creep.upgradeController(t) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(t);
+                var target = tlist.controller;
+                if (target && creep.upgradeController(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
                 }
             }
         }

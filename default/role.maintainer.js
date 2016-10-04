@@ -23,7 +23,7 @@ var role = {
                 var target = null;
                 for (var i=0; i<tlist.length; i++) {
                     if (tlist[i].length) {
-                        target = tlist[i][0]; //creep.pos.findClosestByRange(tlist[i]);
+                        target = creep.pos.findClosestByRange(tlist[i]);
                         break;
                     }
                 }
@@ -34,7 +34,7 @@ var role = {
                 }
                 else {
                     var upgrader = require('role.upgrader');
-                    upgrader[Game.rooms[creep.memory.home].memory.phase](creep);
+                    upgrader[Game.rooms[creep.memory.home].memory.phase](creep, t);
                 }
             }
         }
