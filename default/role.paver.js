@@ -20,7 +20,7 @@ var role = {
                 }
             }
             else {
-                var builderRole = require('role.upgrader');
+                var builderRole = require('role.builder');
                 builderRole[Game.rooms[creep.memory.home].memory.phase](creep, t);
             }
         }

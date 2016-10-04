@@ -4,7 +4,7 @@ var role = {
         var r = 'E13S55';
         var out = {dest: r, targets: [], sources: []};
         try {
-            out.targets = Game.rooms[r].find(FIND_CONSTRUCTION_SITES);
+            out.targets = Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_SPAWN}});
             out.sources = Game.rooms[r].find(FIND_SOURCES);
             out.controller = Game.rooms[r].controller;
         } catch(err) {}
@@ -32,14 +32,14 @@ var role = {
             }
             else if (creep.memory.action == 'building' && creep.memory.workingOn == 'builder') {
                 var target = creep.pos.findClosestByRange(tlist.targets);
-                if (target && creep.build(target) == ERR_NOT_IN_RANGE) {
+                if (target && creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
             }
             else if (creep.memory.action == 'building' && creep.memory.workingOn == 'upgrader') {
                 var target = tlist.controller;
                 if (target && creep.upgradeController(target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+                    creep.moveTo(target, {reusePath: 2});
                 }
             }
         }

@@ -4,8 +4,8 @@ var role = {
         var out = {waiting:{
             //E58S8: new RoomPosition(25, 30, 'E58S8'),
             //E58S7: new RoomPosition(36, 6, 'E58S7'),
-            E13S56: new RoomPosition(7, 41, 'E13S56'),
-            E16S57: new RoomPosition(40, 43, 'E16S57'),
+            E13S56: new RoomPosition(12, 40, 'E13S56'),
+            E13S55: new RoomPosition(43, 35, 'E13S55'),
         }};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [

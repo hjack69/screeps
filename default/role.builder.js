@@ -36,7 +36,7 @@ var role = {
                 }
             }
             else {
-                var upgraderRole = require('role.paver');
+                var upgraderRole = require('role.upgrader');
                 upgraderRole[creep.memory.phase](creep, t);
             }
         }
