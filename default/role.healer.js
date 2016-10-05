@@ -16,6 +16,7 @@ var role = {
         return out;
     },
     phase1: function(creep, t) {
+        var stime = Game.cpu.getUsed();
         if (creep.room.name != creep.memory.home) {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
@@ -37,6 +38,8 @@ var role = {
                 creep.moveTo(t.healer.waiting[creep.memory.home]);
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' healer: ' + etime);
     }
 };
 role.phase2 = role.phase1;

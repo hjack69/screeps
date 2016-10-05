@@ -13,6 +13,7 @@ var role = {
         return out;
     },
     phase1: function(creep, t) {
+        var stime = Game.cpu.getUsed();
         var target = creep.pos.findClosestByRange(t.defender[creep.memory.home]);
         if (target) {
             if (creep.attack(target) == ERR_NOT_IN_RANGE) {
@@ -22,6 +23,8 @@ var role = {
         else {
             creep.moveTo(t.defender.waiting[creep.memory.home]);
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' defender: ' + etime);
     }
 };
 role.phase2 = role.phase1;

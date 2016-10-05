@@ -11,6 +11,7 @@ var role = {
         return out;
     },
     phase1: function(creep, t) {
+        var stime = Game.cpu.getUsed();
         var tlist = t.drudge;
         if (creep.room.name != tlist.dest) {
             creep.moveTo(new RoomPosition(25, 25, tlist.dest));
@@ -43,6 +44,8 @@ var role = {
                 }
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' drudge: ' + etime);
     }
 };
 

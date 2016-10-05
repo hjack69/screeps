@@ -11,6 +11,7 @@ var role = {
         return out;
     },
     phase1: function(creep, t) {
+        var stime = Game.cpu.getUsed();
         if (creep.room.name != creep.memory.home) {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
@@ -23,7 +24,7 @@ var role = {
                 var target = null;
                 for (var i=0; i<tlist.length; i++) {
                     if (tlist[i].length) {
-                        target = creep.pos.findClosestByRange(tlist[i]);
+                        target = tlist[i][0];
                         break;
                     }
                 }
@@ -38,6 +39,8 @@ var role = {
                 }
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' maintainer: ' + etime);
     },
 	emergency: function(creep) {
 	    var e = require('emergency');

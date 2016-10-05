@@ -8,12 +8,13 @@ var role = {
         return out;
     },
     phase1: function(creep, t) {
+        var stime = Game.cpu.getUsed();
         if (creep.carry.energy == 0) {
             creep.memory.qstate = 'entering';
         }
         else {
             var tlist = t.paver[creep.memory.home];
-            var target = tlist[0]; //creep.pos.findClosestByRange(tlist);
+            var target = tlist[0];
             if (target) {
                 if (creep.build(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
@@ -24,6 +25,8 @@ var role = {
                 builderRole[Game.rooms[creep.memory.home].memory.phase](creep, t);
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' paver: ' + etime);
 	},
 	emergency: function(creep, t) {
 	    var e = require('emergency');

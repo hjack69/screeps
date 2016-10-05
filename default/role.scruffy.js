@@ -11,6 +11,7 @@ var role = {
         return out;
     },
     phase1: function(creep, t) {
+        var stime = Game.cpu.getUsed();
         if (creep.room.name != creep.memory.home) {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
@@ -23,7 +24,7 @@ var role = {
             }
             
             if (creep.memory.action == 'cleaning') {
-                var target = creep.pos.findClosestByRange(t.scruffy[creep.memory.home].p);
+                var target = t.scruffy[creep.memory.home].p[0];
                 if (target) {
                     if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(target.pos);
@@ -35,12 +36,14 @@ var role = {
                 }
             }
             else if (creep.memory.action == 'dropping') {
-                var target = creep.pos.findClosestByRange(t.scruffy[creep.memory.home].d);
+                var target = t.scruffy[creep.memory.home].d[0];
                 if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target.pos);
                 }
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' scruffy: ' + etime);
     }
 }
 role.phase2 = role.emergency = role.phase1;

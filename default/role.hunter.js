@@ -2,24 +2,23 @@
 role = {
     targets: function() {
         var r = 'E11S59';
-        var h = new RoomPosition(21, 22, r);
+        var h = new RoomPosition(25, 25, r);
         var ignoreOwners = ['roboboy'];
         var t = {target: null, s_targ: null, t_targ: null};
         try {
-            t = {
-                target: h.findClosestByRange(FIND_HOSTILE_SPAWNS, {filter: (s) => {return ignoreOwners.indexOf(s.owner) == -1}}),
-                s_targ: h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_EXTENSION && ignoreOwners.indexOf(s.owner) == -1}}),
-                t_targ: h.findClosestByRange(FIND_HOSTILE_CREEPS, {filter: (s) => {return ignoreOwners.indexOf(s.owner) == -1}})
-            };
+            t = [
+                h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_TOWER && ignoreOwners.indexOf(s.owner.username) == -1}}),
+                h.findClosestByRange(FIND_HOSTILE_SPAWNS, {filter: (s) => {return ignoreOwners.indexOf(s.owner.username) == -1}}),
+                h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_EXTENSION && ignoreOwners.indexOf(s.owner.username) == -1}}),
+                h.findClosestByRange(FIND_HOSTILE_CREEPS, {filter: (s) => {return ignoreOwners.indexOf(s.owner.username) == -1}})
+            ];
         }
         catch(err) {}
         var out = {
-            deploy: false,
-            stage: new RoomPosition(6, 45, 'E13S56'),
+            deploy: true,
+            stage: new RoomPosition(20, 25, 'E13S56'),
             dest: r,
-            target: t.target,
-            sec_target: t.s_targ,
-            t_target: t.t_targ,
+            target: t
         };
         return out;
     },
@@ -34,19 +33,18 @@ role = {
             }
         }
         else {
-            if (tlist.target) {
-                if (creep.attack(tlist.target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(tlist.target);
+            if (tlist.target.length) {
+                var target;
+                for (var i=0; i<tlist.target.length; i++) {
+                    if (tlist.target[i].length) {
+                        target = tlist.target[i][0];
+                    }
                 }
-            }
-            else if (tlist.sec_target) {
-                if (creep.attack(tlist.sec_target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(tlist.sec_target);
+                if (target && creep.attack(target) == ERR_NOT_IN_RANGE) {
+                    target.moveTo(target);
                 }
-            }
-            else if (tlist.t_target) {
-                if (creep.attack(tlist.t_target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(tlist.t_target);
+                else {
+                    creep.moveTo(tlist.stage);
                 }
             }
             else {

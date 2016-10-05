@@ -8,13 +8,14 @@ var role = {
         return out;
     },
     phase1: function(creep, t) {
+        var stime = Game.cpu.getUsed()
         if (creep.carry.energy == 0) {
             creep.memory.qstate = 'entering';
         }
         else {
             var tlist = t.spawner[creep.memory.home];
             if (tlist.length) {
-                var target = creep.pos.findClosestByRange(tlist);
+                var target = tlist[0];
                 if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
@@ -24,6 +25,8 @@ var role = {
                 moverRole[Game.rooms[creep.memory.home].memory.phase](creep, t);
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' spawner: ' + etime);
     }
 };
 role.phase2 = role.phase1;

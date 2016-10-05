@@ -8,6 +8,7 @@ var role = {
         roleHarvester.phase1(creep);
     },
     phase2: function(creep) {
+        var stime = Game.cpu.getUsed();
         if (!creep.memory.action) {
             creep.memory.action = 'harvesting';
         }
@@ -48,6 +49,8 @@ var role = {
                 }
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' energyMiner: ' + etime);
     }
 };
 role.emergency = role.phase2;

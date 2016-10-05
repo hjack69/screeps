@@ -62,12 +62,14 @@ module.exports.loop = function () {
         for (var r in roles) {
             targets[r] = roles[r].targets();
         }
-    
+        
+        var test = [0, ''];
         var next = [];
         // Run correct role per creep
         for (var name in Game.creeps) {
             var creep = Game.creeps[name];
             var creepHomePhase = Game.rooms[creep.memory.home].memory.phase;
+            var stime = Game.cpu.getUsed();
             if (creep.memory.qstate != '') {
                 queue[creepHomePhase](creep);
             }
@@ -79,8 +81,15 @@ module.exports.loop = function () {
                     //console.log(name);
                 }
             }
+            
             next.push(name);
+            
+            if (test[0] < (Game.cpu.getUsed()-stime)) {
+                test[0] = (Game.cpu.getUsed()-stime)
+                test[1] = name + ' ' + creep.memory.role;
+            }
         }
+        console.log(test[1] + ' ' + test[0]);
 
         // Compare aliveLastTick with Game.creeps (if no aliveLastTick, set to aliveThisTick and move on)
             // spawn accordingly, clear memory, logify
@@ -89,18 +98,20 @@ module.exports.loop = function () {
                 var n = Memory.aliveLastTick[i];
                 if (!Game.creeps[n]) {
                     var cMem = Memory.creeps[n];
-                    var cRoom = Game.rooms[cMem.home].memory;
-                    cMem.qstate = '';
-                    if (!cMem.dontSpawn) {
-                        if (cMem.role == 'energyMiner' || cMem.role == 'spawner') {
-                            cRoom[cMem.phase].spawnq.unshift(cMem);
+                    if (cMem) {
+                        var cRoom = Game.rooms[cMem.home].memory;
+                        cMem.qstate = '';
+                        if (!cMem.dontSpawn) {
+                            if (cMem.role == 'energyMiner' || cMem.role == 'spawner') {
+                                cRoom[cMem.phase].spawnq.unshift(cMem);
+                            }
+                            else {
+                                cRoom[cMem.phase].spawnq.push(cMem);
+                            }
                         }
-                        else {
-                            cRoom[cMem.phase].spawnq.push(cMem);
-                        }
+                        console.log(n + ' (' + cMem.role + ', ' + cMem.home + ')' + ' dieded.');
+                        delete Memory.creeps[n];
                     }
-                    console.log(n + ' (' + cMem.role + ', ' + cMem.home + ')' + ' dieded.');
-                    delete Memory.creeps[n];
                 }
             }
         }

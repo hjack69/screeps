@@ -21,21 +21,11 @@ var role = {
     },
     // Takes the creep, and a dictionary of lists describing harvesting targets in the room
     phase1: function(creep, t) {
+        var stime = Game.cpu.getUsed();
         if (creep.room.name != creep.memory.home) {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
         else {
-            // var currents = creep.room.lookForAt(LOOK_STRUCTURES, creep.pos);
-            // var f = false;
-            // for (var i=0; i<currents.length; i++) {
-            //     if (currents[i].structureType == STRUCTURE_ROAD) {
-            //         f = true;
-            //     }
-            // }
-            // if (!f && !creep.room.lookForAt(LOOK_CONSTRUCTION_SITES).length) {
-            //     console.log('paving here')
-            //     creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
-            // }
             if (creep.memory.action != 'uharvesting' && creep.memory.action != 'upgrading') {
                 creep.memory.action = 'uharvesting';
             }
@@ -45,7 +35,7 @@ var role = {
             else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'uharvesting') {
                 creep.memory.action = 'upgrading';
             }
-
+            
             if (creep.memory.action == 'uharvesting') {
                 var tlist = t.upgrader[creep.memory.home];
                 var target = creep.pos.findClosestByRange(tlist, {filter:(s)=>{return (s.structureType == STRUCTURE_LINK && s.energy >= creep.carryCapacity) || (s.structureType == STRUCTURE_CONTAINER && s.store[RESOURCE_ENERGY] >= creep.carryCapacity)}});
@@ -65,6 +55,8 @@ var role = {
                 }
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' upgrader: ' + etime);
     }
 };
 role.phase2 = role.emergency = role.phase1;

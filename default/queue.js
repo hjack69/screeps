@@ -1,6 +1,7 @@
 var queue = {
     phase1: function(creep) {
-        var roomMem = Game.rooms[creep.memory.home].memory.phase1;
+        var stime = Game.cpu.getUsed();
+        var roomMem = Memory.rooms[creep.memory.home].phase1;
         if (!Game.getObjectById(roomMem.energyQ[creep.memory.qindex][0])) {
             roomMem.energyQ[creep.memory.qindex].shift();
         }
@@ -44,9 +45,12 @@ var queue = {
                 }
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' queueP1: ' + (Game.cpu.getUsed() - stime));
     },
     phase2: function(creep) {
-        var roomMem = Game.rooms[creep.memory.home].memory.phase2;
+        var stime = Game.cpu.getUsed();
+        var roomMem = Memory.rooms[creep.memory.home].phase2;
         if (!Game.getObjectById(roomMem.energyQ[creep.memory.qindex][0])) {
             roomMem.energyQ[creep.memory.qindex].shift();
         }
@@ -95,6 +99,8 @@ var queue = {
                 }
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' queueP2: ' + etime);
     }
 }
 queue.emergency = queue.phase2;

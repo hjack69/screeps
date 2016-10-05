@@ -1,5 +1,3 @@
-var bodies = require('bodies.js');
-
 var merge = function(a, b) {
     for (var x in b) {
         a[x] = b[x];
@@ -8,40 +6,37 @@ var merge = function(a, b) {
 };
 
 var spawnCreep = function(role, options) {
-    // (room | roomInd) [, name, mem, body]
-    if (!options.room || !options.roomInd) {
-        console.log('Room not specified');
+    // {room | roomInd} [, front]
+    var room;
+    if (options.room) {
+        room = options.room;
+    }
+    else if (options.roomInd <= 0) {
+        room = Memory.myRooms[options.roomInd];
     }
     else {
-        var room, phase, body;
+        console.log('Room not specified');
+    }
 
-        if (options.room)
-            room = options.room;
-        else
-            room = Memory.myRooms[options.roomInd];
+    var phase = Memory.rooms[room].phase;
 
-        phase = Memory.rooms[room].phase;
-
-        body = bodies[Memory.rooms[room][phase].spawnLevel][role];
-        if (options.body)
-            body = options.body;
-
-        var mem = {role:role, phase:phase, qstate:'', qindex:0, home:room};
-        if (options.mem)
-            mem = merge(mem, options.mem);
-
-        var spawn = Game.spawns[Game.rooms[room][phase].spawn];
-
-        if (!room || !phase || !mem || !spawn || !body)
-            console.log('Spawning Failed');
-        var err = spawn.createCreep(body, options.name ? options.name : undefined, mem);
+    var mem = {role:role, phase:phase, qstate:'', qindex:0, home:room};
+    if (options.mem) {
+        mem = merge(mem, options.mem);
+    }
+    
+    if (!options.front) {
+        Memory.rooms[room][phase].spawnq.push(mem);
+    }
+    else {
+        Memory.rooms[room][phase].spawnq.unshift(mem);
     }
 };
 
-var getAllOfRole = function(role) {
+var getAllOfRole = function(role, room) {
     var out = [];
     for (var n in Game.creeps) {
-        if (Memory.creeps[n].role == role)
+        if (Memory.creeps[n].role == role && (!room || Game.creeps[n].room.name == room))
             out.push(n);
     }
     console.log(out.length + ' ' + role + ' creeps found:');

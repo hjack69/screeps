@@ -14,6 +14,7 @@ var role = {
         return out;
     },
     phase1: function(creep, t) {
+        var stime = Game.cpu.getUsed();
         if (creep.room.name != creep.memory.home) {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
@@ -26,7 +27,7 @@ var role = {
             var target = null;
             for (var i=0; i<tlist.length; i++) {
                 if (tlist[i].length) {
-                    target = creep.pos.findClosestByRange(tlist[i]);
+                    target = tlist[i][0];
                     break;
                 }
             }
@@ -40,6 +41,8 @@ var role = {
                 upgraderRole[creep.memory.phase](creep, t);
             }
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' builder: ' + etime);
 	},
 	emergency: function(creep) {
 	    var emergencyRole = require('emergency');

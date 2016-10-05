@@ -11,11 +11,12 @@ var role = {
         return out;
     },
     phase1: function(creep, t) {
+        var stime = Game.cpu.getUsed();
         var tlist = t.towerFiller[creep.memory.home];
-        if (creep.room.name != creep.memory.home) {
+        if (creep.room.name != creep.memory.home) { 
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
-        else if (tlist.filling.length) {
+        else if (tlist.filling.length) { 
             if ((creep.memory.action != 'harvesting' && creep.memory.action != 'filling') || (creep.carry.energy == 0 && creep.memory.action == 'filling')) {
                 creep.memory.action = 'harvesting';
             }
@@ -26,7 +27,7 @@ var role = {
             if (creep.memory.action == 'harvesting') {
                 var target = null;
                 if (tlist.harvesting.length) {
-                    target = creep.pos.findClosestByRange(tlist.harvesting);
+                    target = tlist.harvesting[0];
                 }
                 if (target) {
                     if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
@@ -38,7 +39,7 @@ var role = {
                 }
             }
             else if (creep.memory.action == 'filling') {
-                var target = creep.pos.findClosestByRange(tlist.filling);
+                var target = tlist.filling[0];
                 if (target) {
                     if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(target);
@@ -50,6 +51,8 @@ var role = {
             var moverRole = require('role.mover');
             moverRole[creep.memory.phase](creep, t);
         }
+        var etime = (Game.cpu.getUsed() - stime);
+        // console.log(creep.name + ' towerFiller: ' + etime);
     }
 };
 role.phase2 = role.phase1;
