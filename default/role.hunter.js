@@ -1,5 +1,5 @@
 // Hunter
-role = {
+var role = {
     targets: function() {
         var r = 'E11S59';
         var h = new RoomPosition(25, 25, r);

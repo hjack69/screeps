@@ -1,26 +1,4 @@
-var roles = {
-    //harvester: require('role.harvester'),
-    upgrader: require('role.upgrader'),
-    builder: require('role.builder'),
-    paver: require('role.paver'),
-    maintainer: require('role.maintainer'),
-    mover: require('role.mover'),
-    towerFiller: require('role.towerFiller'),
-    spawner: require('role.spawner'),
-    energyMiner: require('role.energyMiner'),
-    defender: require('role.defender'),
-    healer: require('role.healer'),
-    wallMaintainer: require('role.wallMaintainer'),
-    scruffy: require('role.scruffy'),
-    resourceMiner: require('role.resourceMiner'),
-    hunter: require('role.hunter'),
-    support: require('role.support'),
-    //hoarder: require('role.hoarder'),
-    claimer: require('role.claimer'),
-    drudge: require('role.drudge'),
-    tower: require('tower'),
-    linker: require('link')
-};
+var roles = require('roles');
 var queue = require('queue');
 var phases = require('phases');
 var bodies = require('bodies').bodies;
