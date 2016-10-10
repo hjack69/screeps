@@ -70,7 +70,7 @@ var spawn = function (r) {
 };
 
 module.exports.loop = function () {
-    if (true) {
+    if (false) {
         for (var i in Memory.myRooms) {
             var r = Memory.myRooms[i];
             var curroom = Game.rooms[r].memory;
