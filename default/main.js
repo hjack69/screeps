@@ -1104,8 +1104,7 @@ var tower = {
                 hostiles: Game.rooms[r].find(FIND_HOSTILE_CREEPS),
                 injured: Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return (c.hits< c.hitsMax)}}),
                 structures: [
-                    Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL|| s.structureType==STRUCTURE_RAMPART) && s.hits<100000}}),
-                    Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType!=STRUCTURE_WALL) && s.hits < s.hitsMax/2}})
+                    Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL|| s.structureType==STRUCTURE_RAMPART) && s.hits<100000}})
                 ]
             };
         }
