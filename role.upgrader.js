@@ -1,7 +1,7 @@
 var upgrader = {
     targets: function() {
         var only_these = {
-            W61N59: [],
+            E63N59: [],
         };
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];

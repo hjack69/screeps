@@ -1,7 +1,7 @@
 var healer = {
     targets: function() {
         var out = {waiting:{
-            W61N59: new RoomPosition(5, 31, 'W61N59')
+            E63N59: new RoomPosition(5, 31, 'E63N59')
         }};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [
