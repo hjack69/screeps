@@ -41,24 +41,25 @@ module.exports = {bodies:[
     // controller level 3, 10 extensions, 800 max
     {
         harvester: [WORK, CARRY, MOVE],
-        upgrader: [WORK, WORK, WORK, CARRY, MOVE],
+        upgrader: [WORK, WORK, WORK, CARRY, MOVE, MOVE],
         builder: [WORK, WORK, CARRY, MOVE],
         paver: [WORK, CARRY, MOVE],
         maintainer: [WORK, CARRY, MOVE],
         wallMaintainer: [WORK, CARRY, MOVE, CARRY, MOVE],
         mover: [WORK, CARRY, MOVE, CARRY, MOVE],
         towerFiller: [WORK, CARRY, MOVE, CARRY, MOVE],
-        spawner: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
+        spawner: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
         energyMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
         defender: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK],
-        hunter: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK],
-        support: [MOVE, MOVE, HEAL, HEAL],
+        hunter: [TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK],
+        support: [MOVE, HEAL, MOVE, HEAL, MOVE, HEAL, MOVE, HEAL, MOVE, HEAL, MOVE, HEAL],
         healer: [MOVE, MOVE, HEAL, HEAL],
         hoarder: [WORK, CARRY, MOVE],
         claimer: [CLAIM, MOVE, MOVE],
         scruffy: [WORK, CARRY, MOVE, CARRY, MOVE],
         drudge: [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
         resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+        tank: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
     },
     // controller level 4, 20 extensions, 1300 max
     {

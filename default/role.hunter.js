@@ -15,7 +15,7 @@ var role = {
         }
         catch(err) {}
         var out = {
-            deploy: true,
+            deploy: false,
             stage: new RoomPosition(20, 25, 'E13S56'),
             dest: r,
             target: t

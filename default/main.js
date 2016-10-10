@@ -45,19 +45,20 @@ module.exports.loop = function () {
         var next = [];
         // Run correct role per creep
         for (var name in Game.creeps) {
-            var creep = Game.creeps[name];
-            var creepHomePhase = Game.rooms[creep.memory.home].memory.phase;
-            var stime = Game.cpu.getUsed();
-            if (creep.memory.qstate != '') {
-                queue[creepHomePhase](creep);
-            }
-            else {
-                try {
+            try {
+                var creep = Game.creeps[name];
+                var creepHomePhase = Game.rooms[creep.memory.home].memory.phase;
+                var stime = Game.cpu.getUsed();
+                if (creep.memory.qstate != '') {
+                    queue[creepHomePhase](creep);
+                }
+                else {
                     roles[creep.memory.role][creepHomePhase](creep, targets);
                 }
-                catch (err) {
-                    //console.log(name);
-                }
+            }
+            catch(err) { 
+                console.log("Error with " + name); // + ", " + Game.creeps[n].memory.role); 
+                console.log(err)
             }
             
             next.push(name);
@@ -67,7 +68,7 @@ module.exports.loop = function () {
                 test[1] = name + ' ' + creep.memory.role;
             }
         }
-        console.log(test[1] + ' ' + test[0]);
+        // console.log(test[1] + ' ' + test[0]);
 
         // Compare aliveLastTick with Game.creeps (if no aliveLastTick, set to aliveThisTick and move on)
             // spawn accordingly, clear memory, logify
