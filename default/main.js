@@ -85,44 +85,44 @@ var phases = {
                 energyQ: [],
                 energyInfo: []
             };
-            if (r == 'E63N59') {
+            if (r == 'W61N59') {
                 room.memory.phase2.spawn = 'S1';
                 room.memory.phase2.spawnq = [
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:27, y:41}, dumpid:'57fabb753acd730171fd15b6', sourceid:'57ef9ce986f108ae6e60cff2', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:7, y:39}, dumpid:'57fa7978b297331f3b19c1ab', sourceid:'57ef9ce986f108ae6e60cff1', home:'E63N59', qstate:'', qindex:0},
-                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:27, y:41}, dumpid:'57fabb753acd730171fd15b6', sourceid:'57ef9ce986f108ae6e60cff2', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:7, y:39}, dumpid:'57fa7978b297331f3b19c1ab', sourceid:'57ef9ce986f108ae6e60cff1', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:27, y:41}, dumpid:'57fabb753acd730171fd15b6', sourceid:'57ef9ce986f108ae6e60cff2', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:27, y:41}, dumpid:'57fabb753acd730171fd15b6', sourceid:'57ef9ce986f108ae6e60cff2', home:'W61N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:7, y:39}, dumpid:'57fa7978b297331f3b19c1ab', sourceid:'57ef9ce986f108ae6e60cff1', home:'W61N59', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:27, y:41}, dumpid:'57fabb753acd730171fd15b6', sourceid:'57ef9ce986f108ae6e60cff2', home:'W61N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:7, y:39}, dumpid:'57fa7978b297331f3b19c1ab', sourceid:'57ef9ce986f108ae6e60cff1', home:'W61N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:27, y:41}, dumpid:'57fabb753acd730171fd15b6', sourceid:'57ef9ce986f108ae6e60cff2', home:'W61N59', qstate:'', qindex:0},
                 ].concat(shuffle([
                     // 2 builders
-                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
                     // 2 maintainers
-                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
                     // 2 movers
-                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
                     // 1 paver
-                    {role:'paver', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'paver', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
                     // 3 towerFillers
-                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
                     // 3 upgraders
-                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
                     // 2 wallMaintainers
-                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
                     // 1 healer
-                    {role:'healer', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'healer', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
                     // 2 defenders
-                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
                 ]));
                 room.memory.phase2.energyQ = [[],[]];
                 room.memory.phase2.energyInfo = [
@@ -1081,7 +1081,7 @@ wallMaintainer.emergency = wallMaintainer.phase1;
 var linker = {
     targets: function() {
         return {
-            E63N59: {from: [], to: []} // from:ids, to:objects
+            W61N59: {from: [], to: []} // from:ids, to:objects
         };
     },
     phase1: function(l, t) {
@@ -1289,7 +1289,7 @@ var spawn = function (r) {
 };
 
 module.exports.loop = function () {
-    if (false) {
+    if (true) {
         for (var i in Memory.myRooms) {
             var r = Memory.myRooms[i];
             var curroom = Game.rooms[r].memory;
