@@ -1,5 +1,5 @@
-module.exports = {bodies:[
-    // controller level 1, no extensions, 300 max
+var bodies = [
+    // 0
     {
         harvester: [WORK, CARRY, CARRY, MOVE, MOVE],
         upgrader: [WORK, CARRY, CARRY, MOVE, MOVE],
@@ -19,7 +19,7 @@ module.exports = {bodies:[
         resourceMiner: [WORK, WORK, CARRY, MOVE],
         hunter: [TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, MOVE, MOVE, MOVE],
     },
-    // controller level 2, 5 extensions, 550 max
+    // 1
     {
         harvester: [WORK, CARRY, CARRY, MOVE, MOVE],
         upgrader: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
@@ -42,7 +42,7 @@ module.exports = {bodies:[
         resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
         tank: [TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE]
     },
-    // controller level 3, 10 extensions, 800 max
+    // 2
     {
         harvester: [WORK, CARRY, MOVE],
         upgrader: [WORK, WORK, WORK, CARRY, MOVE, MOVE],
@@ -65,89 +65,4 @@ module.exports = {bodies:[
         resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
         tank: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
     },
-    // controller level 4, 20 extensions, 1300 max
-    {
-        harvester: [],
-        upgrader: [],
-        builder: [],
-        paver: [],
-        maintainer: [],
-        wallMaintainer: [],
-        mover: [],
-        towerFiller: [],
-        spawner: [],
-        energyMiner: [],
-        defender: [],
-        healer: [],
-        hoarder: [],
-        claimer: []
-    },
-    // controller level 5, 30 extensions, 1800 max
-    {
-        harvester: [],
-        upgrader: [],
-        builder: [],
-        paver: [],
-        maintainer: [],
-        wallMaintainer: [],
-        mover: [],
-        towerFiller: [],
-        spawner: [],
-        energyMiner: [],
-        defender: [],
-        healer: [],
-        hoarder: [],
-        claimer: []
-    },
-    // controller level 6, 40 extensions, 2300 max
-    {
-        harvester: [],
-        upgrader: [],
-        builder: [],
-        paver: [],
-        maintainer: [],
-        wallMaintainer: [],
-        mover: [],
-        towerFiller: [],
-        spawner: [],
-        energyMiner: [],
-        defender: [],
-        healer: [],
-        hoarder: [],
-        claimer: []
-    },
-    // controller level 7, 50 extensions, 5300 max
-    {
-        harvester: [],
-        upgrader: [],
-        builder: [],
-        paver: [],
-        maintainer: [],
-        wallMaintainer: [],
-        mover: [],
-        towerFiller: [],
-        spawner: [],
-        energyMiner: [],
-        defender: [],
-        healer: [],
-        hoarder: [],
-        claimer: []
-    },
-    // controller level 8, 60 extensions, 12300 max
-    {
-        harvester: [],
-        upgrader: [],
-        builder: [],
-        paver: [],
-        maintainer: [],
-        wallMaintainer: [],
-        mover: [],
-        towerFiller: [],
-        spawner: [],
-        energyMiner: [],
-        defender: [],
-        healer: [],
-        hoarder: [],
-        claimer: []
-    },
-]};
+];

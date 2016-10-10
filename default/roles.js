@@ -177,7 +177,26 @@ var energyMiner = {
         return null;
     },
     phase1: function(creep) {
-        harvester.phase1(creep);
+        var stime = Game.cpu.getUsed();
+        if (!creep.memory.action) {
+            creep.memory.action = 'harvesting';
+        }
+        if (creep.room.name != creep.memory.home) {
+            creep.moveTo(25, 25, creep.memory.home);
+        }
+        else {
+            var source = Game.getObjectById(creep.memory.sourceid);
+            if (creep.pos.x != creep.memory.spot.x || creep.pos.y != creep.memory.spot.y) {
+                creep.moveTo(creep.memory.spot.x, creep.memory.spot.y);
+            }
+            if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.memory.spot.x, creep.memory.spot.y);
+            }
+            if (source.energy == 0 && creep.carry.energy > 0) {
+                creep.drop(RESOURCE_ENERGY);
+            }
+        }
+        var etime = (Game.cpu.getUsed() - stime);
     },
     phase2: function(creep) {
         var stime = Game.cpu.getUsed();
