@@ -1,3 +1,17 @@
+var E63N59 = {
+    spawn: 'S1',
+    phase: 'phase2',
+    energyInfo: [
+        {wpos: {x:17, y:30}, wdir: {x:0, y:1}, sid:'57fc4f263435b4585718b158', hnum: 1},
+        {wpos: {x:7, y:30}, wdir: {x:0, y:1}, sid:'57fc44dbff2414b02896117a', hnum: 1},
+    ],
+};
+
+var rooms = {
+    E63N59: E63N59,
+};
+
+
 // CONCAT phases.js
 var shuffle = function(arr) {
     var i = 0, j = 0, temp = null;
@@ -28,16 +42,16 @@ var phases = {
             if (r == 'E63N59') {
                 room.memory.phase1.spawn = 'S1';
                 room.memory.phase1.spawnq = [
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:7, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:18, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:7, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:18, y:28}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
                     {role:'spawner', phase:'phase1', qstate:'', qindex:0, home:'E63N59'},
                     {role:'spawner', phase:'phase1', qstate:'', qindex:0, home:'E63N59'},
                     {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:8, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:19, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:9, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:19, y:27}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
-                    ].concat(shuffle([
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:8, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:19, y:28}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:9, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:19, y:27}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                ].concat(shuffle([
                     // 2 builders
                     {role:'builder', phase:'phase1', qstate:'', qindex:0, home:'E63N59'},
                     {role:'builder', phase:'phase1', qstate:'', qindex:0, home:'E63N59'},
@@ -85,55 +99,60 @@ var phases = {
                 energyQ: [],
                 energyInfo: []
             };
-            if (r == 'W61N59') {
+            if (r == 'E63N59') {
                 room.memory.phase2.spawn = 'S1';
                 room.memory.phase2.spawnq = [
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:27, y:41}, dumpid:'57fabb753acd730171fd15b6', sourceid:'57ef9ce986f108ae6e60cff2', home:'W61N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:7, y:39}, dumpid:'57fa7978b297331f3b19c1ab', sourceid:'57ef9ce986f108ae6e60cff1', home:'W61N59', qstate:'', qindex:0},
-                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:27, y:41}, dumpid:'57fabb753acd730171fd15b6', sourceid:'57ef9ce986f108ae6e60cff2', home:'W61N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:7, y:39}, dumpid:'57fa7978b297331f3b19c1ab', sourceid:'57ef9ce986f108ae6e60cff1', home:'W61N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:27, y:41}, dumpid:'57fabb753acd730171fd15b6', sourceid:'57ef9ce986f108ae6e60cff2', home:'W61N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:7, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:18, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:8, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:19, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:9, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:19, y:27}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
                 ].concat(shuffle([
                     // 2 builders
-                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     // 2 maintainers
-                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     // 2 movers
-                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     // 1 paver
-                    {role:'paver', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'paver', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     // 3 towerFillers
-                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     // 3 upgraders
-                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     // 2 wallMaintainers
-                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     // 1 healer
-                    {role:'healer', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'healer', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     // 2 defenders
-                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
-                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'W61N59'},
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
+                    // 1 scruffy
+                    {role:'scruffy', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                 ]));
                 room.memory.phase2.energyQ = [[],[]];
                 room.memory.phase2.energyInfo = [
-                    {harvesting:0, canharvest:1, waitingpos:{x:28, y:43}, qdirection:{x:1, y:0}, targetid:'57fabb753acd730171fd15b6'},
-                    {harvesting:0, canharvest:1, waitingpos:{x:9, y:39}, qdirection:{x:1, y:1}, targetid:'57fa7978b297331f3b19c1ab'}
+                    {harvesting:0, canharvest:4, waitingpos:{x:17, y:30}, qdirection:{x:0, y:1}, targetid:'57fc4f263435b4585718b158'},
+                    {harvesting:0, canharvest:2, waitingpos:{x:7, y:30}, qdirection:{x:0, y:1}, targetid:'57fc44dbff2414b02896117a'}
                 ]
             }
             room.memory.phase2setup = true;
         }
     },
 };
+
+// END phases.js
 
 // CONCAT bodies.js
 var bodies = [
@@ -205,6 +224,8 @@ var bodies = [
     },
 ];
 
+// END bodies.js
+
 // CONCAT role.builder.js
 var builder = {
     targets: function() {
@@ -256,6 +277,8 @@ var builder = {
     }
 };
 builder.phase2 = builder.phase1;
+
+// END role.builder.js
 // CONCAT role.claimer.js
 var claimer = {
     targets: function() {
@@ -295,11 +318,13 @@ var claimer = {
     }
 };
 claimer.phase2 = claimer.phase1;
+
+// END role.claimer.js
 // CONCAT role.defender.js
 var defender = {
     targets: function() {
         var out = {waiting:{
-            E63N59: new RoomPosition(8, 31, 'E63N59')
+            E63N59: new RoomPosition(22, 43, 'E63N59')
         }};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = Game.rooms[r].find(FIND_HOSTILE_CREEPS);
@@ -323,6 +348,8 @@ var defender = {
 };
 defender.phase2 = defender.phase1;
 defender.emergency = defender.phase1;
+
+// END role.defender.js
 // CONCAT role.drudge.js
 var drudge = {
     targets: function() {
@@ -374,6 +401,8 @@ var drudge = {
     }
 };
 drudge.phase2 = drudge.phase1;
+
+// END role.drudge.js
 // CONCAT role.energyMiner.js
 var energyMiner = {
     targets: function() {
@@ -448,11 +477,13 @@ var energyMiner = {
     }
 };
 energyMiner.emergency = energyMiner.phase2;
+
+// END role.energyMiner.js
 // CONCAT role.healer.js
 var healer = {
     targets: function() {
         var out = {waiting:{
-            E63N59: new RoomPosition(5, 31, 'E63N59')
+            E63N59: new RoomPosition(22, 43, 'E63N59')
         }};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [
@@ -491,6 +522,8 @@ var healer = {
 };
 healer.phase2 = healer.phase1;
 healer.emergency = healer.phase1;
+
+// END role.healer.js
 // CONCAT role.hunter.js
 var hunter = {
     targets: function() {
@@ -548,6 +581,8 @@ var hunter = {
     }
 };
 hunter.phase2 = hunter.phase1;
+
+// END role.hunter.js
 // CONCAT role.maintainer.js
 var maintainer = {
     targets: function() {
@@ -597,10 +632,12 @@ var maintainer = {
     }
 };
 maintainer.phase2 = maintainer.phase1;
+
+// END role.maintainer.js
 // CONCAT role.mover.js
 var mover = {
     targets: function() {
-        var ignore = [];
+        var ignore = ['57fc44dbff2414b02896117a', '57fc4f263435b4585718b158'];
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [
@@ -633,6 +670,9 @@ var mover = {
                         creep.moveTo(target);
                     }
                 }
+                else {
+                    spawner.phase1(creep, t);
+                }
             }
         }
         var etime = (Game.cpu.getUsed() - stime);
@@ -644,6 +684,8 @@ var mover = {
     }
 };
 mover.phase2 = mover.phase1;
+
+// END role.mover.js
 // CONCAT role.paver.js
 var paver = {
     targets: function() {
@@ -679,6 +721,8 @@ var paver = {
     }
 };
 paver.phase2 = paver.phase1;
+
+// END role.paver.js
 // CONCAT role.resourceMiner.js
 var resourceMiner = {
     targets: function() {
@@ -723,6 +767,8 @@ var resourceMiner = {
     }
 };
 resourceMiner.phase2 = resourceMiner.phase1;
+
+// END role.resourceMiner.js
 // CONCAT role.scruffy.js
 var scruffy = {
     targets: function() {
@@ -730,7 +776,7 @@ var scruffy = {
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = {
                 p:Game.rooms[r].find(FIND_DROPPED_ENERGY),
-                d:Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_STORAGE}})
+                d:Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_STORAGE || s.structureType == STRUCTURE_CONTAINER}})
             }
         }
         return out;
@@ -771,6 +817,8 @@ var scruffy = {
     }
 };
 scruffy.phase2 = scruffy.emergency = scruffy.phase1;
+
+// END role.scruffy.js
 // CONCAT role.spawner.js
 var spawner = {
     targets: function() {
@@ -809,7 +857,7 @@ var spawner = {
                     }
                 }
                 else {
-                    mover[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                    upgrader[Game.rooms[creep.memory.home].memory.phase](creep, t);
                 }
             }
         }
@@ -819,6 +867,8 @@ var spawner = {
 };
 spawner.phase2 = spawner.phase1;
 spawner.emergency = spawner.phase1;
+
+// END role.spawner.js
 // CONCAT role.support.js
 var support = {
     targets: function() {
@@ -876,6 +926,8 @@ var support = {
     }
 };
 support.phase2 = support.phase1;
+
+// END role.support.js
 // CONCAT role.tank.js
 var tank = {
     targets: function() {
@@ -897,6 +949,8 @@ var tank = {
     }
 };
 tank.phase2 = tank.phase1;
+
+// END role.tank.js
 // CONCAT role.towerFiller.js
 var towerFiller = {
     targets: function() {
@@ -955,11 +1009,13 @@ var towerFiller = {
 };
 towerFiller.phase2 = towerFiller.phase1;
 towerFiller.emergency = towerFiller.phase1;
+
+// END role.towerFiller.js
 // CONCAT role.upgrader.js
 var upgrader = {
     targets: function() {
         var only_these = {
-            E63N59: [],
+            E63N59: ['57fc9dd698812bf3681c8829'],
         };
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
@@ -1027,6 +1083,8 @@ var upgrader = {
     }
 };
 upgrader.phase2 = upgrader.emergency = upgrader.phase1;
+
+// END role.upgrader.js
 // CONCAT role.wallMaintainer.js
 var wallMaintainer = {
     targets: function() {
@@ -1077,6 +1135,8 @@ var wallMaintainer = {
 wallMaintainer.phase2 = wallMaintainer.phase1;
 wallMaintainer.emergency = wallMaintainer.phase1;
 
+// END role.wallMaintainer.js
+
 // CONCAT link.js
 var linker = {
     targets: function() {
@@ -1096,6 +1156,8 @@ var linker = {
     }
 };
 linker.phase2 = linker.emergency = linker.phase1;
+
+// END link.js
 // CONCAT tower.js
 var tower = {
     targets: function() {
@@ -1136,6 +1198,8 @@ var tower = {
 };
 tower.phase2 = tower.phase1;
 tower.emergency = tower.phase1;
+
+// END tower.js
 
 // CONCAT queue.js
 var queue = {
@@ -1245,6 +1309,58 @@ var queue = {
 };
 queue.emergency = queue.phase2;
 
+// END queue.js
+
+// CONCAT cmd.js
+var cmd = {
+    spawn: function(args) {
+        if (!args.role || !args.room) {
+            console.log('Must provide a role and a room.');
+        }
+        else {
+            var roomMem = Memory.rooms[args.room];
+            var roomPhs = roomMem.phase;
+            var cmem = {role:args.role, qstate:'', qindex:0, phase:roomPhs, home: args.room};
+            if (args.mem) {
+                for (var k in args.mem) {
+                    cmem[k] = args.mem[k];
+                }
+            }
+            if (args.front) {
+                roomMem[roomPhs].spawnq.unshift(cmem);
+                console.log('Creep is next in the spawn queue.');
+            }
+            else {
+                roomMem[roomPhs].spawnq.push(cmem);
+                console.log('Creep is last in the spawn queue.');
+            }
+        }
+    },
+    getCreeps: function(args) {
+        if (!args.role) {
+            console.log('Must provide a role.');
+        }
+        else {
+            var cout = [];
+            for (var n in Game.creeps) {
+                if (Game.creeps[n].role == args.role && (!args.role || (args.role && Game.creeps[n].home == args.room))) {
+                    cout.push(Game.creeps[n]);
+                }
+            }
+            if (!cout.length) {
+                console.log('No creeps found');
+            }
+            else {
+                console.log(cout.length + ' creeps found:');
+                for (var i = 0; i < cout.length; i++) {
+                    console.log(cout[i].name + ' at location ' + cout[i].pos + ' (' + cout[i].memory.home + ')');
+                }
+            }
+        }
+    }
+};
+// END cmd.js
+
 var roles = {
     builder: builder,
     claimer: claimer,
@@ -1307,7 +1423,7 @@ module.exports.loop = function () {
         for (var r in roles) {
             targets[r] = roles[r].targets();
         }
-        
+
         var test = [0, ''];
         var next = [];
         // Run correct role per creep
@@ -1323,13 +1439,13 @@ module.exports.loop = function () {
                     roles[creep.memory.role][creepHomePhase](creep, targets);
                 }
             }
-            catch(err) { 
+            catch(err) {
                 console.log("Error with " + name); // + ", " + Game.creeps[n].memory.role); 
                 console.log(err)
             }
-            
+
             next.push(name);
-            
+
             if (test[0] < (Game.cpu.getUsed()-stime)) {
                 test[0] = (Game.cpu.getUsed()-stime)
                 test[1] = name + ' ' + creep.memory.role;
@@ -1338,7 +1454,7 @@ module.exports.loop = function () {
         // console.log(test[1] + ' ' + test[0]);
 
         // Compare aliveLastTick with Game.creeps (if no aliveLastTick, set to aliveThisTick and move on)
-            // spawn accordingly, clear memory, logify
+        // spawn accordingly, clear memory, logify
         if (Memory.aliveLastTick.length) {
             for (var i in Memory.aliveLastTick) {
                 var n = Memory.aliveLastTick[i];
@@ -1383,6 +1499,27 @@ module.exports.loop = function () {
         }
 
         // Check if running a command
-        // Use Memory.cmd = "command /arg val" syntax, parse with regex
+        if (Memory.cmd) {
+            var m = /\s*(.+)\s*(.*)/.exec(Memory.cmd);
+            if (m != null) {
+                var command = m[1];
+                var argsStr = m[2];
+                var args = {};
+                while (argsStr != '' && argsStr != null) {
+                    m = /\s*-(.+?):\s*(.+?)(?:$|(?:,\s+(.*)))/.exec(argStr);
+                    if (m != null) {
+                        args[m[1]] = m[2];
+                        argsStr = m[3];
+                    }
+                    else {
+                        break;
+                    }
+                }
+                cmd[command](args);
+            }
+            else {
+                console.log("Try again, bitch")
+            }
+        }
     }
 };

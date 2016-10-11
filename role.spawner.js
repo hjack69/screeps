@@ -35,7 +35,7 @@ var spawner = {
                     }
                 }
                 else {
-                    mover[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                    upgrader[Game.rooms[creep.memory.home].memory.phase](creep, t);
                 }
             }
         }

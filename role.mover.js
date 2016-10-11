@@ -1,6 +1,6 @@
 var mover = {
     targets: function() {
-        var ignore = [];
+        var ignore = ['57fc44dbff2414b02896117a', '57fc4f263435b4585718b158'];
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = [
@@ -32,6 +32,9 @@ var mover = {
                     if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(target);
                     }
+                }
+                else {
+                    spawner.phase1(creep, t);
                 }
             }
         }

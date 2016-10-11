@@ -1,30 +1,70 @@
+var E63N59 = {
+    spawn: 'S1',
+    phase: 'phase2',
+    energyInfo: [
+        {wpos: {x:17, y:30}, wdir: {x:0, y:1}, sid:'57fc4f263435b4585718b158', hnum: 1},
+        {wpos: {x:7, y:30}, wdir: {x:0, y:1}, sid:'57fc44dbff2414b02896117a', hnum: 1},
+    ],
+};
+
+var rooms = {
+    E63N59: E63N59,
+};
+
+
 // CONCAT phases.js
+// END phases.js
 
 // CONCAT bodies.js
+// END bodies.js
 
 // CONCAT role.builder.js
+// END role.builder.js
 // CONCAT role.claimer.js
+// END role.claimer.js
 // CONCAT role.defender.js
+// END role.defender.js
 // CONCAT role.drudge.js
+// END role.drudge.js
 // CONCAT role.energyMiner.js
+// END role.energyMiner.js
 // CONCAT role.healer.js
+// END role.healer.js
 // CONCAT role.hunter.js
+// END role.hunter.js
 // CONCAT role.maintainer.js
+// END role.maintainer.js
 // CONCAT role.mover.js
+// END role.mover.js
 // CONCAT role.paver.js
+// END role.paver.js
 // CONCAT role.resourceMiner.js
+// END role.resourceMiner.js
 // CONCAT role.scruffy.js
+// END role.scruffy.js
 // CONCAT role.spawner.js
+// END role.spawner.js
 // CONCAT role.support.js
+// END role.support.js
 // CONCAT role.tank.js
+// END role.tank.js
 // CONCAT role.towerFiller.js
+// END role.towerFiller.js
 // CONCAT role.upgrader.js
+// END role.upgrader.js
 // CONCAT role.wallMaintainer.js
+// END role.wallMaintainer.js
 
 // CONCAT link.js
+// END link.js
 // CONCAT tower.js
+// END tower.js
 
 // CONCAT queue.js
+// END queue.js
+
+// CONCAT cmd.js
+// END cmd.js
 
 var roles = {
     builder: builder,
@@ -88,7 +128,7 @@ module.exports.loop = function () {
         for (var r in roles) {
             targets[r] = roles[r].targets();
         }
-        
+
         var test = [0, ''];
         var next = [];
         // Run correct role per creep
@@ -104,13 +144,13 @@ module.exports.loop = function () {
                     roles[creep.memory.role][creepHomePhase](creep, targets);
                 }
             }
-            catch(err) { 
+            catch(err) {
                 console.log("Error with " + name); // + ", " + Game.creeps[n].memory.role); 
                 console.log(err)
             }
-            
+
             next.push(name);
-            
+
             if (test[0] < (Game.cpu.getUsed()-stime)) {
                 test[0] = (Game.cpu.getUsed()-stime)
                 test[1] = name + ' ' + creep.memory.role;
@@ -119,7 +159,7 @@ module.exports.loop = function () {
         // console.log(test[1] + ' ' + test[0]);
 
         // Compare aliveLastTick with Game.creeps (if no aliveLastTick, set to aliveThisTick and move on)
-            // spawn accordingly, clear memory, logify
+        // spawn accordingly, clear memory, logify
         if (Memory.aliveLastTick.length) {
             for (var i in Memory.aliveLastTick) {
                 var n = Memory.aliveLastTick[i];
@@ -164,6 +204,27 @@ module.exports.loop = function () {
         }
 
         // Check if running a command
-        // Use Memory.cmd = "command /arg val" syntax, parse with regex
+        if (Memory.cmd) {
+            var m = /\s*(.+)\s*(.*)/.exec(Memory.cmd);
+            if (m != null) {
+                var command = m[1];
+                var argsStr = m[2];
+                var args = {};
+                while (argsStr != '' && argsStr != null) {
+                    m = /\s*-(.+?):\s*(.+?)(?:$|(?:,\s+(.*)))/.exec(argStr);
+                    if (m != null) {
+                        args[m[1]] = m[2];
+                        argsStr = m[3];
+                    }
+                    else {
+                        break;
+                    }
+                }
+                cmd[command](args);
+            }
+            else {
+                console.log("Try again, bitch")
+            }
+        }
     }
 };

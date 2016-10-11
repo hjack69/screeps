@@ -1,7 +1,7 @@
 var defender = {
     targets: function() {
         var out = {waiting:{
-            E63N59: new RoomPosition(8, 31, 'E63N59')
+            E63N59: new RoomPosition(22, 43, 'E63N59')
         }};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
             out[r] = Game.rooms[r].find(FIND_HOSTILE_CREEPS);

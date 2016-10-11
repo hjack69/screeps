@@ -1,7 +1,7 @@
 var upgrader = {
     targets: function() {
         var only_these = {
-            E63N59: [],
+            E63N59: ['57fc9dd698812bf3681c8829'],
         };
         var out = {};
         for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
