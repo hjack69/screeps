@@ -205,7 +205,7 @@ module.exports.loop = function () {
 
         // Check if running a command
         if (Memory.cmd) {
-            var m = /\s*(.+)\s*(.*)/.exec(Memory.cmd);
+            var m = /\s*(\w+)\s+(.+)/.exec(Memory.cmd);
             if (m != null) {
                 var command = m[1];
                 var argsStr = m[2];
