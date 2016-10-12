@@ -1,9 +1,9 @@
 var drudge = {
     targets: function() {
-        var r = 'E13S55';
+        var r = room_targ;
         var out = {dest: r, targets: [], sources: []};
         try {
-            out.targets = Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_SPAWN}});
+            out.targets = Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (s) => {return s.structureType == STRUCTURE_SPAWN}});
             out.sources = Game.rooms[r].find(FIND_SOURCES);
             out.controller = Game.rooms[r].controller;
         } catch(err) {}
@@ -30,13 +30,13 @@ var drudge = {
                     creep.moveTo(target);
                 }
             }
-            else if (creep.memory.action == 'building' && creep.memory.workingOn == 'builder') {
+            else if (creep.memory.action == 'building' && creep.memory.flavor == 'builder') {
                 var target = creep.pos.findClosestByRange(tlist.targets);
                 if (target && creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
             }
-            else if (creep.memory.action == 'building' && creep.memory.workingOn == 'upgrader') {
+            else if (creep.memory.action == 'building' && creep.memory.flavor == 'upgrader') {
                 var target = tlist.controller;
                 if (target && creep.upgradeController(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target, {reusePath: 2});
@@ -48,3 +48,5 @@ var drudge = {
     }
 };
 drudge.phase2 = drudge.phase1;
+
+// END role.drudge.js

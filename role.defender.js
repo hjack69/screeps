@@ -10,14 +10,30 @@ var defender = {
     },
     phase1: function(creep, t) {
         var stime = Game.cpu.getUsed();
+        if (creep.memory.action == 'renewing') {
+            var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+            var r = s.renewCreep(creep);
+            if (r == ERR_NOT_IN_RANGE) {
+                creep.moveTo(s);
+            }
+            else if (r == ERR_FULL) {
+                creep.memory.action = '';
+            }
+        }
         var target = creep.pos.findClosestByRange(t.defender[creep.memory.home]);
         if (target) {
+            creep.memory.action = '';
             if (creep.attack(target) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target.pos);
             }
         }
         else {
-            creep.moveTo(t.defender.waiting[creep.memory.home]);
+            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+                creep.memory.action = 'renewing';
+            }
+            else if (creep.memory.action == '') {
+                creep.moveTo(t.defender.waiting[creep.memory.home]);
+            }
         }
         var etime = (Game.cpu.getUsed() - stime);
         // console.log(creep.name + ' defender: ' + etime);
@@ -25,3 +41,5 @@ var defender = {
 };
 defender.phase2 = defender.phase1;
 defender.emergency = defender.phase1;
+
+// END role.defender.js

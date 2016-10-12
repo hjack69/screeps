@@ -7,8 +7,8 @@ var cmd = {
             var roomMem = Memory.rooms[args.room];
             var roomPhs = roomMem.phase;
             var cmem = {role:args.role, qstate:'', qindex:0, phase:roomPhs, home: args.room};
-            if (args.mem) {
-                for (var k in args.mem) {
+            for (var k in args) {
+                if (['role', 'room', 'front'].indexOf(k) == -1) {
                     cmem[k] = args.mem[k];
                 }
             }
@@ -29,8 +29,13 @@ var cmd = {
         else {
             var cout = [];
             for (var n in Game.creeps) {
-                if (Game.creeps[n].role == args.role && (!args.role || (args.role && Game.creeps[n].home == args.room))) {
-                    cout.push(Game.creeps[n]);
+                if (Game.creeps[n].memory.role == args.role) {
+                    if (args.room && Game.creeps[n].memory.home == args.room) {
+                        cout.push(Game.creeps[n]);
+                    }
+                    else if (!args.room) {
+                        cout.push(Game.creeps[n]);
+                    }
                 }
             }
             if (!cout.length) {
@@ -39,9 +44,34 @@ var cmd = {
             else {
                 console.log(cout.length + ' creeps found:');
                 for (var i = 0; i < cout.length; i++) {
-                    console.log(cout[i].name + ' at location ' + cout[i].pos + ' (' + cout[i].memory.home + ')');
+                    console.log(cout[i].name + ' at location ' + cout[i].pos);
                 }
             }
         }
-    }
+    },
+    stepSpawnLevel: function(args) {
+        if (!args.room) {
+            console.log('Requires room');
+        }
+        else {
+            var i = 1
+            if (args.reverse) {
+                i = -1
+            }
+            var n = Memory.rooms[args.room][rooms[args.room].phase].spawnLevel += i;
+            console.log(args.room + ' spawn level set to ' + n);
+        }
+    },
+    dontSpawn: function(args) {
+        if (!args.name) {
+            console.log('Requires name');
+            return
+        }
+        if (!Game.creeps[args.name]) {
+            console.log('Creep not found');
+            return
+        }
+        Memory.creeps[args.name].dontSpawn = true;
+    },
 };
+// END cmd.js

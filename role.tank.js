@@ -1,9 +1,9 @@
 var tank = {
     targets: function() {
         return {
-            dest: new RoomPosition(25, 25, 'E11S59'),
+            dest: new RoomPosition(25, 25, room_targ),
             deploy: false,
-            stage: new RoomPosition(20, 25, 'E13S56')
+            stage: army_stage
         }
     },
     phase1: function(creep, t) {
@@ -18,3 +18,5 @@ var tank = {
     }
 };
 tank.phase2 = tank.phase1;
+
+// END role.tank.js

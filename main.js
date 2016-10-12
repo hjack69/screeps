@@ -2,8 +2,8 @@ var E63N59 = {
     spawn: 'S1',
     phase: 'phase2',
     energyInfo: [
-        {wpos: {x:17, y:30}, wdir: {x:0, y:1}, sid:'57fc4f263435b4585718b158', hnum: 1},
-        {wpos: {x:7, y:30}, wdir: {x:0, y:1}, sid:'57fc44dbff2414b02896117a', hnum: 1},
+        {wpos: {x:17, y:30}, wdir: {x:0, y:1}, sid:'57fc4f263435b4585718b158'},
+        {wpos: {x:7, y:30}, wdir: {x:0, y:1}, sid:'57fc44dbff2414b02896117a'},
     ],
 };
 
@@ -11,60 +11,63 @@ var rooms = {
     E63N59: E63N59,
 };
 
+var room_targ = 'E64N59';
+var army_stage = new RoomPosition(24, 42, 'E63N59');
+
+var partOrder = function(a, b) {
+    if (a == TOUGH) return -1;
+    return 0;
+};
+
+var sumParts = function(body) {
+    var out = 0;
+    for (var i in body) out += BODYPART_COST[body[i]];
+    return out;
+};
+
+var maxBody = function(template, en) {
+    tsum = sumParts(template);
+    times = Math.floor(en/tsum);
+    out_body = [];
+    for (var i=0; i < times; i++) out_body = out_body.concat(template);
+    return out_body.sort(partOrder);
+};
+
+var maxSpawnEnergy = function(r) {
+    var eCap = EXTENSION_ENERGY_CAPACITY[Game.rooms[r].controller.level];
+    return (Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_SPAWN}}).length*SPAWN_ENERGY_CAPACITY + Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_EXTENSION}}).length*eCap);
+};
+
 
 // CONCAT phases.js
-// END phases.js
 
 // CONCAT bodies.js
-// END bodies.js
 
 // CONCAT role.builder.js
-// END role.builder.js
 // CONCAT role.claimer.js
-// END role.claimer.js
 // CONCAT role.defender.js
-// END role.defender.js
 // CONCAT role.drudge.js
-// END role.drudge.js
 // CONCAT role.energyMiner.js
-// END role.energyMiner.js
 // CONCAT role.healer.js
-// END role.healer.js
 // CONCAT role.hunter.js
-// END role.hunter.js
 // CONCAT role.maintainer.js
-// END role.maintainer.js
 // CONCAT role.mover.js
-// END role.mover.js
 // CONCAT role.paver.js
-// END role.paver.js
 // CONCAT role.resourceMiner.js
-// END role.resourceMiner.js
 // CONCAT role.scruffy.js
-// END role.scruffy.js
 // CONCAT role.spawner.js
-// END role.spawner.js
 // CONCAT role.support.js
-// END role.support.js
 // CONCAT role.tank.js
-// END role.tank.js
 // CONCAT role.towerFiller.js
-// END role.towerFiller.js
 // CONCAT role.upgrader.js
-// END role.upgrader.js
 // CONCAT role.wallMaintainer.js
-// END role.wallMaintainer.js
 
 // CONCAT link.js
-// END link.js
 // CONCAT tower.js
-// END tower.js
 
 // CONCAT queue.js
-// END queue.js
 
 // CONCAT cmd.js
-// END cmd.js
 
 var roles = {
     builder: builder,
@@ -111,13 +114,14 @@ var spawn = function (r) {
 
 module.exports.loop = function () {
     if (true) {
+        
         for (var i in Memory.myRooms) {
             var r = Memory.myRooms[i];
             var curroom = Game.rooms[r].memory;
             phases[curroom.phase](r);
-            // Set correct number of current harvesting creeps
-            for (var j=0; j<curroom[curroom.phase].energyInfo.length; j++) {
-                curroom[curroom.phase].energyInfo[j].harvesting = Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return (c.memory.qstate=='harvesting' && c.memory.qindex==j && c.memory.home==r)}}).length;
+            // every 20 ticks, calculate the maximum spawn energy (mse) available
+            if (Game.time % 20 == 0) {
+                curroom.mse = maxSpawnEnergy(r);
             }
             // Run spawning algorithm (described above, each room gets it's own spawn queue)
             spawn(r);
@@ -205,13 +209,13 @@ module.exports.loop = function () {
 
         // Check if running a command
         if (Memory.cmd) {
-            var m = /\s*(\w+)\s+(.+)/.exec(Memory.cmd);
+            var m = /\s*(\w+)\s*(.*)/.exec(Memory.cmd);
             if (m != null) {
                 var command = m[1];
                 var argsStr = m[2];
                 var args = {};
                 while (argsStr != '' && argsStr != null) {
-                    m = /\s*-(.+?):\s*(.+?)(?:$|(?:,\s+(.*)))/.exec(argStr);
+                    m = /\s*-(.+?):\s*(.+?)(?:$|(?:,\s+(.*)))/.exec(argsStr);
                     if (m != null) {
                         args[m[1]] = m[2];
                         argsStr = m[3];
@@ -220,11 +224,20 @@ module.exports.loop = function () {
                         break;
                     }
                 }
-                cmd[command](args);
+                if (cmd[command]) {
+                    cmd[command](args);
+                }
+                else {
+                    console.log('Available commands: ' + Object.keys(cmd));
+                }
+                delete Memory.cmd
             }
             else {
                 console.log("Try again, bitch")
             }
         }
+        
+        
+        
     }
 };

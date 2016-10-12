@@ -41,3 +41,5 @@ var resourceMiner = {
     }
 };
 resourceMiner.phase2 = resourceMiner.phase1;
+
+// END role.resourceMiner.js

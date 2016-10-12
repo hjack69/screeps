@@ -45,3 +45,5 @@ var scruffy = {
     }
 };
 scruffy.phase2 = scruffy.emergency = scruffy.phase1;
+
+// END role.scruffy.js

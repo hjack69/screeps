@@ -12,15 +12,31 @@ var paver = {
             creep.memory.qstate = 'entering';
         }
         else {
-            var tlist = t.paver[creep.memory.home];
-            var target = tlist[0];
-            if (target) {
-                if (creep.build(target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+                creep.memory.action = 'renewing';
+            }
+
+            if (creep.memory.action == 'renewing') {
+                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var r = s.renewCreep(creep);
+                if (r == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(s);
+                }
+                else if (r == ERR_FULL) {
+                    creep.memory.action = '';
                 }
             }
             else {
-                builder[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                var tlist = t.paver[creep.memory.home];
+                var target = tlist[0];
+                if (target) {
+                    if (creep.build(target) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
+                    }
+                }
+                else {
+                    builder[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                }
             }
         }
         var etime = (Game.cpu.getUsed() - stime);
@@ -32,3 +48,5 @@ var paver = {
     }
 };
 paver.phase2 = paver.phase1;
+
+// END role.paver.js

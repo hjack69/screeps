@@ -1,20 +1,20 @@
 import re
 
-inds = {}
-lines = []
+writingMain = True
+altFile = None
 
 # find enclosure, copy to appropriate file
-with open('default/main.js', 'r') as template:
-    for i, line in enumerate(template):
-        lines.append(line)
+with open('default/main.js', 'r') as template, open('main.js', 'w') as mainF:
+    for line in template:
+        if (writingMain):
+            mainF.write(line)
+        else:
+            altFile.write(line)
         m1 = re.match(r"\s*//\s*CONCAT\s*(.+)\s*", line)
         m2 = re.match(r"\s*//\s*END\s*(.+)\s*", line)
         if (m1 is not None):
-            inds[m1.group(1)] = [i]
+            writingMain = False
+            altFile = open(m1.group(1), 'w')
         elif (m2 is not None):
-            inds[m2.group(1)].append(i)
-
-for key, value in inds.items():
-    with open(key, 'w') as out:
-        for i in range(value[0]+1, value[1]):
-            out.write(lines[i])
+            writingMain = True
+            altFile.close()

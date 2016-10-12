@@ -16,3 +16,5 @@ var linker = {
     }
 };
 linker.phase2 = linker.emergency = linker.phase1;
+
+// END link.js

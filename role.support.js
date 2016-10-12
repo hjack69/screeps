@@ -1,6 +1,6 @@
 var support = {
     targets: function() {
-        var r = 'E11S59';
+        var r = room_targ;
         var h = new RoomPosition(21, 22, r);
         var includeOwners = ['the_beanstalk', 'roboboy'];
         var t = {target: null, s_targ: null, t_targ: null};
@@ -13,7 +13,7 @@ var support = {
         catch(err) {}
         var out = {
             deploy: false,
-            stage: new RoomPosition(20, 25, 'E13S56'),
+            stage: army_stage,
             dest: r,
             target: t.target,
             sec_target: t.s_targ,
@@ -54,3 +54,5 @@ var support = {
     }
 };
 support.phase2 = support.phase1;
+
+// END role.support.js

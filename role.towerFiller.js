@@ -16,14 +16,27 @@ var towerFiller = {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
         else if (tlist.filling.length) {
-            if ((creep.memory.action != 'harvesting' && creep.memory.action != 'filling') || (creep.carry.energy == 0 && creep.memory.action == 'filling')) {
+            if ((creep.memory.action != 'harvesting' && creep.memory.action != 'filling' && creep.memory.action != 'renewing') || (creep.carry.energy == 0 && creep.memory.action == 'filling')) {
                 creep.memory.action = 'harvesting';
             }
             else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
                 creep.memory.action = 'filling';
             }
+            if (creep.ticksToLive < 250 && creep.memory.action != 'renewing') {
+                creep.memory.action = 'renewing';
+            }
 
-            if (creep.memory.action == 'harvesting') {
+            if (creep.memory.action == 'renewing') {
+                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var r = s.renewCreep(creep);
+                if (r == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(s);
+                }
+                else if (r == ERR_FULL) {
+                    creep.memory.action = 'filling';
+                }
+            }
+            else if (creep.memory.action == 'harvesting') {
                 var target = null;
                 if (tlist.harvesting.length) {
                     target = tlist.harvesting[0];
@@ -55,3 +68,5 @@ var towerFiller = {
 };
 towerFiller.phase2 = towerFiller.phase1;
 towerFiller.emergency = towerFiller.phase1;
+
+// END role.towerFiller.js

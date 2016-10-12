@@ -37,11 +37,11 @@ var upgrader = {
 
             if (creep.memory.action == 'renewing') {
                 var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
-                var r = s.renewCreep(creep)
+                var r = s.renewCreep(creep);
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
                 }
-                else if (r == ERR_FULL || r == ERR_NOT_ENOUGH_ENERGY) {
+                else if (r == ERR_FULL) {
                     creep.memory.action = 'upgrading';
                 }
             }
@@ -69,3 +69,5 @@ var upgrader = {
     }
 };
 upgrader.phase2 = upgrader.emergency = upgrader.phase1;
+
+// END role.upgrader.js

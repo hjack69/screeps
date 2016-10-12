@@ -1,13 +1,8 @@
 var claimer = {
     targets: function() {
         return {
-            'E13S55': 'E13S56',
-            'E13S56': 'E12S56',
-            'E12S56': 'E11S56',
-            'E11S56': 'E11S55',
-            'E11S55': 'E11S54',
-            'E11S54': 'E11S53',
-            'E11S53': 'dest'
+            'E63N59': 'E64N59',
+            'E64N59': 'dest'
         };
     },
     phase1: function(creep, t) {
@@ -22,17 +17,8 @@ var claimer = {
                 creep.reserveController(Game.rooms[creep.room.name].controller);
             }
         }
-        // var r = 'E11S53';
-        // creep.moveTo(new RoomPosition(29, 32, r));
-        // try {
-        //     creep.moveTo(Game.rooms[r].controller);
-        //     if (creep.claimController(Game.rooms[r].controller) == ERR_GCL_NOT_ENOUGH) {
-        //         creep.reserveController(Game.rooms[r].controller);
-        //     }
-        // }
-        // catch (err) {
-        //     //console.log(err);
-        // }
     }
 };
 claimer.phase2 = claimer.phase1;
+
+// END role.claimer.js

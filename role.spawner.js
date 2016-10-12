@@ -17,7 +17,6 @@ var spawner = {
                 creep.memory.action = 'renewing';
             }
             if (creep.memory.action == 'renewing') {
-                creep.say('Renewing');
                 var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
                 var r = s.renewCreep(creep)
                 if (r == ERR_NOT_IN_RANGE) {
@@ -45,3 +44,5 @@ var spawner = {
 };
 spawner.phase2 = spawner.phase1;
 spawner.emergency = spawner.phase1;
+
+// END role.spawner.js

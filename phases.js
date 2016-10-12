@@ -21,21 +21,20 @@ var phases = {
                 spawnq:[],
                 spawn: '',
                 spawnLevel: 0,
-                energyQ: [],
-                energyInfo: []
+                energyQ: []
             };
             if (r == 'E63N59') {
                 room.memory.phase1.spawn = 'S1';
                 room.memory.phase1.spawnq = [
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:7, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:18, y:28}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:7, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:18, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
                     {role:'spawner', phase:'phase1', qstate:'', qindex:0, home:'E63N59'},
                     {role:'spawner', phase:'phase1', qstate:'', qindex:0, home:'E63N59'},
                     {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E63N59'},
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:8, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:19, y:28}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:9, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:19, y:27}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:8, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:19, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:9, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:19, y:27}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
                 ].concat(shuffle([
                     // 2 builders
                     {role:'builder', phase:'phase1', qstate:'', qindex:0, home:'E63N59'},
@@ -65,10 +64,6 @@ var phases = {
                     {role:'defender', phase:'phase1', qstate:'', qindex:0, home:'E63N59'},
                 ]));
                 room.memory.phase1.energyQ = [[],[]];
-                room.memory.phase1.energyInfo = [
-                    {harvesting:0, canharvest:4, waitingpos:{x:17, y:30}, qdirection:{x:0, y:1}, targetid:'57ef9e7f86f108ae6e60f628'},
-                    {harvesting:0, canharvest:2, waitingpos:{x:7, y:30}, qdirection:{x:0, y:1}, targetid:'57ef9e7f86f108ae6e60f627'}
-                ]
             }
             room.memory.phase1setup = true;
         }
@@ -81,21 +76,20 @@ var phases = {
                 spawnq:[],
                 spawn: '',
                 spawnLevel: 0,
-                energyQ: [],
-                energyInfo: []
+                energyQ: []
             };
             if (r == 'E63N59') {
                 room.memory.phase2.spawn = 'S1';
                 room.memory.phase2.spawnq = [
                     {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:7, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:18, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:18, y:28}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
                     {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                     {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:8, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:19, y:28}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:19, y:28}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
                     {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:9, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
-                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:19, y:27}, dumpid:'', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:19, y:27}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
                 ].concat(shuffle([
                     // 2 builders
                     {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
@@ -127,12 +121,10 @@ var phases = {
                     {role:'scruffy', phase:'phase2', qstate:'', qindex:0, home:'E63N59'},
                 ]));
                 room.memory.phase2.energyQ = [[],[]];
-                room.memory.phase2.energyInfo = [
-                    {harvesting:0, canharvest:4, waitingpos:{x:17, y:30}, qdirection:{x:0, y:1}, targetid:'57fc4f263435b4585718b158'},
-                    {harvesting:0, canharvest:2, waitingpos:{x:7, y:30}, qdirection:{x:0, y:1}, targetid:'57fc44dbff2414b02896117a'}
-                ]
             }
             room.memory.phase2setup = true;
         }
     },
 };
+
+// END phases.js

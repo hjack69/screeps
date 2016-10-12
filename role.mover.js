@@ -20,21 +20,37 @@ var mover = {
                 creep.memory.qstate = 'entering'
             }
             else {
-                var tlist = t.mover[creep.memory.home];
-                var target = null;
-                for (var i=0; i<tlist.length; i++) {
-                    if (tlist[i].length) {
-                        target = tlist[i][0];
-                        break;
-                    }
+                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+                    creep.memory.action = 'renewing';
                 }
-                if (target) {
-                    if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target);
+
+                if (creep.memory.action == 'renewing') {
+                    var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                    var r = s.renewCreep(creep);
+                    if (r == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(s);
+                    }
+                    else if (r == ERR_FULL) {
+                        creep.memory.action = '';
                     }
                 }
                 else {
-                    spawner.phase1(creep, t);
+                    var tlist = t.mover[creep.memory.home];
+                    var target = null;
+                    for (var i = 0; i < tlist.length; i++) {
+                        if (tlist[i].length) {
+                            target = tlist[i][0];
+                            break;
+                        }
+                    }
+                    if (target) {
+                        if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(target);
+                        }
+                    }
+                    else {
+                        spawner.phase1(creep, t);
+                    }
                 }
             }
         }
@@ -47,3 +63,5 @@ var mover = {
     }
 };
 mover.phase2 = mover.phase1;
+
+// END role.mover.js

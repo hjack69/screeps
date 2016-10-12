@@ -2,7 +2,7 @@ var energyMiner = {
     targets: function() {
         return null;
     },
-    phase1: function(creep) {
+    phase1: function(creep, t) {
         var stime = Game.cpu.getUsed();
         if (!creep.memory.action) {
             creep.memory.action = 'harvesting';
@@ -24,7 +24,7 @@ var energyMiner = {
         }
         var etime = (Game.cpu.getUsed() - stime);
     },
-    phase2: function(creep) {
+    phase2: function(creep, t) {
         var stime = Game.cpu.getUsed();
         if (!creep.memory.action) {
             creep.memory.action = 'harvesting';
@@ -71,3 +71,5 @@ var energyMiner = {
     }
 };
 energyMiner.emergency = energyMiner.phase2;
+
+// END role.energyMiner.js
