@@ -171,6 +171,22 @@ module.exports.loop = function () {
             var roomInf = rooms[r];
             var roomObj = Memory.rooms[r];
             phases[roomInf.phase](r);
+            // check hits of spawn, if less than half and there's an available safe mode, activate it
+            if (Game.spawns[roomInf.spawn].hits < Game.spawns[roomInf.spawn].hitsMax) {
+                if (Game.rooms[r].controller.safeModeAvailable) {
+                    var o = Game.rooms[r].controller.activateSafeMode();
+                    var s = '';
+                    if (o == 0) {
+                        s = 'Successfully activated safe mode in room '+r;
+                    }
+                    else {
+                        s = 'Error activating safe mode: '+o;
+                    }
+                    console.log(s);
+                    Game.notify(s, 0);
+                }
+            }
+
             // every 20 ticks, calculate the maximum spawn energy (mse) available
             if (Game.time % 20 == 0) {
                 roomObj.mse = maxSpawnEnergy(r);
