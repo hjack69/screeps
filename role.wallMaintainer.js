@@ -1,7 +1,7 @@
 var wallMaintainer = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = [
                 Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_RAMPART) && s.hits<1000}}),
                 Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL) && s.hits<1000}}),
@@ -23,12 +23,12 @@ var wallMaintainer = {
             creep.memory.qstate = 'entering';
         }
         else {
-            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
 
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep);
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
@@ -41,7 +41,7 @@ var wallMaintainer = {
                 var tlist = t.wallMaintainer[creep.memory.home];
                 var target = null;
                 for (var i = 0; i < tlist.length; i++) {
-                    if (tlist[i].length) {
+                    if (tlist[i].length && tlist[i][0] != undefined) {
                         target = tlist[i][0];
                         break;
                     }
@@ -52,7 +52,7 @@ var wallMaintainer = {
                     }
                 }
                 else {
-                    maintainer[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                    maintainer[rooms[creep.memory.home].phase](creep, t);
                 }
             }
         }

@@ -1,8 +1,8 @@
 var tank = {
     targets: function() {
         return {
-            dest: new RoomPosition(25, 25, room_targ),
-            deploy: false,
+            dest: new RoomPosition(8, 22, room_targ),
+            deploy: army_deploy,
             stage: army_stage
         }
     },

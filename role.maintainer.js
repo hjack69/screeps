@@ -1,7 +1,7 @@
 var maintainer = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = [
                 Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(s.structureType) > -1) && s.hits < s.hitsMax/2}}),
                 Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(s.structureType) > -1) && s.hits < s.hitsMax}})
@@ -19,12 +19,12 @@ var maintainer = {
                 creep.memory.qstate = 'entering';
             }
             else {
-                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                     creep.memory.action = 'renewing';
                 }
 
                 if (creep.memory.action == 'renewing') {
-                    var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                    var s = Game.spawns[rooms[creep.memory.home].spawn];
                     var r = s.renewCreep(creep);
                     if (r == ERR_NOT_IN_RANGE) {
                         creep.moveTo(s);
@@ -48,7 +48,7 @@ var maintainer = {
                         }
                     }
                     else {
-                        upgrader[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                        upgrader[rooms[creep.memory.home].phase](creep, t);
                     }
                 }
             }

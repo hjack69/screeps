@@ -3,19 +3,19 @@ var hunter = {
         var r = room_targ;
         var h = new RoomPosition(25, 25, r);
         var ignoreOwners = ['roboboy'];
-        var t = {target: null, s_targ: null, t_targ: null};
+        var t = [];
         try {
             t = [
-                Game.getObjectById('57fd5e10c91257622f6093ab')==null ? [] : [Game.getObjectById('57fd5e10c91257622f6093ab')],
+                Game.getObjectById('57fd5e10c91257622f6093ab'),
                 h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_TOWER && ignoreOwners.indexOf(s.owner.username) == -1}}),
-                h.findClosestByRange(FIND_HOSTILE_SPAWNS, {filter: (s) => {return ignoreOwners.indexOf(s.owner.username) == -1}}),
-                h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_EXTENSION && ignoreOwners.indexOf(s.owner.username) == -1}}),
-                h.findClosestByRange(FIND_HOSTILE_CREEPS, {filter: (s) => {return ignoreOwners.indexOf(s.owner.username) == -1}})
+                h.findClosestByRange(FIND_HOSTILE_CREEPS),
+                h.findClosestByRange(FIND_HOSTILE_SPAWNS),
+                h.findClosestByRange(FIND_HOSTILE_STRUCTURES),
             ];
         }
         catch(err) {}
         var out = {
-            deploy: false,
+            deploy: army_deploy,
             stage: army_stage,
             dest: r,
             target: t
@@ -37,15 +37,16 @@ var hunter = {
             if (tlist.target.length) {
                 var target;
                 for (var i=0; i<tlist.target.length; i++) {
-                    if (tlist.target[i].length && tlist.target[i][0]) {
-                        target = tlist.target[i][0];
+                    if (tlist.target[i]) {
+                        target = tlist.target[i];
+                        break;
                     }
                 }
                 if (target && creep.attack(target) == ERR_NOT_IN_RANGE) {
-                    target.moveTo(target);
+                    creep.moveTo(target);
                 }
-                else {
-                    creep.moveTo(tlist.stage);
+                else if (!target) {
+                    creep.moveTo(new RoomPosition(25, 25, tlist.dest));
                 }
             }
             else {

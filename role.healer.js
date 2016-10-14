@@ -1,9 +1,11 @@
 var healer = {
     targets: function() {
         var out = {waiting:{
-            E63N59: new RoomPosition(22, 43, 'E63N59')
+            E63N59: new RoomPosition(22, 43, 'E63N59'),
+            E61N58: new RoomPosition(28, 45, 'E61N58'),
+            E64N58: new RoomPosition(8, 43, 'E64N58'),
         }};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = [
                 Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return c.hits < c.hitsMax/2}}),
                 Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return c.hits < c.hitsMax}})
@@ -18,7 +20,7 @@ var healer = {
         }
         else {
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep)
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
@@ -43,10 +45,10 @@ var healer = {
             }
             else {
                 var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
-                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                     creep.memory.action = 'renewing';
                 }
-                else if (creep.memory.action == '') {
+                else if (creep.memory.action == '' || !creep.memory.action) {
                     creep.moveTo(t.healer.waiting[creep.memory.home]);
                 }
             }

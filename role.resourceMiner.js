@@ -1,7 +1,7 @@
 var resourceMiner = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = {
                 mines: Game.rooms[r].find(FIND_MINERALS),
                 dump: Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_STORAGE}})

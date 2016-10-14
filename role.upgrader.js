@@ -2,9 +2,11 @@ var upgrader = {
     targets: function() {
         var only_these = {
             E63N59: ['57fc9dd698812bf3681c8829'],
+            E61N58: [],
+            E64N58: [],
         };
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = [];
             for (var j=0; j < only_these[r].length; j++) {
                 var t = Game.getObjectById(only_these[r][j])
@@ -25,7 +27,7 @@ var upgrader = {
             if (creep.memory.action != 'uharvesting' && creep.memory.action != 'upgrading' && creep.memory.action != 'renewing') {
                 creep.memory.action = 'uharvesting';
             }
-            else if (creep.ticksToLive < 250 && creep.memory.action != 'renewing') {
+            else if (creep.ticksToLive < 250 && creep.memory.action != 'renewing' && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
             else if (creep.carry.energy == 0 && creep.memory.action != 'uharvesting') {
@@ -36,7 +38,7 @@ var upgrader = {
             }
 
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep);
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);

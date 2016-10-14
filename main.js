@@ -1,4 +1,4 @@
-var E63N59 = {
+var rE63N59 = {
     spawn: 'S1',
     phase: 'phase2',
     energyInfo: [
@@ -6,13 +6,34 @@ var E63N59 = {
         {wpos: {x:7, y:30}, wdir: {x:0, y:1}, sid:'57fc44dbff2414b02896117a'},
     ],
 };
-
-var rooms = {
-    E63N59: E63N59,
+var rE61N58 = {
+    spawn: 'S2',
+    phase: 'phase2',
+    energyInfo: [
+        {wpos: {x:43, y:39}, wdir: {x:-1, y:-1}, sid:'580058b305abae6472c32192'},
+        {wpos: {x:6, y:41}, wdir: {x:0, y:-1}, sid:'58004617225d0f856c6cc10d'},
+    ]
+};
+var rE64N58 = {
+    spawn: 'S3',
+    phase: 'phase2',
+    energyInfo: [
+        {wpos: {x:32, y:43}, wdir: {x:0, y:-1}, sid:'5800fa18fb6b6b8d7c5cdcda'},
+        {wpos: {x:30, y:28}, wdir: {x:1, y:1}, sid:'5800c56aa01b5451543e4347'},
+    ]
 };
 
-var room_targ = 'E64N59';
-var army_stage = new RoomPosition(24, 42, 'E63N59');
+var rooms = {
+    E63N59: rE63N59,
+    E61N58: rE61N58,
+    E64N58: rE64N58,
+};
+
+var room_targ = 'E62N56';
+var army_stage = new RoomPosition(26, 42, 'E63N59');
+var army_deploy = true;
+
+var ign = ['57fc44dbff2414b02896117a', '57fc4f263435b4585718b158', '58004617225d0f856c6cc10d', '5800fa18fb6b6b8d7c5cdcda'];
 
 var partOrder = function(a, b) {
     if (a == TOUGH) return -1;
@@ -41,33 +62,57 @@ var maxSpawnEnergy = function(r) {
 
 // CONCAT phases.js
 
+
 // CONCAT bodies.js
 
+
 // CONCAT role.builder.js
+
 // CONCAT role.claimer.js
+
 // CONCAT role.defender.js
+
 // CONCAT role.drudge.js
+
 // CONCAT role.energyMiner.js
+
 // CONCAT role.healer.js
+
 // CONCAT role.hunter.js
+
 // CONCAT role.maintainer.js
+
 // CONCAT role.mover.js
+
 // CONCAT role.paver.js
+
 // CONCAT role.resourceMiner.js
+
 // CONCAT role.scruffy.js
+
 // CONCAT role.spawner.js
+
 // CONCAT role.support.js
+
 // CONCAT role.tank.js
+
 // CONCAT role.towerFiller.js
+
 // CONCAT role.upgrader.js
+
 // CONCAT role.wallMaintainer.js
 
+
 // CONCAT link.js
+
 // CONCAT tower.js
+
 
 // CONCAT queue.js
 
+
 // CONCAT cmd.js
+
 
 var roles = {
     builder: builder,
@@ -96,32 +141,39 @@ var roles = {
 };
 
 var spawn = function (r) {
-    var room = Game.rooms[r].memory[Game.rooms[r].memory.phase];
-    if (room.spawnq.length) {
-        var body = bodies[room.spawnLevel][room.spawnq[0].role];
-        // if no spawners for current room
-        if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.memory.home == r;}}).length == 0 ||
-            Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'energyMiner' && creep.memory.home == r;}}).length == 0) {
-            body = bodies[0][room.spawnq[0].role];
+    try {
+        var room = Game.rooms[r].memory[rooms[r].phase];
+        if (room.spawnq.length) {
+            if (room.spawnq[0].role == 'spawner' || room.spawnq[0].role == 'energyMiner') room.enableRenew = false;
+            else room.enableRenew = true;
+            var body = bodies[room.spawnLevel][room.spawnq[0].role];
+            // if no spawners for current room
+            if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.memory.home == r;}}).length == 0 ||
+                Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'energyMiner' && creep.memory.home == r;}}).length == 0) {
+                body = bodies[0][room.spawnq[0].role];
+            }
+            var newName = Game.spawns[room.spawn].createCreep(body, undefined, room.spawnq[0]);
+            if (newName != ERR_BUSY && newName != ERR_NOT_ENOUGH_ENERGY) {
+                console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName + ', at ' + room.spawn);
+                room.spawnq.shift();
+            }
         }
-        var newName = Game.spawns[room.spawn].createCreep(body, undefined, room.spawnq[0]);
-        if (newName != ERR_BUSY && newName != ERR_NOT_ENOUGH_ENERGY) {
-            console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName + ', at ' + room.spawn);
-            room.spawnq.shift();
-        }
+    }
+    catch (err) {
+        console.log(r + ': ' + err)
     }
 };
 
 module.exports.loop = function () {
     if (true) {
-        
-        for (var i in Memory.myRooms) {
-            var r = Memory.myRooms[i];
-            var curroom = Game.rooms[r].memory;
-            phases[curroom.phase](r);
+
+        for (var r in rooms) {
+            var roomInf = rooms[r];
+            var roomObj = Memory.rooms[r];
+            phases[roomInf.phase](r);
             // every 20 ticks, calculate the maximum spawn energy (mse) available
             if (Game.time % 20 == 0) {
-                curroom.mse = maxSpawnEnergy(r);
+                roomObj.mse = maxSpawnEnergy(r);
             }
             // Run spawning algorithm (described above, each room gets it's own spawn queue)
             spawn(r);
@@ -139,7 +191,7 @@ module.exports.loop = function () {
         for (var name in Game.creeps) {
             try {
                 var creep = Game.creeps[name];
-                var creepHomePhase = Game.rooms[creep.memory.home].memory.phase;
+                var creepHomePhase = rooms[creep.memory.home].phase;
                 var stime = Game.cpu.getUsed();
                 if (creep.memory.qstate != '') {
                     queue[creepHomePhase](creep);
@@ -149,7 +201,7 @@ module.exports.loop = function () {
                 }
             }
             catch(err) {
-                console.log("Error with " + name); // + ", " + Game.creeps[n].memory.role); 
+                console.log("Error with " + name); // + ", " + Game.creeps[n].memory.role);
                 console.log(err)
             }
 
@@ -189,8 +241,8 @@ module.exports.loop = function () {
         Memory.aliveLastTick = next;
 
 
-        // Run towers
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        // Run towers & links
+        for (var r in rooms) {
             var towers = Game.rooms[r].find(FIND_MY_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_TOWER}});
             for (var t in towers) {
                 roles.tower[Game.rooms[r].memory.phase](towers[t], targets);
@@ -208,36 +260,43 @@ module.exports.loop = function () {
         }
 
         // Check if running a command
-        if (Memory.cmd) {
-            var m = /\s*(\w+)\s*(.*)/.exec(Memory.cmd);
-            if (m != null) {
-                var command = m[1];
-                var argsStr = m[2];
-                var args = {};
-                while (argsStr != '' && argsStr != null) {
-                    m = /\s*-(.+?):\s*(.+?)(?:$|(?:,\s+(.*)))/.exec(argsStr);
-                    if (m != null) {
-                        args[m[1]] = m[2];
-                        argsStr = m[3];
+        if (Memory.cmd && Memory.cmd != '') {
+            try {
+                var m = /\s*(\w+)\s*(.*)/.exec(Memory.cmd);
+                if (m != null) {
+                    var command = m[1];
+                    var argsStr = m[2];
+                    var args = {};
+                    while (argsStr != '' && argsStr != null) {
+                        m = /\s*(.+?):\s*(.+?)(?:$|(?:\s+(.*)))/.exec(argsStr);
+                        if (m != null) {
+                            args[m[1]] = m[2];
+                            argsStr = m[3];
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    if (cmd[command]) {
+                        cmd[command](args);
                     }
                     else {
-                        break;
+                        console.log('Available commands: ' + Object.keys(cmd));
                     }
                 }
-                if (cmd[command]) {
-                    cmd[command](args);
-                }
                 else {
-                    console.log('Available commands: ' + Object.keys(cmd));
+                    console.log('Malformed');
                 }
+            }
+            catch (err) {
+                console.log('Error in cmd: ' + err);
+            }
+            finally {
                 delete Memory.cmd
             }
-            else {
-                console.log("Try again, bitch")
-            }
         }
-        
-        
-        
+
+
+
     }
 };

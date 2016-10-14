@@ -1,4 +1,4 @@
-var E63N59 = {
+var rE63N59 = {
     spawn: 'S1',
     phase: 'phase2',
     energyInfo: [
@@ -6,13 +6,34 @@ var E63N59 = {
         {wpos: {x:7, y:30}, wdir: {x:0, y:1}, sid:'57fc44dbff2414b02896117a'},
     ],
 };
-
-var rooms = {
-    E63N59: E63N59,
+var rE61N58 = {
+    spawn: 'S2',
+    phase: 'phase2',
+    energyInfo: [
+        {wpos: {x:43, y:39}, wdir: {x:-1, y:-1}, sid:'580058b305abae6472c32192'},
+        {wpos: {x:6, y:41}, wdir: {x:0, y:-1}, sid:'58004617225d0f856c6cc10d'},
+    ]
+};
+var rE64N58 = {
+    spawn: 'S3',
+    phase: 'phase2',
+    energyInfo: [
+        {wpos: {x:32, y:43}, wdir: {x:0, y:-1}, sid:'5800fa18fb6b6b8d7c5cdcda'},
+        {wpos: {x:30, y:28}, wdir: {x:1, y:1}, sid:'5800c56aa01b5451543e4347'},
+    ]
 };
 
-var room_targ = 'E64N59';
-var army_stage = new RoomPosition(24, 42, 'E63N59');
+var rooms = {
+    E63N59: rE63N59,
+    E61N58: rE61N58,
+    E64N58: rE64N58,
+};
+
+var room_targ = 'E62N56';
+var army_stage = new RoomPosition(26, 42, 'E63N59');
+var army_deploy = true;
+
+var ign = ['57fc44dbff2414b02896117a', '57fc4f263435b4585718b158', '58004617225d0f856c6cc10d', '5800fa18fb6b6b8d7c5cdcda'];
 
 var partOrder = function(a, b) {
     if (a == TOUGH) return -1;
@@ -107,6 +128,86 @@ var phases = {
                 ]));
                 room.memory.phase1.energyQ = [[],[]];
             }
+            else if (r == 'E61N58') {
+                room.memory.phase1.spawn = 'S2';
+                room.memory.phase1.spawnq = [
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:44, y:40}, dumpid:'', sourceid:'57ef9e5786f108ae6e60f29a', home:'E61N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:9, y:42}, dumpid:'', sourceid:'57ef9e5786f108ae6e60f29b', home:'E61N58', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'spawner', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:44, y:41}, dumpid:'', sourceid:'57ef9e5786f108ae6e60f29a', home:'E61N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:45, y:41}, dumpid:'', sourceid:'57ef9e5786f108ae6e60f29a', home:'E61N58', qstate:'', qindex:0},
+                ].concat(shuffle([
+                    // 2 builders
+                    {role:'builder', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'builder', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    // 2 maintainers
+                    {role:'maintainer', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'maintainer', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    // 2 movers
+                    {role:'mover', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'mover', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    // 1 paver
+                    {role:'paver', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    // 3 towerFillers
+                    {role:'towerFiller', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'towerFiller', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'towerFiller', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    // 3 upgraders
+                    {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    // 2 wallMaintainers
+                    {role:'wallMaintainer', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'wallMaintainer', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    // 1 healer
+                    {role:'healer', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    // 2 defenders
+                    {role:'defender', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'defender', phase:'phase1', qstate:'', qindex:0, home:'E61N58'},
+                ]));
+                room.memory.phase1.energyQ = [[],[]];
+            }
+            else if (r == 'E64N58') {
+                room.memory.phase1.spawn = 'S3';
+                room.memory.phase1.spawnq = [
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:32, y:44}, dumpid:'', sourceid:'57ef9e9386f108ae6e60f809', home:'E64N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:29, y:27}, dumpid:'', sourceid:'57ef9e9386f108ae6e60f807', home:'E64N58', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'spawner', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:32, y:45}, dumpid:'', sourceid:'57ef9e9386f108ae6e60f809', home:'E64N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase1', action:'harvesting', spot:{x:30, y:46}, dumpid:'', sourceid:'57ef9e9386f108ae6e60f809', home:'E64N58', qstate:'', qindex:0},
+                ].concat(shuffle([
+                    // 2 builders
+                    {role:'builder', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'builder', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    // 2 maintainers
+                    {role:'maintainer', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'maintainer', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    // 2 movers
+                    {role:'mover', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'mover', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    // 1 paver
+                    {role:'paver', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    // 3 towerFillers
+                    {role:'towerFiller', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'towerFiller', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'towerFiller', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    // 3 upgraders
+                    {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'upgrader', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    // 2 wallMaintainers
+                    {role:'wallMaintainer', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'wallMaintainer', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    // 1 healer
+                    {role:'healer', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    // 2 defenders
+                    {role:'defender', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'defender', phase:'phase1', qstate:'', qindex:0, home:'E64N58'},
+                ]));
+                room.memory.phase1.energyQ = [[],[]];
+            }
             room.memory.phase1setup = true;
         }
     },
@@ -164,6 +265,86 @@ var phases = {
                 ]));
                 room.memory.phase2.energyQ = [[],[]];
             }
+            else if (r == 'E61N58') {
+                room.memory.phase2.spawn = 'S2';
+                room.memory.phase2.spawnq = [
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:44, y:40}, dumpid:'580058b305abae6472c32192', sourceid:'57ef9e5786f108ae6e60f29a', home:'E61N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:9, y:42}, dumpid:'58004617225d0f856c6cc10d', sourceid:'57ef9e5786f108ae6e60f29b', home:'E61N58', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:44, y:41}, dumpid:'580058b305abae6472c32192', sourceid:'57ef9e5786f108ae6e60f29a', home:'E61N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:45, y:41}, dumpid:'580058b305abae6472c32192', sourceid:'57ef9e5786f108ae6e60f29a', home:'E61N58', qstate:'', qindex:0},
+                ].concat(shuffle([
+                    // 2 builders
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    // 2 maintainers
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    // 2 movers
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    // 1 paver
+                    {role:'paver', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    // 3 towerFillers
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    // 3 upgraders
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    // 2 wallMaintainers
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    // 1 healer
+                    {role:'healer', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    // 2 defenders
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E61N58'},
+                ]));
+                room.memory.phase2.energyQ = [[],[]];
+            }
+            else if (r == 'E64N58') {
+                room.memory.phase2.spawn = 'S3';
+                room.memory.phase2.spawnq = [
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:32, y:44}, dumpid:'5800fa18fb6b6b8d7c5cdcda', sourceid:'57ef9e9386f108ae6e60f809', home:'E64N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:29, y:27}, dumpid:'5800c56aa01b5451543e4347', sourceid:'57ef9e9386f108ae6e60f807', home:'E64N58', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'spawner', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:32, y:45}, dumpid:'5800fa18fb6b6b8d7c5cdcda', sourceid:'57ef9e9386f108ae6e60f809', home:'E64N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase2', action:'harvesting', spot:{x:30, y:46}, dumpid:'5800fa18fb6b6b8d7c5cdcda', sourceid:'57ef9e9386f108ae6e60f809', home:'E64N58', qstate:'', qindex:0},
+                ].concat(shuffle([
+                    // 2 builders
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'builder', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    // 2 maintainers
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'maintainer', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    // 2 movers
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'mover', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    // 1 paver
+                    {role:'paver', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    // 3 towerFillers
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'towerFiller', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    // 3 upgraders
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'upgrader', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    // 2 wallMaintainers
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'wallMaintainer', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    // 1 healer
+                    {role:'healer', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    // 2 defenders
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'defender', phase:'phase2', qstate:'', qindex:0, home:'E64N58'},
+                ]));
+                room.memory.phase2.energyQ = [[],[]];
+            }
             room.memory.phase2setup = true;
         }
     },
@@ -207,7 +388,7 @@ var bodies = [
         spawner: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
         energyMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
         defender: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-        hunter: [TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE],
+        hunter: [TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK,MOVE,ATTACK,MOVE,ATTACK],
         support: [TOUGH, MOVE, TOUGH, MOVE, MOVE, HEAL, MOVE, HEAL],
         healer: [MOVE, MOVE, HEAL, HEAL],
         hoarder: [WORK, CARRY, CARRY, MOVE, MOVE],
@@ -223,22 +404,22 @@ var bodies = [
         upgrader: [WORK, WORK, WORK, CARRY, MOVE, MOVE],
         builder: [WORK, WORK, CARRY, MOVE],
         paver: [WORK, CARRY, MOVE],
-        maintainer: [WORK, CARRY, MOVE],
+        maintainer: [WORK, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
         wallMaintainer: [WORK, CARRY, MOVE, CARRY, MOVE],
-        mover: [WORK, CARRY, MOVE, CARRY, MOVE],
-        towerFiller: [WORK, CARRY, MOVE, CARRY, MOVE],
-        spawner: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
+        mover: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
+        towerFiller: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
+        spawner: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
         energyMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
-        defender: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK],
-        hunter: [TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK, MOVE, ATTACK],
-        support: [MOVE, HEAL, MOVE, HEAL, MOVE, HEAL, MOVE, HEAL, MOVE, HEAL, MOVE, HEAL],
+        defender: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK],
+        hunter: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,ATTACK,MOVE,ATTACK,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK],
+        support: [HEAL,MOVE,HEAL,MOVE,HEAL,MOVE,HEAL,MOVE],
         healer: [MOVE, MOVE, HEAL, HEAL],
         hoarder: [WORK, CARRY, MOVE],
         claimer: [CLAIM, MOVE, MOVE],
         scruffy: [WORK, CARRY, MOVE, CARRY, MOVE],
         drudge: [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
         resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
-        tank: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
+        tank: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
     },
 ];
 
@@ -249,10 +430,10 @@ var bodies = [
 var builder = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = [
                 Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (s) => {return s.structureType == STRUCTURE_CONTAINER}}),
-                Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType == STRUCTURE_WALL)}}),
+                Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType == STRUCTURE_WALL || structure.structureType == STRUCTURE_RAMPART)}}),
                 Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType == STRUCTURE_TOWER)}}),
                 Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (structure) => {return (structure.structureType != STRUCTURE_ROAD)}}),
                 Game.rooms[r].find(FIND_CONSTRUCTION_SITES)
@@ -270,7 +451,7 @@ var builder = {
             creep.memory.qstate = 'entering';
         }
         else {
-            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
 
@@ -319,12 +500,15 @@ builder.phase2 = builder.phase1;
 var claimer = {
     targets: function() {
         return {
-            'E63N59': 'E64N59',
-            'E64N59': 'dest'
+            'E63N59': 'E63N58',
+            'E63N58': 'E63N57',
+            'E63N57': 'E64N57',
+            'E64N57': 'E64N58',
+            'E64N58': 'dest'
         };
     },
     phase1: function(creep, t) {
-        creep.memory.dontSpawn = false;
+        creep.memory.dontSpawn = true;
         tlist = t.claimer;
         if (tlist[creep.room.name] != 'dest') {
             creep.moveTo(new RoomPosition(25, 25, tlist[creep.room.name]));
@@ -345,9 +529,11 @@ claimer.phase2 = claimer.phase1;
 var defender = {
     targets: function() {
         var out = {waiting:{
-            E63N59: new RoomPosition(22, 43, 'E63N59')
+            E63N59: new RoomPosition(22, 43, 'E63N59'),
+            E61N58: new RoomPosition(28, 45, 'E61N58'),
+            E64N58: new RoomPosition(8, 43, 'E64N58'),
         }};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = Game.rooms[r].find(FIND_HOSTILE_CREEPS);
         }
         return out;
@@ -355,7 +541,7 @@ var defender = {
     phase1: function(creep, t) {
         var stime = Game.cpu.getUsed();
         if (creep.memory.action == 'renewing') {
-            var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+            var s = Game.spawns[rooms[creep.memory.home].spawn];
             var r = s.renewCreep(creep);
             if (r == ERR_NOT_IN_RANGE) {
                 creep.moveTo(s);
@@ -372,10 +558,10 @@ var defender = {
             }
         }
         else {
-            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
-            else if (creep.memory.action == '') {
+            else if (creep.memory.action == '' || !creep.memory.action) {
                 creep.moveTo(t.defender.waiting[creep.memory.home]);
             }
         }
@@ -394,17 +580,25 @@ var drudge = {
         var r = room_targ;
         var out = {dest: r, targets: [], sources: []};
         try {
-            out.targets = Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter: (s) => {return s.structureType == STRUCTURE_SPAWN}});
+            out.targets = Game.rooms[r].find(FIND_MY_CONSTRUCTION_SITES);//, {filter: (s) => {return s.structureType == STRUCTURE_SPAWN}});
             out.sources = Game.rooms[r].find(FIND_SOURCES);
             out.controller = Game.rooms[r].controller;
         } catch(err) {}
+        out.rpath = {
+            'E63N59': 'E63N58',
+            'E63N58': 'E63N57',
+            'E63N57': 'E64N57',
+            'E64N57': 'E64N58',
+            'E64N58': 'dest'
+        };
         return out;
     },
     phase1: function(creep, t) {
+        creep.memory.dontSpawn = true;
         var stime = Game.cpu.getUsed();
         var tlist = t.drudge;
-        if (creep.room.name != tlist.dest) {
-            creep.moveTo(new RoomPosition(25, 25, tlist.dest));
+        if (tlist.rpath[creep.room.name] != 'dest') {
+            creep.moveTo(new RoomPosition(25, 25, tlist.rpath[creep.room.name]));
         }
         else {
             if (!creep.memory.action) {creep.memory.action = 'harvesting';}
@@ -422,8 +616,8 @@ var drudge = {
                 }
             }
             else if (creep.memory.action == 'building' && creep.memory.flavor == 'builder') {
-                var target = creep.pos.findClosestByRange(tlist.targets);
-                if (target && creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                var target = tlist.targets[0];
+                if (target && creep.build(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
             }
@@ -523,9 +717,11 @@ energyMiner.emergency = energyMiner.phase2;
 var healer = {
     targets: function() {
         var out = {waiting:{
-            E63N59: new RoomPosition(22, 43, 'E63N59')
+            E63N59: new RoomPosition(22, 43, 'E63N59'),
+            E61N58: new RoomPosition(28, 45, 'E61N58'),
+            E64N58: new RoomPosition(8, 43, 'E64N58'),
         }};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = [
                 Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return c.hits < c.hitsMax/2}}),
                 Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return c.hits < c.hitsMax}})
@@ -540,7 +736,7 @@ var healer = {
         }
         else {
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep)
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
@@ -565,10 +761,10 @@ var healer = {
             }
             else {
                 var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
-                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                     creep.memory.action = 'renewing';
                 }
-                else if (creep.memory.action == '') {
+                else if (creep.memory.action == '' || !creep.memory.action) {
                     creep.moveTo(t.healer.waiting[creep.memory.home]);
                 }
             }
@@ -588,19 +784,19 @@ var hunter = {
         var r = room_targ;
         var h = new RoomPosition(25, 25, r);
         var ignoreOwners = ['roboboy'];
-        var t = {target: null, s_targ: null, t_targ: null};
+        var t = [];
         try {
             t = [
-                Game.getObjectById('57fd5e10c91257622f6093ab')==null ? [] : [Game.getObjectById('57fd5e10c91257622f6093ab')],
+                Game.getObjectById('57fd5e10c91257622f6093ab'),
                 h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_TOWER && ignoreOwners.indexOf(s.owner.username) == -1}}),
-                h.findClosestByRange(FIND_HOSTILE_SPAWNS, {filter: (s) => {return ignoreOwners.indexOf(s.owner.username) == -1}}),
-                h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_EXTENSION && ignoreOwners.indexOf(s.owner.username) == -1}}),
-                h.findClosestByRange(FIND_HOSTILE_CREEPS, {filter: (s) => {return ignoreOwners.indexOf(s.owner.username) == -1}})
+                h.findClosestByRange(FIND_HOSTILE_CREEPS),
+                h.findClosestByRange(FIND_HOSTILE_SPAWNS),
+                h.findClosestByRange(FIND_HOSTILE_STRUCTURES),
             ];
         }
         catch(err) {}
         var out = {
-            deploy: false,
+            deploy: army_deploy,
             stage: army_stage,
             dest: r,
             target: t
@@ -622,15 +818,16 @@ var hunter = {
             if (tlist.target.length) {
                 var target;
                 for (var i=0; i<tlist.target.length; i++) {
-                    if (tlist.target[i].length && tlist.target[i][0]) {
-                        target = tlist.target[i][0];
+                    if (tlist.target[i]) {
+                        target = tlist.target[i];
+                        break;
                     }
                 }
                 if (target && creep.attack(target) == ERR_NOT_IN_RANGE) {
-                    target.moveTo(target);
+                    creep.moveTo(target);
                 }
-                else {
-                    creep.moveTo(tlist.stage);
+                else if (!target) {
+                    creep.moveTo(new RoomPosition(25, 25, tlist.dest));
                 }
             }
             else {
@@ -647,7 +844,7 @@ hunter.phase2 = hunter.phase1;
 var maintainer = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = [
                 Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(s.structureType) > -1) && s.hits < s.hitsMax/2}}),
                 Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return ([STRUCTURE_CONTAINER, STRUCTURE_ROAD, STRUCTURE_TOWER].indexOf(s.structureType) > -1) && s.hits < s.hitsMax}})
@@ -665,12 +862,12 @@ var maintainer = {
                 creep.memory.qstate = 'entering';
             }
             else {
-                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                     creep.memory.action = 'renewing';
                 }
 
                 if (creep.memory.action == 'renewing') {
-                    var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                    var s = Game.spawns[rooms[creep.memory.home].spawn];
                     var r = s.renewCreep(creep);
                     if (r == ERR_NOT_IN_RANGE) {
                         creep.moveTo(s);
@@ -694,7 +891,7 @@ var maintainer = {
                         }
                     }
                     else {
-                        upgrader[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                        upgrader[rooms[creep.memory.home].phase](creep, t);
                     }
                 }
             }
@@ -714,9 +911,9 @@ maintainer.phase2 = maintainer.phase1;
 // CONCAT role.mover.js
 var mover = {
     targets: function() {
-        var ignore = ['57fc44dbff2414b02896117a', '57fc4f263435b4585718b158'];
+        var ignore = ign;
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = [
                 Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_LINK && s.energy < s.energyCapacity && ignore.indexOf(s.id) == -1}}),
                 Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_CONTAINER && _.sum(s.store) < s.storeCapacity && ignore.indexOf(s.id) == -1}})
@@ -734,12 +931,12 @@ var mover = {
                 creep.memory.qstate = 'entering'
             }
             else {
-                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                     creep.memory.action = 'renewing';
                 }
 
                 if (creep.memory.action == 'renewing') {
-                    var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                    var s = Game.spawns[rooms[creep.memory.home].spawn];
                     var r = s.renewCreep(creep);
                     if (r == ERR_NOT_IN_RANGE) {
                         creep.moveTo(s);
@@ -784,7 +981,7 @@ mover.phase2 = mover.phase1;
 var paver = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = Game.rooms[r].find(FIND_CONSTRUCTION_SITES, {filter:(s)=>{return s.structureType == STRUCTURE_ROAD}});
         }
         return out;
@@ -795,12 +992,12 @@ var paver = {
             creep.memory.qstate = 'entering';
         }
         else {
-            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
 
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep);
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
@@ -818,7 +1015,7 @@ var paver = {
                     }
                 }
                 else {
-                    builder[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                    builder[rooms[creep.memory.home].phase](creep, t);
                 }
             }
         }
@@ -838,7 +1035,7 @@ paver.phase2 = paver.phase1;
 var resourceMiner = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = {
                 mines: Game.rooms[r].find(FIND_MINERALS),
                 dump: Game.rooms[r].find(FIND_STRUCTURES, {filter: (s) => {return s.structureType == STRUCTURE_STORAGE}})
@@ -885,7 +1082,7 @@ resourceMiner.phase2 = resourceMiner.phase1;
 var scruffy = {
     targets: function() {
         out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = {
                 p:Game.rooms[r].find(FIND_DROPPED_ENERGY),
                 d:Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_STORAGE || s.structureType == STRUCTURE_CONTAINER}})
@@ -936,7 +1133,7 @@ scruffy.phase2 = scruffy.emergency = scruffy.phase1;
 var spawner = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_SPAWN || s.structureType==STRUCTURE_EXTENSION) && s.energy< s.energyCapacity}});
         }
         return out;
@@ -948,11 +1145,11 @@ var spawner = {
         }
         else {
             var tlist = t.spawner[creep.memory.home];
-            if (creep.ticksToLive < 250) {
+            if (creep.ticksToLive < 250 && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep)
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
@@ -969,7 +1166,7 @@ var spawner = {
                     }
                 }
                 else {
-                    upgrader[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                    upgrader[rooms[creep.memory.home].phase](creep, t);
                 }
             }
         }
@@ -991,13 +1188,13 @@ var support = {
         var t = {target: null, s_targ: null, t_targ: null};
         try {
             t = {
-                target: h.findClosestByRange(FIND_CREEPS, {filter: (s) => {return s.hits < s.hitsMax/2 && includeOwners.indexOf(s.owner.username) > -1}}),
-                s_targ: h.findClosestByRange(FIND_CREEPS, {filter: (s)=> {return s.hits < s.hitsMax && includeOwners.indexOf(s.owner.username) > -1}}),
+                target: h.findClosestByRange(FIND_CREEPS, {filter: (s) => {return s.hits < s.hitsMax/2}}),
+                s_targ: h.findClosestByRange(FIND_CREEPS, {filter: (s)=> {return s.hits < s.hitsMax}}),
             };
         }
         catch(err) {}
         var out = {
-            deploy: false,
+            deploy: army_deploy,
             stage: army_stage,
             dest: r,
             target: t.target,
@@ -1007,7 +1204,8 @@ var support = {
         return out;
     },
     phase1: function(creep, t) {
-        var tlist = t.hunter;
+        creep.memory.dontSpawn = true;
+        var tlist = t.support;
         if (creep.room.name != tlist.dest) {
             if (tlist.deploy) {
                 creep.moveTo(new RoomPosition(31, 21, tlist.dest));
@@ -1018,22 +1216,17 @@ var support = {
         }
         else {
             if (tlist.target) {
-                if (creep.attack(tlist.target) == ERR_NOT_IN_RANGE) {
+                if (creep.heal(tlist.target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(tlist.target);
                 }
             }
             else if (tlist.sec_target) {
-                if (creep.attack(tlist.sec_target) == ERR_NOT_IN_RANGE) {
+                if (creep.heal(tlist.sec_target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(tlist.sec_target);
                 }
             }
-            else if (tlist.t_target) {
-                if (creep.attack(tlist.t_target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(tlist.t_target);
-                }
-            }
             else {
-                creep.moveTo(tlist.stage);
+                creep.moveTo(new RoomPosition(25, 25, tlist.dest));
             }
         }
     }
@@ -1046,8 +1239,8 @@ support.phase2 = support.phase1;
 var tank = {
     targets: function() {
         return {
-            dest: new RoomPosition(25, 25, room_targ),
-            deploy: false,
+            dest: new RoomPosition(8, 22, room_targ),
+            deploy: army_deploy,
             stage: army_stage
         }
     },
@@ -1070,10 +1263,10 @@ tank.phase2 = tank.phase1;
 var towerFiller = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = {
                 'harvesting':Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] >= 50}}),
-                'filling':Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType==STRUCTURE_TOWER && s.energy<s.energyCapacity}})
+                'filling':Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType==STRUCTURE_TOWER && s.energy<s.energyCapacity}}).concat(Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType==STRUCTURE_STORAGE && s.store.energy<s.storeCapacity}}))
             };
         }
         return out;
@@ -1091,12 +1284,12 @@ var towerFiller = {
             else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
                 creep.memory.action = 'filling';
             }
-            if (creep.ticksToLive < 250 && creep.memory.action != 'renewing') {
+            if (creep.ticksToLive < 250 && creep.memory.action != 'renewing' && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
 
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep);
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
@@ -1106,18 +1299,19 @@ var towerFiller = {
                 }
             }
             else if (creep.memory.action == 'harvesting') {
-                var target = null;
-                if (tlist.harvesting.length) {
-                    target = tlist.harvesting[0];
-                }
-                if (target) {
-                    if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target);
-                    }
-                }
-                else {
-                    creep.memory.qstate = 'entering';
-                }
+                creep.memory.qstate = 'entering';
+                // var target = null;
+                // if (tlist.harvesting.length) {
+                //     target = tlist.harvesting[0];
+                // }
+                // if (target) {
+                //     if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                //         creep.moveTo(target);
+                //     }
+                // }
+                // else {
+                //     creep.memory.qstate = 'entering';
+                // }
             }
             else if (creep.memory.action == 'filling') {
                 var target = tlist.filling[0];
@@ -1145,9 +1339,11 @@ var upgrader = {
     targets: function() {
         var only_these = {
             E63N59: ['57fc9dd698812bf3681c8829'],
+            E61N58: [],
+            E64N58: [],
         };
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = [];
             for (var j=0; j < only_these[r].length; j++) {
                 var t = Game.getObjectById(only_these[r][j])
@@ -1168,7 +1364,7 @@ var upgrader = {
             if (creep.memory.action != 'uharvesting' && creep.memory.action != 'upgrading' && creep.memory.action != 'renewing') {
                 creep.memory.action = 'uharvesting';
             }
-            else if (creep.ticksToLive < 250 && creep.memory.action != 'renewing') {
+            else if (creep.ticksToLive < 250 && creep.memory.action != 'renewing' && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
             else if (creep.carry.energy == 0 && creep.memory.action != 'uharvesting') {
@@ -1179,7 +1375,7 @@ var upgrader = {
             }
 
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep);
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
@@ -1219,7 +1415,7 @@ upgrader.phase2 = upgrader.emergency = upgrader.phase1;
 var wallMaintainer = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = [
                 Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_RAMPART) && s.hits<1000}}),
                 Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL) && s.hits<1000}}),
@@ -1241,12 +1437,12 @@ var wallMaintainer = {
             creep.memory.qstate = 'entering';
         }
         else {
-            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action)) {
+            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
 
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep);
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
@@ -1259,7 +1455,7 @@ var wallMaintainer = {
                 var tlist = t.wallMaintainer[creep.memory.home];
                 var target = null;
                 for (var i = 0; i < tlist.length; i++) {
-                    if (tlist[i].length) {
+                    if (tlist[i].length && tlist[i][0] != undefined) {
                         target = tlist[i][0];
                         break;
                     }
@@ -1270,7 +1466,7 @@ var wallMaintainer = {
                     }
                 }
                 else {
-                    maintainer[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                    maintainer[rooms[creep.memory.home].phase](creep, t);
                 }
             }
         }
@@ -1310,7 +1506,7 @@ linker.phase2 = linker.emergency = linker.phase1;
 var tower = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = {
                 hostiles: Game.rooms[r].find(FIND_HOSTILE_CREEPS),
                 injured: Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return (c.hits< c.hitsMax)}}),
@@ -1374,7 +1570,6 @@ var queue = {
         else if (creep.memory.qstate == 'waiting') {
             if (roomMem.energyQ[creep.memory.qindex][0] == creep.id) {
                 creep.memory.qstate = 'harvesting';
-                //roomMem.energyQ[creep.memory.qindex].shift();
             }
             else {
                 if (roomMem.energyQ[creep.memory.qindex].indexOf(creep.id) == -1) {
@@ -1394,9 +1589,18 @@ var queue = {
                 creep.memory.qstate = '';
             }
             else {
-                var source = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
-                if (creep.pickup(source) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(source.pos);
+                var o = Game.getObjectById(roomInf[creep.memory.qindex].sid).pos;
+                var cnts = o.findInRange(FIND_STRUCTURES, 1, {filter: (s)=>{return s.structureType == STRUCTURE_CONTAINER}});
+                if (cnts.length) {
+                    if (creep.withdraw(cnts[0], RESOURCE_ENERGY, creep.carryCapacity-_.sum(creep.carry)) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(cnts[0]);
+                    }
+                }
+                else {
+                    var source = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+                    if (creep.pickup(source) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(source);
+                    }
                 }
             }
         }
@@ -1427,7 +1631,7 @@ var queue = {
             creep.moveTo(roomInf[creep.memory.qindex].wpos);
         }
         else if (creep.memory.qstate == 'waiting') {
-            if (roomMem.energyQ[creep.memory.qindex][0] == creep.id && creep.carryCapacity <= Game.getObjectById(roomInf[creep.memory.qindex].sid).store[RESOURCE_ENERGY]) {
+            if (roomMem.energyQ[creep.memory.qindex][0] == creep.id) { // && creep.carryCapacity <= Game.getObjectById(roomInf[creep.memory.qindex].sid).store[RESOURCE_ENERGY]) {
                 creep.memory.qstate = 'harvesting';
             }
             else {
@@ -1444,6 +1648,7 @@ var queue = {
         }
         else if (creep.memory.qstate == 'harvesting') {
             if (creep.carry.energy == creep.carryCapacity) {
+                roomMem.energyQ[creep.memory.qindex].shift();
                 creep.memory.qstate = '';
             }
             else {
@@ -1469,11 +1674,11 @@ var cmd = {
         }
         else {
             var roomMem = Memory.rooms[args.room];
-            var roomPhs = roomMem.phase;
+            var roomPhs = rooms[args.room].phase;
             var cmem = {role:args.role, qstate:'', qindex:0, phase:roomPhs, home: args.room};
             for (var k in args) {
                 if (['role', 'room', 'front'].indexOf(k) == -1) {
-                    cmem[k] = args.mem[k];
+                    cmem[k] = args[k];
                 }
             }
             if (args.front) {
@@ -1568,32 +1773,39 @@ var roles = {
 };
 
 var spawn = function (r) {
-    var room = Game.rooms[r].memory[Game.rooms[r].memory.phase];
-    if (room.spawnq.length) {
-        var body = bodies[room.spawnLevel][room.spawnq[0].role];
-        // if no spawners for current room
-        if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.memory.home == r;}}).length == 0 ||
-            Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'energyMiner' && creep.memory.home == r;}}).length == 0) {
-            body = bodies[0][room.spawnq[0].role];
+    try {
+        var room = Game.rooms[r].memory[rooms[r].phase];
+        if (room.spawnq.length) {
+            if (room.spawnq[0].role == 'spawner' || room.spawnq[0].role == 'energyMiner') room.enableRenew = false;
+            else room.enableRenew = true;
+            var body = bodies[room.spawnLevel][room.spawnq[0].role];
+            // if no spawners for current room
+            if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.memory.home == r;}}).length == 0 ||
+                Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'energyMiner' && creep.memory.home == r;}}).length == 0) {
+                body = bodies[0][room.spawnq[0].role];
+            }
+            var newName = Game.spawns[room.spawn].createCreep(body, undefined, room.spawnq[0]);
+            if (newName != ERR_BUSY && newName != ERR_NOT_ENOUGH_ENERGY) {
+                console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName + ', at ' + room.spawn);
+                room.spawnq.shift();
+            }
         }
-        var newName = Game.spawns[room.spawn].createCreep(body, undefined, room.spawnq[0]);
-        if (newName != ERR_BUSY && newName != ERR_NOT_ENOUGH_ENERGY) {
-            console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName + ', at ' + room.spawn);
-            room.spawnq.shift();
-        }
+    }
+    catch (err) {
+        console.log(r + ': ' + err)
     }
 };
 
 module.exports.loop = function () {
     if (true) {
-        
-        for (var i in Memory.myRooms) {
-            var r = Memory.myRooms[i];
-            var curroom = Game.rooms[r].memory;
-            phases[curroom.phase](r);
+
+        for (var r in rooms) {
+            var roomInf = rooms[r];
+            var roomObj = Memory.rooms[r];
+            phases[roomInf.phase](r);
             // every 20 ticks, calculate the maximum spawn energy (mse) available
             if (Game.time % 20 == 0) {
-                curroom.mse = maxSpawnEnergy(r);
+                roomObj.mse = maxSpawnEnergy(r);
             }
             // Run spawning algorithm (described above, each room gets it's own spawn queue)
             spawn(r);
@@ -1611,7 +1823,7 @@ module.exports.loop = function () {
         for (var name in Game.creeps) {
             try {
                 var creep = Game.creeps[name];
-                var creepHomePhase = Game.rooms[creep.memory.home].memory.phase;
+                var creepHomePhase = rooms[creep.memory.home].phase;
                 var stime = Game.cpu.getUsed();
                 if (creep.memory.qstate != '') {
                     queue[creepHomePhase](creep);
@@ -1621,7 +1833,7 @@ module.exports.loop = function () {
                 }
             }
             catch(err) {
-                console.log("Error with " + name); // + ", " + Game.creeps[n].memory.role); 
+                console.log("Error with " + name); // + ", " + Game.creeps[n].memory.role);
                 console.log(err)
             }
 
@@ -1661,8 +1873,8 @@ module.exports.loop = function () {
         Memory.aliveLastTick = next;
 
 
-        // Run towers
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        // Run towers & links
+        for (var r in rooms) {
             var towers = Game.rooms[r].find(FIND_MY_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_TOWER}});
             for (var t in towers) {
                 roles.tower[Game.rooms[r].memory.phase](towers[t], targets);
@@ -1680,36 +1892,43 @@ module.exports.loop = function () {
         }
 
         // Check if running a command
-        if (Memory.cmd) {
-            var m = /\s*(\w+)\s*(.*)/.exec(Memory.cmd);
-            if (m != null) {
-                var command = m[1];
-                var argsStr = m[2];
-                var args = {};
-                while (argsStr != '' && argsStr != null) {
-                    m = /\s*-(.+?):\s*(.+?)(?:$|(?:,\s+(.*)))/.exec(argsStr);
-                    if (m != null) {
-                        args[m[1]] = m[2];
-                        argsStr = m[3];
+        if (Memory.cmd && Memory.cmd != '') {
+            try {
+                var m = /\s*(\w+)\s*(.*)/.exec(Memory.cmd);
+                if (m != null) {
+                    var command = m[1];
+                    var argsStr = m[2];
+                    var args = {};
+                    while (argsStr != '' && argsStr != null) {
+                        m = /\s*(.+?):\s*(.+?)(?:$|(?:\s+(.*)))/.exec(argsStr);
+                        if (m != null) {
+                            args[m[1]] = m[2];
+                            argsStr = m[3];
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    if (cmd[command]) {
+                        cmd[command](args);
                     }
                     else {
-                        break;
+                        console.log('Available commands: ' + Object.keys(cmd));
                     }
                 }
-                if (cmd[command]) {
-                    cmd[command](args);
-                }
                 else {
-                    console.log('Available commands: ' + Object.keys(cmd));
+                    console.log('Malformed');
                 }
+            }
+            catch (err) {
+                console.log('Error in cmd: ' + err);
+            }
+            finally {
                 delete Memory.cmd
             }
-            else {
-                console.log("Try again, bitch")
-            }
         }
-        
-        
-        
+
+
+
     }
 };

@@ -5,11 +5,11 @@ var cmd = {
         }
         else {
             var roomMem = Memory.rooms[args.room];
-            var roomPhs = roomMem.phase;
+            var roomPhs = rooms[args.room].phase;
             var cmem = {role:args.role, qstate:'', qindex:0, phase:roomPhs, home: args.room};
             for (var k in args) {
                 if (['role', 'room', 'front'].indexOf(k) == -1) {
-                    cmem[k] = args.mem[k];
+                    cmem[k] = args[k];
                 }
             }
             if (args.front) {

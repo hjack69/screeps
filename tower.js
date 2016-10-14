@@ -1,7 +1,7 @@
 var tower = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = {
                 hostiles: Game.rooms[r].find(FIND_HOSTILE_CREEPS),
                 injured: Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return (c.hits< c.hitsMax)}}),

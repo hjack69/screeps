@@ -1,7 +1,7 @@
 var scruffy = {
     targets: function() {
         out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = {
                 p:Game.rooms[r].find(FIND_DROPPED_ENERGY),
                 d:Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_STORAGE || s.structureType == STRUCTURE_CONTAINER}})

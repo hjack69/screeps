@@ -6,13 +6,13 @@ var support = {
         var t = {target: null, s_targ: null, t_targ: null};
         try {
             t = {
-                target: h.findClosestByRange(FIND_CREEPS, {filter: (s) => {return s.hits < s.hitsMax/2 && includeOwners.indexOf(s.owner.username) > -1}}),
-                s_targ: h.findClosestByRange(FIND_CREEPS, {filter: (s)=> {return s.hits < s.hitsMax && includeOwners.indexOf(s.owner.username) > -1}}),
+                target: h.findClosestByRange(FIND_CREEPS, {filter: (s) => {return s.hits < s.hitsMax/2}}),
+                s_targ: h.findClosestByRange(FIND_CREEPS, {filter: (s)=> {return s.hits < s.hitsMax}}),
             };
         }
         catch(err) {}
         var out = {
-            deploy: false,
+            deploy: army_deploy,
             stage: army_stage,
             dest: r,
             target: t.target,
@@ -22,7 +22,8 @@ var support = {
         return out;
     },
     phase1: function(creep, t) {
-        var tlist = t.hunter;
+        creep.memory.dontSpawn = true;
+        var tlist = t.support;
         if (creep.room.name != tlist.dest) {
             if (tlist.deploy) {
                 creep.moveTo(new RoomPosition(31, 21, tlist.dest));
@@ -33,22 +34,17 @@ var support = {
         }
         else {
             if (tlist.target) {
-                if (creep.attack(tlist.target) == ERR_NOT_IN_RANGE) {
+                if (creep.heal(tlist.target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(tlist.target);
                 }
             }
             else if (tlist.sec_target) {
-                if (creep.attack(tlist.sec_target) == ERR_NOT_IN_RANGE) {
+                if (creep.heal(tlist.sec_target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(tlist.sec_target);
                 }
             }
-            else if (tlist.t_target) {
-                if (creep.attack(tlist.t_target) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(tlist.t_target);
-                }
-            }
             else {
-                creep.moveTo(tlist.stage);
+                creep.moveTo(new RoomPosition(25, 25, tlist.dest));
             }
         }
     }

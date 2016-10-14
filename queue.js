@@ -21,7 +21,6 @@ var queue = {
         else if (creep.memory.qstate == 'waiting') {
             if (roomMem.energyQ[creep.memory.qindex][0] == creep.id) {
                 creep.memory.qstate = 'harvesting';
-                //roomMem.energyQ[creep.memory.qindex].shift();
             }
             else {
                 if (roomMem.energyQ[creep.memory.qindex].indexOf(creep.id) == -1) {
@@ -41,9 +40,18 @@ var queue = {
                 creep.memory.qstate = '';
             }
             else {
-                var source = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
-                if (creep.pickup(source) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(source.pos);
+                var o = Game.getObjectById(roomInf[creep.memory.qindex].sid).pos;
+                var cnts = o.findInRange(FIND_STRUCTURES, 1, {filter: (s)=>{return s.structureType == STRUCTURE_CONTAINER}});
+                if (cnts.length) {
+                    if (creep.withdraw(cnts[0], RESOURCE_ENERGY, creep.carryCapacity-_.sum(creep.carry)) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(cnts[0]);
+                    }
+                }
+                else {
+                    var source = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
+                    if (creep.pickup(source) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(source);
+                    }
                 }
             }
         }
@@ -74,7 +82,7 @@ var queue = {
             creep.moveTo(roomInf[creep.memory.qindex].wpos);
         }
         else if (creep.memory.qstate == 'waiting') {
-            if (roomMem.energyQ[creep.memory.qindex][0] == creep.id && creep.carryCapacity <= Game.getObjectById(roomInf[creep.memory.qindex].sid).store[RESOURCE_ENERGY]) {
+            if (roomMem.energyQ[creep.memory.qindex][0] == creep.id) { // && creep.carryCapacity <= Game.getObjectById(roomInf[creep.memory.qindex].sid).store[RESOURCE_ENERGY]) {
                 creep.memory.qstate = 'harvesting';
             }
             else {
@@ -91,6 +99,7 @@ var queue = {
         }
         else if (creep.memory.qstate == 'harvesting') {
             if (creep.carry.energy == creep.carryCapacity) {
+                roomMem.energyQ[creep.memory.qindex].shift();
                 creep.memory.qstate = '';
             }
             else {

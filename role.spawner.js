@@ -1,7 +1,7 @@
 var spawner = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_SPAWN || s.structureType==STRUCTURE_EXTENSION) && s.energy< s.energyCapacity}});
         }
         return out;
@@ -13,11 +13,11 @@ var spawner = {
         }
         else {
             var tlist = t.spawner[creep.memory.home];
-            if (creep.ticksToLive < 250) {
+            if (creep.ticksToLive < 250 && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep)
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
@@ -34,7 +34,7 @@ var spawner = {
                     }
                 }
                 else {
-                    upgrader[Game.rooms[creep.memory.home].memory.phase](creep, t);
+                    upgrader[rooms[creep.memory.home].phase](creep, t);
                 }
             }
         }

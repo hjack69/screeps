@@ -1,10 +1,10 @@
 var towerFiller = {
     targets: function() {
         var out = {};
-        for (var i in Memory.myRooms) { var r = Memory.myRooms[i];
+        for (var r in rooms) {
             out[r] = {
                 'harvesting':Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_STORAGE && s.store[RESOURCE_ENERGY] >= 50}}),
-                'filling':Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType==STRUCTURE_TOWER && s.energy<s.energyCapacity}})
+                'filling':Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType==STRUCTURE_TOWER && s.energy<s.energyCapacity}}).concat(Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return s.structureType==STRUCTURE_STORAGE && s.store.energy<s.storeCapacity}}))
             };
         }
         return out;
@@ -22,12 +22,12 @@ var towerFiller = {
             else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
                 creep.memory.action = 'filling';
             }
-            if (creep.ticksToLive < 250 && creep.memory.action != 'renewing') {
+            if (creep.ticksToLive < 250 && creep.memory.action != 'renewing' && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
                 creep.memory.action = 'renewing';
             }
 
             if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
+                var s = Game.spawns[rooms[creep.memory.home].spawn];
                 var r = s.renewCreep(creep);
                 if (r == ERR_NOT_IN_RANGE) {
                     creep.moveTo(s);
@@ -37,18 +37,19 @@ var towerFiller = {
                 }
             }
             else if (creep.memory.action == 'harvesting') {
-                var target = null;
-                if (tlist.harvesting.length) {
-                    target = tlist.harvesting[0];
-                }
-                if (target) {
-                    if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target);
-                    }
-                }
-                else {
-                    creep.memory.qstate = 'entering';
-                }
+                creep.memory.qstate = 'entering';
+                // var target = null;
+                // if (tlist.harvesting.length) {
+                //     target = tlist.harvesting[0];
+                // }
+                // if (target) {
+                //     if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                //         creep.moveTo(target);
+                //     }
+                // }
+                // else {
+                //     creep.memory.qstate = 'entering';
+                // }
             }
             else if (creep.memory.action == 'filling') {
                 var target = tlist.filling[0];
