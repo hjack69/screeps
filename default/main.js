@@ -353,6 +353,7 @@ var phases = {
 // END phases.js
 
 
+
 // CONCAT bodies.js
 var bodies = [
     // 0
@@ -426,6 +427,7 @@ var bodies = [
 // END bodies.js
 
 
+
 // CONCAT role.builder.js
 var builder = {
     targets: function() {
@@ -496,6 +498,7 @@ builder.phase2 = builder.phase1;
 
 // END role.builder.js
 
+
 // CONCAT role.claimer.js
 var claimer = {
     targets: function() {
@@ -524,6 +527,7 @@ var claimer = {
 claimer.phase2 = claimer.phase1;
 
 // END role.claimer.js
+
 
 // CONCAT role.defender.js
 var defender = {
@@ -573,6 +577,7 @@ defender.phase2 = defender.phase1;
 defender.emergency = defender.phase1;
 
 // END role.defender.js
+
 
 // CONCAT role.drudge.js
 var drudge = {
@@ -635,6 +640,7 @@ var drudge = {
 drudge.phase2 = drudge.phase1;
 
 // END role.drudge.js
+
 
 // CONCAT role.energyMiner.js
 var energyMiner = {
@@ -713,6 +719,7 @@ energyMiner.emergency = energyMiner.phase2;
 
 // END role.energyMiner.js
 
+
 // CONCAT role.healer.js
 var healer = {
     targets: function() {
@@ -778,6 +785,7 @@ healer.emergency = healer.phase1;
 
 // END role.healer.js
 
+
 // CONCAT role.hunter.js
 var hunter = {
     targets: function() {
@@ -839,6 +847,7 @@ var hunter = {
 hunter.phase2 = hunter.phase1;
 
 // END role.hunter.js
+
 
 // CONCAT role.maintainer.js
 var maintainer = {
@@ -907,6 +916,7 @@ var maintainer = {
 maintainer.phase2 = maintainer.phase1;
 
 // END role.maintainer.js
+
 
 // CONCAT role.mover.js
 var mover = {
@@ -977,6 +987,7 @@ mover.phase2 = mover.phase1;
 
 // END role.mover.js
 
+
 // CONCAT role.paver.js
 var paver = {
     targets: function() {
@@ -1031,6 +1042,7 @@ paver.phase2 = paver.phase1;
 
 // END role.paver.js
 
+
 // CONCAT role.resourceMiner.js
 var resourceMiner = {
     targets: function() {
@@ -1077,6 +1089,7 @@ var resourceMiner = {
 resourceMiner.phase2 = resourceMiner.phase1;
 
 // END role.resourceMiner.js
+
 
 // CONCAT role.scruffy.js
 var scruffy = {
@@ -1129,6 +1142,7 @@ scruffy.phase2 = scruffy.emergency = scruffy.phase1;
 
 // END role.scruffy.js
 
+
 // CONCAT role.spawner.js
 var spawner = {
     targets: function() {
@@ -1178,6 +1192,7 @@ spawner.phase2 = spawner.phase1;
 spawner.emergency = spawner.phase1;
 
 // END role.spawner.js
+
 
 // CONCAT role.support.js
 var support = {
@@ -1235,6 +1250,7 @@ support.phase2 = support.phase1;
 
 // END role.support.js
 
+
 // CONCAT role.tank.js
 var tank = {
     targets: function() {
@@ -1258,6 +1274,7 @@ var tank = {
 tank.phase2 = tank.phase1;
 
 // END role.tank.js
+
 
 // CONCAT role.towerFiller.js
 var towerFiller = {
@@ -1332,6 +1349,7 @@ towerFiller.phase2 = towerFiller.phase1;
 towerFiller.emergency = towerFiller.phase1;
 
 // END role.towerFiller.js
+
 
 // CONCAT role.upgrader.js
 var upgrader = {
@@ -1410,6 +1428,7 @@ upgrader.phase2 = upgrader.emergency = upgrader.phase1;
 
 // END role.upgrader.js
 
+
 // CONCAT role.wallMaintainer.js
 var wallMaintainer = {
     targets: function() {
@@ -1479,6 +1498,7 @@ wallMaintainer.emergency = wallMaintainer.phase1;
 // END role.wallMaintainer.js
 
 
+
 // CONCAT link.js
 var linker = {
     targets: function() {
@@ -1500,6 +1520,7 @@ var linker = {
 linker.phase2 = linker.emergency = linker.phase1;
 
 // END link.js
+
 
 // CONCAT tower.js
 var tower = {
@@ -1544,6 +1565,7 @@ tower.phase2 = tower.phase1;
 tower.emergency = tower.phase1;
 
 // END tower.js
+
 
 
 // CONCAT queue.js
@@ -1666,6 +1688,7 @@ queue.emergency = queue.phase2;
 // END queue.js
 
 
+
 // CONCAT cmd.js
 var cmd = {
     spawn: function(args) {
@@ -1746,6 +1769,7 @@ var cmd = {
 // END cmd.js
 
 
+
 var roles = {
     builder: builder,
     claimer: claimer,
@@ -1803,6 +1827,22 @@ module.exports.loop = function () {
             var roomInf = rooms[r];
             var roomObj = Memory.rooms[r];
             phases[roomInf.phase](r);
+            // check hits of spawn, if less than half and there's an available safe mode, activate it
+            if (Game.spawns[roomInf.spawn].hits < Game.spawns[roomInf.spawn].hitsMax) {
+                if (Game.rooms[r].controller.safeModeAvailable) {
+                    var o = Game.rooms[r].controller.activateSafeMode();
+                    var s = '';
+                    if (o == 0) {
+                        s = 'Successfully activated safe mode in room '+r;
+                    }
+                    else {
+                        s = 'Error activating safe mode: '+o;
+                    }
+                    console.log(s);
+                    Game.notify(s, 0);
+                }
+            }
+
             // every 20 ticks, calculate the maximum spawn energy (mse) available
             if (Game.time % 20 == 0) {
                 roomObj.mse = maxSpawnEnergy(r);
