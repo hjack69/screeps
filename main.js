@@ -261,11 +261,11 @@ module.exports.loop = function () {
         for (var r in rooms) {
             var towers = Game.rooms[r].find(FIND_MY_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_TOWER}});
             for (var t in towers) {
-                roles.tower[Game.rooms[r].memory.phase](towers[t], targets);
+                roles.tower[rooms[r].phase](towers[t], targets);
             }
             var links = Game.rooms[r].find(FIND_MY_STRUCTURES, {filter:(s) => {return s.structureType == STRUCTURE_LINK}});
             for (var l in links) {
-                roles.linker[Game.rooms[r].memory.phase](links[l], targets);
+                roles.linker[rooms[r].phase](links[l], targets);
             }
         }
 

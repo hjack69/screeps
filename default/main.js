@@ -378,13 +378,13 @@ var bodies = [
     // 1
     {
         harvester: [WORK, CARRY, CARRY, MOVE, MOVE],
-        upgrader: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
-        builder: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
-        paver: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
-        maintainer: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
-        wallMaintainer: [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
-        mover: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
-        towerFiller: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
+        upgrader: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+        builder: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+        paver: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+        maintainer: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+        wallMaintainer: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+        mover: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
+        towerFiller: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
         spawner: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
         energyMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
         defender: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
@@ -393,7 +393,7 @@ var bodies = [
         healer: [MOVE, MOVE, HEAL, HEAL],
         hoarder: [WORK, CARRY, CARRY, MOVE, MOVE],
         claimer: [CLAIM, MOVE],
-        scruffy: [WORK, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
+        scruffy: [WORK, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
         drudge: [WORK, WORK, WORK, MOVE, MOVE, MOVE, CARRY, MOVE, CARRY, MOVE],
         resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
         tank: [TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE, TOUGH, MOVE]
@@ -1299,19 +1299,18 @@ var towerFiller = {
                 }
             }
             else if (creep.memory.action == 'harvesting') {
-                creep.memory.qstate = 'entering';
-                // var target = null;
-                // if (tlist.harvesting.length) {
-                //     target = tlist.harvesting[0];
-                // }
-                // if (target) {
-                //     if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                //         creep.moveTo(target);
-                //     }
-                // }
-                // else {
-                //     creep.memory.qstate = 'entering';
-                // }
+                var target = null;
+                if (tlist.filling[0] && tlist.filling[0].structureType != STRUCTURE_CONTAINER && tlist.harvesting.length) {
+                    target = tlist.harvesting[0];
+                }
+                if (target) {
+                    if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
+                    }
+                }
+                else {
+                    creep.memory.qstate = 'entering';
+                }
             }
             else if (creep.memory.action == 'filling') {
                 var target = tlist.filling[0];
@@ -1323,7 +1322,7 @@ var towerFiller = {
             }
         }
         else {
-            builder[creep.memory.phase](creep, t);
+            spawner[creep.memory.phase](creep, t);
         }
         var etime = (Game.cpu.getUsed() - stime);
         // console.log(creep.name + ' towerFiller: ' + etime);
@@ -1339,8 +1338,8 @@ var upgrader = {
     targets: function() {
         var only_these = {
             E63N59: ['57fc9dd698812bf3681c8829'],
-            E61N58: [],
-            E64N58: [],
+            E61N58: ['5801332ee79c77554b687f41'],
+            E64N58: ['5801324c7c292ce83567328f'],
         };
         var out = {};
         for (var r in rooms) {
@@ -1511,7 +1510,8 @@ var tower = {
                 hostiles: Game.rooms[r].find(FIND_HOSTILE_CREEPS),
                 injured: Game.rooms[r].find(FIND_MY_CREEPS, {filter:(c)=>{return (c.hits< c.hitsMax)}}),
                 structures: [
-                    Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL|| s.structureType==STRUCTURE_RAMPART) && s.hits<100000}})
+                    Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_WALL|| s.structureType==STRUCTURE_RAMPART) && s.hits<100000}}),
+                    Game.rooms[r].find(FIND_STRUCTURES, {filter:(s)=>{return (s.structureType==STRUCTURE_RAMPART) && s.hits<s.hitsMax}})
                 ]
             };
         }
@@ -1877,11 +1877,11 @@ module.exports.loop = function () {
         for (var r in rooms) {
             var towers = Game.rooms[r].find(FIND_MY_STRUCTURES, {filter:(s)=>{return s.structureType == STRUCTURE_TOWER}});
             for (var t in towers) {
-                roles.tower[Game.rooms[r].memory.phase](towers[t], targets);
+                roles.tower[rooms[r].phase](towers[t], targets);
             }
             var links = Game.rooms[r].find(FIND_MY_STRUCTURES, {filter:(s) => {return s.structureType == STRUCTURE_LINK}});
             for (var l in links) {
-                roles.linker[Game.rooms[r].memory.phase](links[l], targets);
+                roles.linker[rooms[r].phase](links[l], targets);
             }
         }
 

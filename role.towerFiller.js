@@ -37,19 +37,18 @@ var towerFiller = {
                 }
             }
             else if (creep.memory.action == 'harvesting') {
-                creep.memory.qstate = 'entering';
-                // var target = null;
-                // if (tlist.harvesting.length) {
-                //     target = tlist.harvesting[0];
-                // }
-                // if (target) {
-                //     if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                //         creep.moveTo(target);
-                //     }
-                // }
-                // else {
-                //     creep.memory.qstate = 'entering';
-                // }
+                var target = null;
+                if (tlist.filling[0] && tlist.filling[0].structureType != STRUCTURE_CONTAINER && tlist.harvesting.length) {
+                    target = tlist.harvesting[0];
+                }
+                if (target) {
+                    if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
+                    }
+                }
+                else {
+                    creep.memory.qstate = 'entering';
+                }
             }
             else if (creep.memory.action == 'filling') {
                 var target = tlist.filling[0];
@@ -61,7 +60,7 @@ var towerFiller = {
             }
         }
         else {
-            builder[creep.memory.phase](creep, t);
+            spawner[creep.memory.phase](creep, t);
         }
         var etime = (Game.cpu.getUsed() - stime);
         // console.log(creep.name + ' towerFiller: ' + etime);
