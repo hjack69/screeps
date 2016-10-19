@@ -60,7 +60,7 @@ var wallMaintainer = {
         // console.log(creep.name + ' wallMaintainer: ' + etime);
     }
 };
-wallMaintainer.phase2 = wallMaintainer.phase1;
+wallMaintainer.phase3 = wallMaintainer.phase2 = wallMaintainer.phase1;
 wallMaintainer.emergency = wallMaintainer.phase1;
 
 // END role.wallMaintainer.js

@@ -29,11 +29,11 @@ var rooms = {
     E64N58: rE64N58,
 };
 
-var room_targ = 'E62N56';
+var room_targ = 'E61N57';
 var army_stage = new RoomPosition(26, 42, 'E63N59');
 var army_deploy = true;
 
-var ign = ['57fc44dbff2414b02896117a', '57fc4f263435b4585718b158', '58004617225d0f856c6cc10d', '5800fa18fb6b6b8d7c5cdcda'];
+var ign = ['57fc44dbff2414b02896117a', '57fc4f263435b4585718b158', '58004617225d0f856c6cc10d', '5800fa18fb6b6b8d7c5cdcda', '580514436c47dea9463e6a01'];
 
 var partOrder = function(a, b) {
     if (a == TOUGH) return -1;
@@ -51,6 +51,7 @@ var maxBody = function(template, en) {
     times = Math.floor(en/tsum);
     out_body = [];
     for (var i=0; i < times; i++) out_body = out_body.concat(template);
+    if (out_body.length > 50) return out_body.slice(0, 50).sort(partOrder);
     return out_body.sort(partOrder);
 };
 
@@ -63,55 +64,79 @@ var maxSpawnEnergy = function(r) {
 // CONCAT phases.js
 
 
+
 // CONCAT bodies.js
+
 
 
 // CONCAT role.builder.js
 
+
 // CONCAT role.claimer.js
+
 
 // CONCAT role.defender.js
 
+
 // CONCAT role.drudge.js
+
 
 // CONCAT role.energyMiner.js
 
+
 // CONCAT role.healer.js
+
 
 // CONCAT role.hunter.js
 
+
 // CONCAT role.maintainer.js
+
 
 // CONCAT role.mover.js
 
+
 // CONCAT role.paver.js
+
 
 // CONCAT role.resourceMiner.js
 
+
 // CONCAT role.scruffy.js
+
 
 // CONCAT role.spawner.js
 
+
 // CONCAT role.support.js
+
 
 // CONCAT role.tank.js
 
+
 // CONCAT role.towerFiller.js
 
+
 // CONCAT role.upgrader.js
+
 
 // CONCAT role.wallMaintainer.js
 
 
+
 // CONCAT link.js
 
+
 // CONCAT tower.js
+
 
 
 // CONCAT queue.js
 
 
+
 // CONCAT cmd.js
+
 
 
 var roles = {
@@ -144,20 +169,20 @@ var spawn = function (r) {
     try {
         var room = Game.rooms[r].memory[rooms[r].phase];
         if (room.spawnq.length) {
-            if (room.spawnq[0].role == 'spawner' || room.spawnq[0].role == 'energyMiner') room.enableRenew = false;
-            else room.enableRenew = true;
+            room.enableRenew = false;
             var body = bodies[room.spawnLevel][room.spawnq[0].role];
             // if no spawners for current room
             if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.memory.home == r;}}).length == 0 ||
                 Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'energyMiner' && creep.memory.home == r;}}).length == 0) {
                 body = bodies[0][room.spawnq[0].role];
             }
-            var newName = Game.spawns[room.spawn].createCreep(body, undefined, room.spawnq[0]);
+            var newName = Game.spawns[rooms[r].spawn].createCreep(body, undefined, room.spawnq[0]);
             if (newName != ERR_BUSY && newName != ERR_NOT_ENOUGH_ENERGY) {
-                console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName + ', at ' + room.spawn);
+                console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName + ', at ' + rooms[r].spawn);
                 room.spawnq.shift();
             }
         }
+        else room.enableRenew = true;
     }
     catch (err) {
         console.log(r + ': ' + err)

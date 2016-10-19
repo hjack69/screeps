@@ -47,6 +47,6 @@ var paver = {
         e.emergency(creep, t);
     }
 };
-paver.phase2 = paver.phase1;
+paver.phase3 = paver.phase2 = paver.phase1;
 
 // END role.paver.js

@@ -41,7 +41,7 @@ var defender = {
         // console.log(creep.name + ' defender: ' + etime);
     }
 };
-defender.phase2 = defender.phase1;
+defender.phase3 = defender.phase2 = defender.phase1;
 defender.emergency = defender.phase1;
 
 // END role.defender.js

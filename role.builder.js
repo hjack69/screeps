@@ -63,6 +63,6 @@ var builder = {
         emergencyRole.emergency(creep);
     }
 };
-builder.phase2 = builder.phase1;
+builder.phase3 = builder.phase2 = builder.phase1;
 
 // END role.builder.js

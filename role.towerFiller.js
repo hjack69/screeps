@@ -38,7 +38,7 @@ var towerFiller = {
             }
             else if (creep.memory.action == 'harvesting') {
                 var target = null;
-                if (tlist.filling[0] && tlist.filling[0].structureType != STRUCTURE_CONTAINER && tlist.harvesting.length) {
+                if (tlist.filling[0] && tlist.filling[0].structureType != STRUCTURE_STORAGE && tlist.harvesting.length) {
                     target = tlist.harvesting[0];
                 }
                 if (target) {
@@ -66,7 +66,7 @@ var towerFiller = {
         // console.log(creep.name + ' towerFiller: ' + etime);
     }
 };
-towerFiller.phase2 = towerFiller.phase1;
+towerFiller.phase3 = towerFiller.phase2 = towerFiller.phase1;
 towerFiller.emergency = towerFiller.phase1;
 
 // END role.towerFiller.js

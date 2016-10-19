@@ -42,7 +42,7 @@ var spawner = {
         // console.log(creep.name + ' spawner: ' + etime);
     }
 };
-spawner.phase2 = spawner.phase1;
+spawner.phase3 = spawner.phase2 = spawner.phase1;
 spawner.emergency = spawner.phase1;
 
 // END role.spawner.js

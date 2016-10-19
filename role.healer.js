@@ -57,7 +57,7 @@ var healer = {
         // console.log(creep.name + ' healer: ' + etime);
     }
 };
-healer.phase2 = healer.phase1;
+healer.phase3 = healer.phase2 = healer.phase1;
 healer.emergency = healer.phase1;
 
 // END role.healer.js

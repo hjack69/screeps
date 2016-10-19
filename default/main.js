@@ -29,11 +29,11 @@ var rooms = {
     E64N58: rE64N58,
 };
 
-var room_targ = 'E62N56';
+var room_targ = 'E61N57';
 var army_stage = new RoomPosition(26, 42, 'E63N59');
 var army_deploy = true;
 
-var ign = ['57fc44dbff2414b02896117a', '57fc4f263435b4585718b158', '58004617225d0f856c6cc10d', '5800fa18fb6b6b8d7c5cdcda'];
+var ign = ['57fc44dbff2414b02896117a', '57fc4f263435b4585718b158', '58004617225d0f856c6cc10d', '5800fa18fb6b6b8d7c5cdcda', '580514436c47dea9463e6a01'];
 
 var partOrder = function(a, b) {
     if (a == TOUGH) return -1;
@@ -51,6 +51,7 @@ var maxBody = function(template, en) {
     times = Math.floor(en/tsum);
     out_body = [];
     for (var i=0; i < times; i++) out_body = out_body.concat(template);
+    if (out_body.length > 50) return out_body.slice(0, 50).sort(partOrder);
     return out_body.sort(partOrder);
 };
 
@@ -348,6 +349,84 @@ var phases = {
             room.memory.phase2setup = true;
         }
     },
+    phase3: function(r) {
+        // energy containers not built yet
+        var room = Game.rooms[r];
+        if (!room.memory.phase3setup) {
+            room.memory.phase3 = {
+                spawnq:[],
+                spawn: '',
+                spawnLevel: 0,
+                energyQ: []
+            };
+            if (r == 'E63N59') {
+                room.memory.phase3.spawnq = [
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:7, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:18, y:28}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                ].concat(shuffle([
+                    {role:'builder', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'maintainer', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'mover', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'paver', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'towerFiller', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'wallMaintainer', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'healer', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'scruffy', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                ]));
+                room.memory.phase3.energyQ = [[],[]];
+            }
+            else if (r == 'E61N58') {
+                room.memory.phase3.spawnq = [
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:44, y:40}, dumpid:'580058b305abae6472c32192', sourceid:'57ef9e5786f108ae6e60f29a', home:'E61N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:9, y:42}, dumpid:'58004617225d0f856c6cc10d', sourceid:'57ef9e5786f108ae6e60f29b', home:'E61N58', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                ].concat(shuffle([
+                    {role:'builder', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'maintainer', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'mover', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'paver', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'towerFiller', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'wallMaintainer', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'healer', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'scruffy', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                ]));
+                room.memory.phase3.energyQ = [[],[]];
+                room.memory.phase3.spawnLevel = 4;
+            }
+            else if (r == 'E64N58') {
+                room.memory.phase3.spawnq = [
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:32, y:44}, dumpid:'5800fa18fb6b6b8d7c5cdcda', sourceid:'57ef9e9386f108ae6e60f809', home:'E64N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:29, y:27}, dumpid:'5800c56aa01b5451543e4347', sourceid:'57ef9e9386f108ae6e60f807', home:'E64N58', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                ].concat(shuffle([
+                    {role:'builder', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'maintainer', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'mover', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'paver', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'towerFiller', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'wallMaintainer', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'healer', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'scruffy', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                ]));
+                room.memory.phase3.energyQ = [[],[]];
+                room.memory.phase3.spawnLevel = 4;
+            }
+            room.memory.phase3setup = true;
+        }
+    },
 };
 
 // END phases.js
@@ -387,11 +466,11 @@ var bodies = [
         mover: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
         towerFiller: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
         spawner: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
-        energyMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
-        defender: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+        energyMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+        defender: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,MOVE,MOVE,ATTACK,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE],
         hunter: [TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK,MOVE,ATTACK,MOVE,ATTACK],
         support: [TOUGH, MOVE, TOUGH, MOVE, MOVE, HEAL, MOVE, HEAL],
-        healer: [MOVE, MOVE, HEAL, HEAL],
+        healer: [TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,MOVE,HEAL,HEAL],
         hoarder: [WORK, CARRY, CARRY, MOVE, MOVE],
         claimer: [CLAIM, MOVE],
         scruffy: [WORK, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
@@ -401,26 +480,67 @@ var bodies = [
     },
     // 2
     {
-        harvester: [WORK, CARRY, MOVE],
-        upgrader: [WORK, WORK, WORK, CARRY, MOVE, MOVE],
-        builder: [WORK, WORK, CARRY, MOVE],
-        paver: [WORK, CARRY, MOVE],
-        maintainer: [WORK, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
-        wallMaintainer: [WORK, CARRY, MOVE, CARRY, MOVE],
-        mover: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
-        towerFiller: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
-        spawner: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
-        energyMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE],
-        defender: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, ATTACK, ATTACK, ATTACK],
-        hunter: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,ATTACK,MOVE,ATTACK,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK],
-        support: [HEAL,MOVE,HEAL,MOVE,HEAL,MOVE,HEAL,MOVE],
-        healer: [MOVE, MOVE, HEAL, HEAL],
+        upgrader: [CARRY,WORK,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE],
+        builder: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+        paver: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
+        maintainer: [CARRY,WORK,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE],
+        wallMaintainer: [CARRY,WORK,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE],
+        mover: [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
+        towerFiller: [MOVE,CARRY,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE],
+        spawner: [MOVE,CARRY,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE],
+        energyMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+        defender: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,MOVE,MOVE,ATTACK,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE],
+        hunter: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,MOVE,MOVE,ATTACK,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE],
+        support: [TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,MOVE,HEAL,HEAL],
+        healer: [TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,MOVE,HEAL,HEAL],
         hoarder: [WORK, CARRY, MOVE],
         claimer: [CLAIM, MOVE, MOVE],
-        scruffy: [WORK, CARRY, MOVE, CARRY, MOVE],
+        scruffy: [WORK, WORK, CARRY, CARRY, MOVE, MOVE],
         drudge: [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
         resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
-        tank: [TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
+        tank: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]
+    },
+    // 3
+    {
+        upgrader: [WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE],
+        builder: [WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE],
+        paver: [WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE],
+        maintainer: [WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE],
+        wallMaintainer: [WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE],
+        mover: [CARRY,CARRY,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,MOVE,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE],
+        towerFiller: [CARRY,CARRY,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,MOVE,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE],
+        spawner: [CARRY,CARRY,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,MOVE,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE],
+        energyMiner: [MOVE,WORK,WORK,MOVE,WORK,MOVE,WORK,MOVE,WORK,MOVE,WORK,MOVE,WORK,MOVE,WORK,MOVE,WORK,MOVE,WORK,MOVE,WORK,MOVE,CARRY],
+        defender: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK,MOVE],
+        hunter: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK,MOVE,ATTACK,MOVE,MOVE,MOVE,ATTACK,MOVE],
+        support: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,HEAL,MOVE,MOVE,MOVE,HEAL,MOVE,HEAL,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL],
+        healer: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,HEAL,MOVE,MOVE,MOVE,HEAL,MOVE,HEAL,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL],
+        claimer: [CLAIM,MOVE,CLAIM,MOVE],
+        scruffy: [WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE],
+        drudge: [WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE],
+        resourceMiner: [WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE,WORK,CARRY,MOVE],
+        tank: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE],
+    },
+    // 4
+    {
+        upgrader: [CARRY,WORK,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE],
+        builder: [CARRY,WORK,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE],
+        paver: [CARRY,WORK,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE],
+        maintainer: [CARRY,WORK,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE],
+        wallMaintainer: [CARRY,WORK,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE],
+        mover: [MOVE,CARRY,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE],
+        towerFiller: [MOVE,CARRY,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE],
+        spawner: [MOVE,CARRY,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE,CARRY,MOVE],
+        energyMiner: [WORK,WORK,WORK,MOVE,WORK,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,WORK,MOVE,WORK,MOVE,CARRY],
+        defender: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,MOVE,MOVE,ATTACK,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE],
+        hunter: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,ATTACK,MOVE,MOVE,ATTACK,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE,MOVE,MOVE,MOVE,MOVE,ATTACK,MOVE],
+        support: [TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,MOVE,HEAL,HEAL],
+        healer: [TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,HEAL,MOVE,HEAL,HEAL],
+        claimer: [CLAIM,MOVE,CLAIM,MOVE],
+        scruffy: [CARRY,WORK,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE],
+        drudge: [CARRY,WORK,CARRY,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,MOVE,MOVE,WORK,MOVE,CARRY,MOVE,WORK,MOVE,CARRY,MOVE],
+        resourceMiner: [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+        tank: [TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,TOUGH,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE]
     },
 ];
 
@@ -494,7 +614,7 @@ var builder = {
         emergencyRole.emergency(creep);
     }
 };
-builder.phase2 = builder.phase1;
+builder.phase3 = builder.phase2 = builder.phase1;
 
 // END role.builder.js
 
@@ -524,7 +644,7 @@ var claimer = {
         }
     }
 };
-claimer.phase2 = claimer.phase1;
+claimer.phase3 = claimer.phase2 = claimer.phase1;
 
 // END role.claimer.js
 
@@ -573,7 +693,7 @@ var defender = {
         // console.log(creep.name + ' defender: ' + etime);
     }
 };
-defender.phase2 = defender.phase1;
+defender.phase3 = defender.phase2 = defender.phase1;
 defender.emergency = defender.phase1;
 
 // END role.defender.js
@@ -637,7 +757,7 @@ var drudge = {
         // console.log(creep.name + ' drudge: ' + etime);
     }
 };
-drudge.phase2 = drudge.phase1;
+drudge.phase3 = drudge.phase2 = drudge.phase1;
 
 // END role.drudge.js
 
@@ -715,7 +835,7 @@ var energyMiner = {
         // console.log(creep.name + ' energyMiner: ' + etime);
     }
 };
-energyMiner.emergency = energyMiner.phase2;
+energyMiner.phase3 = energyMiner.emergency = energyMiner.phase2;
 
 // END role.energyMiner.js
 
@@ -780,7 +900,7 @@ var healer = {
         // console.log(creep.name + ' healer: ' + etime);
     }
 };
-healer.phase2 = healer.phase1;
+healer.phase3 = healer.phase2 = healer.phase1;
 healer.emergency = healer.phase1;
 
 // END role.healer.js
@@ -799,7 +919,7 @@ var hunter = {
                 h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_TOWER && ignoreOwners.indexOf(s.owner.username) == -1}}),
                 h.findClosestByRange(FIND_HOSTILE_CREEPS),
                 h.findClosestByRange(FIND_HOSTILE_SPAWNS),
-                h.findClosestByRange(FIND_HOSTILE_STRUCTURES),
+                h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s) => {return s.structureType != STRUCTURE_CONTROLLER}}),
             ];
         }
         catch(err) {}
@@ -831,7 +951,8 @@ var hunter = {
                         break;
                     }
                 }
-                if (target && creep.attack(target) == ERR_NOT_IN_RANGE) {
+                if (target) {
+                    creep.attack(target)
                     creep.moveTo(target);
                 }
                 else if (!target) {
@@ -844,7 +965,7 @@ var hunter = {
         }
     }
 };
-hunter.phase2 = hunter.phase1;
+hunter.phase3 = hunter.phase2 = hunter.phase1;
 
 // END role.hunter.js
 
@@ -913,7 +1034,7 @@ var maintainer = {
         e.emergency(creep);
     }
 };
-maintainer.phase2 = maintainer.phase1;
+maintainer.phase3 = maintainer.phase2 = maintainer.phase1;
 
 // END role.maintainer.js
 
@@ -983,7 +1104,7 @@ var mover = {
         e.emergency(creep);
     }
 };
-mover.phase2 = mover.phase1;
+mover.phase3 = mover.phase2 = mover.phase1;
 
 // END role.mover.js
 
@@ -1038,7 +1159,7 @@ var paver = {
         e.emergency(creep, t);
     }
 };
-paver.phase2 = paver.phase1;
+paver.phase3 = paver.phase2 = paver.phase1;
 
 // END role.paver.js
 
@@ -1086,7 +1207,7 @@ var resourceMiner = {
 
     }
 };
-resourceMiner.phase2 = resourceMiner.phase1;
+resourceMiner.phase3 = resourceMiner.phase2 = resourceMiner.phase1;
 
 // END role.resourceMiner.js
 
@@ -1138,7 +1259,7 @@ var scruffy = {
         // console.log(creep.name + ' scruffy: ' + etime);
     }
 };
-scruffy.phase2 = scruffy.emergency = scruffy.phase1;
+scruffy.phase3 = scruffy.phase2 = scruffy.emergency = scruffy.phase1;
 
 // END role.scruffy.js
 
@@ -1188,7 +1309,7 @@ var spawner = {
         // console.log(creep.name + ' spawner: ' + etime);
     }
 };
-spawner.phase2 = spawner.phase1;
+spawner.phase3 = spawner.phase2 = spawner.phase1;
 spawner.emergency = spawner.phase1;
 
 // END role.spawner.js
@@ -1246,7 +1367,7 @@ var support = {
         }
     }
 };
-support.phase2 = support.phase1;
+support.phase3 = support.phase2 = support.phase1;
 
 // END role.support.js
 
@@ -1271,7 +1392,7 @@ var tank = {
         }
     }
 };
-tank.phase2 = tank.phase1;
+tank.phase3 = tank.phase2 = tank.phase1;
 
 // END role.tank.js
 
@@ -1317,7 +1438,7 @@ var towerFiller = {
             }
             else if (creep.memory.action == 'harvesting') {
                 var target = null;
-                if (tlist.filling[0] && tlist.filling[0].structureType != STRUCTURE_CONTAINER && tlist.harvesting.length) {
+                if (tlist.filling[0] && tlist.filling[0].structureType != STRUCTURE_STORAGE && tlist.harvesting.length) {
                     target = tlist.harvesting[0];
                 }
                 if (target) {
@@ -1345,7 +1466,7 @@ var towerFiller = {
         // console.log(creep.name + ' towerFiller: ' + etime);
     }
 };
-towerFiller.phase2 = towerFiller.phase1;
+towerFiller.phase3 = towerFiller.phase2 = towerFiller.phase1;
 towerFiller.emergency = towerFiller.phase1;
 
 // END role.towerFiller.js
@@ -1355,8 +1476,8 @@ towerFiller.emergency = towerFiller.phase1;
 var upgrader = {
     targets: function() {
         var only_these = {
-            E63N59: ['57fc9dd698812bf3681c8829'],
-            E61N58: ['5801332ee79c77554b687f41'],
+            E63N59: ['57fc9dd698812bf3681c8829', '580514436c47dea9463e6a01'],
+            E61N58: ['5805b86cdf8ca9af0aecf77b'],
             E64N58: ['5801324c7c292ce83567328f'],
         };
         var out = {};
@@ -1424,7 +1545,7 @@ var upgrader = {
         // console.log(creep.name + ' upgrader: ' + etime);
     }
 };
-upgrader.phase2 = upgrader.emergency = upgrader.phase1;
+upgrader.phase3 = upgrader.phase2 = upgrader.emergency = upgrader.phase1;
 
 // END role.upgrader.js
 
@@ -1492,7 +1613,7 @@ var wallMaintainer = {
         // console.log(creep.name + ' wallMaintainer: ' + etime);
     }
 };
-wallMaintainer.phase2 = wallMaintainer.phase1;
+wallMaintainer.phase3 = wallMaintainer.phase2 = wallMaintainer.phase1;
 wallMaintainer.emergency = wallMaintainer.phase1;
 
 // END role.wallMaintainer.js
@@ -1502,8 +1623,8 @@ wallMaintainer.emergency = wallMaintainer.phase1;
 // CONCAT link.js
 var linker = {
     targets: function() {
-        return {
-            W61N59: {from: [], to: []} // from:ids, to:objects
+        return { // from:ids, to:objects
+            E63N59: {from: ['5804e1fe90cbb40d1f5d3843'], to: [Game.getObjectById('580514436c47dea9463e6a01')]}
         };
     },
     phase1: function(l, t) {
@@ -1517,7 +1638,7 @@ var linker = {
         }
     }
 };
-linker.phase2 = linker.emergency = linker.phase1;
+linker.phase3 = linker.phase2 = linker.emergency = linker.phase1;
 
 // END link.js
 
@@ -1561,7 +1682,7 @@ var tower = {
         }
     }
 };
-tower.phase2 = tower.phase1;
+tower.phase3 = tower.phase2 = tower.phase1;
 tower.emergency = tower.phase1;
 
 // END tower.js
@@ -1684,7 +1805,7 @@ var queue = {
         // console.log(creep.name + ' queueP2: ' + etime);
     }
 };
-queue.emergency = queue.phase2;
+queue.phase3 = queue.emergency = queue.phase2;
 // END queue.js
 
 
@@ -1800,20 +1921,20 @@ var spawn = function (r) {
     try {
         var room = Game.rooms[r].memory[rooms[r].phase];
         if (room.spawnq.length) {
-            if (room.spawnq[0].role == 'spawner' || room.spawnq[0].role == 'energyMiner') room.enableRenew = false;
-            else room.enableRenew = true;
+            room.enableRenew = false;
             var body = bodies[room.spawnLevel][room.spawnq[0].role];
             // if no spawners for current room
             if (Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'spawner' && creep.memory.home == r;}}).length == 0 ||
                 Game.rooms[r].find(FIND_MY_CREEPS, {filter: (creep) => {return creep.memory.role == 'energyMiner' && creep.memory.home == r;}}).length == 0) {
                 body = bodies[0][room.spawnq[0].role];
             }
-            var newName = Game.spawns[room.spawn].createCreep(body, undefined, room.spawnq[0]);
+            var newName = Game.spawns[rooms[r].spawn].createCreep(body, undefined, room.spawnq[0]);
             if (newName != ERR_BUSY && newName != ERR_NOT_ENOUGH_ENERGY) {
-                console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName + ', at ' + room.spawn);
+                console.log('Spawning new ' + room.spawnq[0].role + ', ' + newName + ', at ' + rooms[r].spawn);
                 room.spawnq.shift();
             }
         }
+        else room.enableRenew = true;
     }
     catch (err) {
         console.log(r + ': ' + err)

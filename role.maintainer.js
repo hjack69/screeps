@@ -61,6 +61,6 @@ var maintainer = {
         e.emergency(creep);
     }
 };
-maintainer.phase2 = maintainer.phase1;
+maintainer.phase3 = maintainer.phase2 = maintainer.phase1;
 
 // END role.maintainer.js

@@ -22,6 +22,6 @@ var claimer = {
         }
     }
 };
-claimer.phase2 = claimer.phase1;
+claimer.phase3 = claimer.phase2 = claimer.phase1;
 
 // END role.claimer.js

@@ -49,6 +49,6 @@ var support = {
         }
     }
 };
-support.phase2 = support.phase1;
+support.phase3 = support.phase2 = support.phase1;
 
 // END role.support.js

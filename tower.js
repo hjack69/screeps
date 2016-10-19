@@ -36,7 +36,7 @@ var tower = {
         }
     }
 };
-tower.phase2 = tower.phase1;
+tower.phase3 = tower.phase2 = tower.phase1;
 tower.emergency = tower.phase1;
 
 // END tower.js

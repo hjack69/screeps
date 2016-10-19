@@ -10,7 +10,7 @@ var hunter = {
                 h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s)=> {return s.structureType == STRUCTURE_TOWER && ignoreOwners.indexOf(s.owner.username) == -1}}),
                 h.findClosestByRange(FIND_HOSTILE_CREEPS),
                 h.findClosestByRange(FIND_HOSTILE_SPAWNS),
-                h.findClosestByRange(FIND_HOSTILE_STRUCTURES),
+                h.findClosestByRange(FIND_HOSTILE_STRUCTURES, {filter: (s) => {return s.structureType != STRUCTURE_CONTROLLER}}),
             ];
         }
         catch(err) {}
@@ -42,7 +42,8 @@ var hunter = {
                         break;
                     }
                 }
-                if (target && creep.attack(target) == ERR_NOT_IN_RANGE) {
+                if (target) {
+                    creep.attack(target)
                     creep.moveTo(target);
                 }
                 else if (!target) {
@@ -55,6 +56,6 @@ var hunter = {
         }
     }
 };
-hunter.phase2 = hunter.phase1;
+hunter.phase3 = hunter.phase2 = hunter.phase1;
 
 // END role.hunter.js

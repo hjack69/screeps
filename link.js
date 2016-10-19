@@ -1,7 +1,7 @@
 var linker = {
     targets: function() {
-        return {
-            W61N59: {from: [], to: []} // from:ids, to:objects
+        return { // from:ids, to:objects
+            E63N59: {from: ['5804e1fe90cbb40d1f5d3843'], to: [Game.getObjectById('580514436c47dea9463e6a01')]}
         };
     },
     phase1: function(l, t) {
@@ -15,6 +15,6 @@ var linker = {
         }
     }
 };
-linker.phase2 = linker.emergency = linker.phase1;
+linker.phase3 = linker.phase2 = linker.emergency = linker.phase1;
 
 // END link.js

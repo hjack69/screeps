@@ -55,6 +55,6 @@ var drudge = {
         // console.log(creep.name + ' drudge: ' + etime);
     }
 };
-drudge.phase2 = drudge.phase1;
+drudge.phase3 = drudge.phase2 = drudge.phase1;
 
 // END role.drudge.js

@@ -113,5 +113,5 @@ var queue = {
         // console.log(creep.name + ' queueP2: ' + etime);
     }
 };
-queue.emergency = queue.phase2;
+queue.phase3 = queue.emergency = queue.phase2;
 // END queue.js

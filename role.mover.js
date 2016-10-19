@@ -62,6 +62,6 @@ var mover = {
         e.emergency(creep);
     }
 };
-mover.phase2 = mover.phase1;
+mover.phase3 = mover.phase2 = mover.phase1;
 
 // END role.mover.js

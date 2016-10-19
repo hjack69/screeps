@@ -17,6 +17,6 @@ var tank = {
         }
     }
 };
-tank.phase2 = tank.phase1;
+tank.phase3 = tank.phase2 = tank.phase1;
 
 // END role.tank.js

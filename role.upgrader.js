@@ -1,8 +1,8 @@
 var upgrader = {
     targets: function() {
         var only_these = {
-            E63N59: ['57fc9dd698812bf3681c8829'],
-            E61N58: ['5801332ee79c77554b687f41'],
+            E63N59: ['57fc9dd698812bf3681c8829', '580514436c47dea9463e6a01'],
+            E61N58: ['5805b86cdf8ca9af0aecf77b'],
             E64N58: ['5801324c7c292ce83567328f'],
         };
         var out = {};
@@ -70,6 +70,6 @@ var upgrader = {
         // console.log(creep.name + ' upgrader: ' + etime);
     }
 };
-upgrader.phase2 = upgrader.emergency = upgrader.phase1;
+upgrader.phase3 = upgrader.phase2 = upgrader.emergency = upgrader.phase1;
 
 // END role.upgrader.js

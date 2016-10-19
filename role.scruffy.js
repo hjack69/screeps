@@ -44,6 +44,6 @@ var scruffy = {
         // console.log(creep.name + ' scruffy: ' + etime);
     }
 };
-scruffy.phase2 = scruffy.emergency = scruffy.phase1;
+scruffy.phase3 = scruffy.phase2 = scruffy.emergency = scruffy.phase1;
 
 // END role.scruffy.js

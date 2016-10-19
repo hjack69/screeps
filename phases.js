@@ -285,6 +285,84 @@ var phases = {
             room.memory.phase2setup = true;
         }
     },
+    phase3: function(r) {
+        // energy containers not built yet
+        var room = Game.rooms[r];
+        if (!room.memory.phase3setup) {
+            room.memory.phase3 = {
+                spawnq:[],
+                spawn: '',
+                spawnLevel: 0,
+                energyQ: []
+            };
+            if (r == 'E63N59') {
+                room.memory.phase3.spawnq = [
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:7, y:28}, dumpid:'57fc44dbff2414b02896117a', sourceid:'57ef9e7f86f108ae6e60f627', home:'E63N59', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:18, y:28}, dumpid:'57fc4638584fe4dd1b87e66f', sourceid:'57ef9e7f86f108ae6e60f628', home:'E63N59', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                ].concat(shuffle([
+                    {role:'builder', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'maintainer', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'mover', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'paver', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'towerFiller', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'wallMaintainer', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'healer', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                    {role:'scruffy', phase:'phase3', qstate:'', qindex:0, home:'E63N59'},
+                ]));
+                room.memory.phase3.energyQ = [[],[]];
+            }
+            else if (r == 'E61N58') {
+                room.memory.phase3.spawnq = [
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:44, y:40}, dumpid:'580058b305abae6472c32192', sourceid:'57ef9e5786f108ae6e60f29a', home:'E61N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:9, y:42}, dumpid:'58004617225d0f856c6cc10d', sourceid:'57ef9e5786f108ae6e60f29b', home:'E61N58', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                ].concat(shuffle([
+                    {role:'builder', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'maintainer', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'mover', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'paver', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'towerFiller', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'wallMaintainer', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'healer', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                    {role:'scruffy', phase:'phase3', qstate:'', qindex:0, home:'E61N58'},
+                ]));
+                room.memory.phase3.energyQ = [[],[]];
+                room.memory.phase3.spawnLevel = 4;
+            }
+            else if (r == 'E64N58') {
+                room.memory.phase3.spawnq = [
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:32, y:44}, dumpid:'5800fa18fb6b6b8d7c5cdcda', sourceid:'57ef9e9386f108ae6e60f809', home:'E64N58', qstate:'', qindex:0},
+                    {role:'energyMiner', phase:'phase3', action:'harvesting', spot:{x:29, y:27}, dumpid:'5800c56aa01b5451543e4347', sourceid:'57ef9e9386f108ae6e60f807', home:'E64N58', qstate:'', qindex:0},
+                    {role:'spawner', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                ].concat(shuffle([
+                    {role:'builder', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'maintainer', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'mover', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'paver', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'towerFiller', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'upgrader', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'wallMaintainer', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'healer', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'defender', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                    {role:'scruffy', phase:'phase3', qstate:'', qindex:0, home:'E64N58'},
+                ]));
+                room.memory.phase3.energyQ = [[],[]];
+                room.memory.phase3.spawnLevel = 4;
+            }
+            room.memory.phase3setup = true;
+        }
+    },
 };
 
 // END phases.js

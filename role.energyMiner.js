@@ -70,6 +70,6 @@ var energyMiner = {
         // console.log(creep.name + ' energyMiner: ' + etime);
     }
 };
-energyMiner.emergency = energyMiner.phase2;
+energyMiner.phase3 = energyMiner.emergency = energyMiner.phase2;
 
 // END role.energyMiner.js
