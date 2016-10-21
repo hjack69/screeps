@@ -9,4 +9,3 @@ with open('main.js', 'r') as template, open('default/main.js', 'w') as output:
             with open(m.group(2), 'r') as cfile:
                 for cline in cfile:
                     output.write(m.group(1)+cline)
-                output.write('\n')

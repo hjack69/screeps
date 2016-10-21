@@ -2001,7 +2001,7 @@ module.exports.loop = function () {
             next.push(name);
 
             if (test[0] < (Game.cpu.getUsed()-stime)) {
-                test[0] = (Game.cpu.getUsed()-stime)
+                test[0] = (Game.cpu.getUsed()-stime);
                 test[1] = name + ' ' + creep.memory.role;
             }
         }

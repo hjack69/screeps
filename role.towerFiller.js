@@ -11,32 +11,25 @@ var towerFiller = {
     },
     phase1: function(creep, t) {
         var stime = Game.cpu.getUsed();
+
+        if (!creep.memory.towerFiller) creep.memory.towerFiller = {action: 'harvesting'};
+
         var tlist = t.towerFiller[creep.memory.home];
         if (creep.room.name != creep.memory.home) {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
+        else if (creep.ticksToLive < 250 && creep.memory.renewQ.state == '') {
+            creep.memory.renewQ.state = 'entering';
+        }
         else if (tlist.filling.length) {
-            if ((creep.memory.action != 'harvesting' && creep.memory.action != 'filling' && creep.memory.action != 'renewing') || (creep.carry.energy == 0 && creep.memory.action == 'filling')) {
-                creep.memory.action = 'harvesting';
+            if (creep.carry.energy == 0 && creep.memory.towerFiller.action == 'filling') {
+                creep.memory.towerFiller.action = 'harvesting';
             }
-            else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
-                creep.memory.action = 'filling';
-            }
-            if (creep.ticksToLive < 250 && creep.memory.action != 'renewing' && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
-                creep.memory.action = 'renewing';
+            else if (creep.carry.energy == creep.carryCapacity && creep.memory.towerFiller.action == 'harvesting') {
+                creep.memory.towerFiller.action = 'filling';
             }
 
-            if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[rooms[creep.memory.home].spawn];
-                var r = s.renewCreep(creep);
-                if (r == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(s);
-                }
-                else if (r == ERR_FULL) {
-                    creep.memory.action = 'filling';
-                }
-            }
-            else if (creep.memory.action == 'harvesting') {
+            if (creep.memory.towerFiller.action == 'harvesting') {
                 var target = null;
                 if (tlist.filling[0] && tlist.filling[0].structureType != STRUCTURE_STORAGE && tlist.harvesting.length) {
                     target = tlist.harvesting[0];
@@ -47,10 +40,10 @@ var towerFiller = {
                     }
                 }
                 else {
-                    creep.memory.qstate = 'entering';
+                    creep.memory.energyQ.state = 'entering';
                 }
             }
-            else if (creep.memory.action == 'filling') {
+            else if (creep.memory.towerFiller.action == 'filling') {
                 var target = tlist.filling[0];
                 if (target) {
                     if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {

@@ -54,10 +54,8 @@ var cmd = {
             console.log('Requires room');
         }
         else {
-            var i = 1
-            if (args.reverse) {
-                i = -1
-            }
+            var i = 1;
+            if (args.reverse) i = -1
             var n = Memory.rooms[args.room][rooms[args.room].phase].spawnLevel += i;
             console.log(args.room + ' spawn level set to ' + n);
         }
@@ -72,6 +70,16 @@ var cmd = {
             return
         }
         Memory.creeps[args.name].dontSpawn = true;
+    },
+    getRole: function(args) {
+        if (!args.name) {
+            console.log('Requires name');
+            return
+        }
+        if (!Game.creeps[args.name]) {
+            console.log('Creep not found');
+        }
+        console.log(args.name + ' is a ' + Memory.creeps[args.name].role);
     },
 };
 // END cmd.js

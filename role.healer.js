@@ -15,20 +15,11 @@ var healer = {
     },
     phase1: function(creep, t) {
         var stime = Game.cpu.getUsed();
+        if (!creep.memory.healer) creep.memory.healer = {};
         if (creep.room.name != creep.memory.home) {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
         else {
-            if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[rooms[creep.memory.home].spawn];
-                var r = s.renewCreep(creep)
-                if (r == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(s);
-                }
-                else if (r == ERR_FULL) {
-                    creep.memory.action = '';
-                }
-            }
             var tlist = t.healer[creep.memory.home];
             var target = null;
             for (var i = 0; i < tlist.length; i++) {
@@ -38,19 +29,15 @@ var healer = {
                 }
             }
             if (target) {
-                creep.memory.action = '';
                 if (creep.heal(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target.pos);
                 }
             }
             else {
-                var s = Game.spawns[Memory.rooms[creep.memory.home][creep.memory.phase].spawn];
-                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
-                    creep.memory.action = 'renewing';
+                if (creep.ticksToLive < 250 && creep.memory.energyQ.state == '') {
+                    creep.memory.energyQ.state = 'entering';
                 }
-                else if (creep.memory.action == '' || !creep.memory.action) {
-                    creep.moveTo(t.healer.waiting[creep.memory.home]);
-                }
+                creep.moveTo(t.healer.waiting[creep.memory.home]);
             }
         }
         var etime = (Game.cpu.getUsed() - stime);

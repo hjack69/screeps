@@ -131,7 +131,7 @@ var maxSpawnEnergy = function(r) {
 
 
 
-// CONCAT queue.js
+// CONCAT energyQueue.js
 
 
 
@@ -164,6 +164,9 @@ var roles = {
     linker: linker,
     tower: tower,
 };
+
+// CONCAT renewQueue.js
+
 
 var spawn = function (r) {
     try {
@@ -234,22 +237,30 @@ module.exports.loop = function () {
                 var creep = Game.creeps[name];
                 var creepHomePhase = rooms[creep.memory.home].phase;
                 var stime = Game.cpu.getUsed();
-                if (creep.memory.qstate != '') {
-                    queue[creepHomePhase](creep);
+                if (!creep.memory.energyQ) creep.memory.energyQ = {state: '', index: ''};
+                if (!creep.memory.renewQ) creep.memory.renewQ = {state: ''};
+                if (creep.memory.renewQ.state != '') {
+                    renewQueue(creep, targets);
+                }
+                else if (creep.memory.energyQ.state != '') {
+                    energyQueue[creepHomePhase](creep);
                 }
                 else {
-                    roles[creep.memory.role][creepHomePhase](creep, targets);
+                    if (['healer', 'defender', 'tank', 'hunter', 'support', 'upgrader'].indexOf(creep.memory.role) == -1 &&
+                            Memory.rooms[creep.memory.home][creepHomePhase].spawnq.length) {
+                        roles.spawner[creepHomePhase](creep, targets);
+                    }
+                    else roles[creep.memory.role][creepHomePhase](creep, targets);
                 }
             }
             catch(err) {
-                console.log("Error with " + name); // + ", " + Game.creeps[n].memory.role);
-                console.log(err)
+                console.log("Error with " + name + '\n' + err);
             }
 
             next.push(name);
 
             if (test[0] < (Game.cpu.getUsed()-stime)) {
-                test[0] = (Game.cpu.getUsed()-stime)
+                test[0] = (Game.cpu.getUsed()-stime);
                 test[1] = name + ' ' + creep.memory.role;
             }
         }
@@ -264,7 +275,8 @@ module.exports.loop = function () {
                     var cMem = Memory.creeps[n];
                     if (cMem) {
                         var cRoom = Game.rooms[cMem.home].memory;
-                        cMem.qstate = '';
+                        cMem.energyQ.state = '';
+                        cMem.renewQ.state = '';
                         if (!cMem.dontSpawn) {
                             if (cMem.role == 'energyMiner' || cMem.role == 'spawner') {
                                 cRoom[cMem.phase].spawnq.unshift(cMem);

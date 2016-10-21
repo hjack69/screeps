@@ -11,45 +11,35 @@ var maintainer = {
     },
     phase1: function(creep, t) {
         var stime = Game.cpu.getUsed();
+
+        if (!creep.memory.maintainer) creep.memory.maintainer = {};
+
         if (creep.room.name != creep.memory.home) {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
         else {
-            if (creep.carry.energy == 0) {
-                creep.memory.qstate = 'entering';
+            if (creep.ticksToLive < 250 && creep.memory.renewQ.state == '') {
+                creep.memory.renewQ.state = 'entering';
+            }
+            else if (creep.carry.energy == 0) {
+                creep.memory.energyQ.state = 'entering';
             }
             else {
-                if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
-                    creep.memory.action = 'renewing';
-                }
-
-                if (creep.memory.action == 'renewing') {
-                    var s = Game.spawns[rooms[creep.memory.home].spawn];
-                    var r = s.renewCreep(creep);
-                    if (r == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(s);
+                var tlist = t.maintainer[creep.memory.home];
+                var target = null;
+                for (var i = 0; i < tlist.length; i++) {
+                    if (tlist[i].length) {
+                        target = tlist[i][0];
+                        break;
                     }
-                    else if (r == ERR_FULL) {
-                        creep.memory.action = '';
+                }
+                if (target) {
+                    if (creep.repair(target) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
                     }
                 }
                 else {
-                    var tlist = t.maintainer[creep.memory.home];
-                    var target = null;
-                    for (var i = 0; i < tlist.length; i++) {
-                        if (tlist[i].length) {
-                            target = tlist[i][0];
-                            break;
-                        }
-                    }
-                    if (target) {
-                        if (creep.repair(target) == ERR_NOT_IN_RANGE) {
-                            creep.moveTo(target);
-                        }
-                    }
-                    else {
-                        upgrader[rooms[creep.memory.home].phase](creep, t);
-                    }
+                    upgrader[rooms[creep.memory.home].phase](creep, t);
                 }
             }
         }

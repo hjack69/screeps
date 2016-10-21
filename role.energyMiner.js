@@ -26,21 +26,21 @@ var energyMiner = {
     },
     phase2: function(creep, t) {
         var stime = Game.cpu.getUsed();
-        if (!creep.memory.action) {
-            creep.memory.action = 'harvesting';
+        if (!creep.memory.energyMiner) {
+            creep.memory.energyMiner = {action:'harvesting'};
         }
         if (creep.room.name != creep.memory.home) {
             creep.moveTo(new RoomPosition(25, 25, creep.memory.home));
         }
         else {
-            if (creep.carry.energy == 0 && creep.memory.action == 'dumping') {
-                creep.memory.action = 'harvesting';
+            if (creep.carry.energy == 0 && creep.memory.energyMiner.action == 'dumping') {
+                creep.memory.energyMiner.action = 'harvesting';
             }
-            else if (creep.carry.energy == creep.carryCapacity && creep.memory.action == 'harvesting') {
-                creep.memory.action = 'dumping';
+            else if (creep.carry.energy == creep.carryCapacity && creep.memory.energyMiner.action == 'harvesting') {
+                creep.memory.energyMiner.action = 'dumping';
             }
 
-            if (creep.memory.action == 'harvesting') {
+            if (creep.memory.energyMiner.action == 'harvesting') {
                 var source = Game.getObjectById(creep.memory.sourceid);
                 if (creep.pos.x != creep.memory.spot.x || creep.pos.y != creep.memory.spot.y) {
                     creep.moveTo(creep.memory.spot.x, creep.memory.spot.y);
@@ -49,10 +49,10 @@ var energyMiner = {
                     creep.moveTo(creep.memory.spot.x, creep.memory.spot.y);
                 }
                 if (source.energy == 0) {
-                    creep.memory.action = 'dumping';
+                    creep.memory.energyMiner.action = 'dumping';
                 }
             }
-            else if (creep.memory.action == 'dumping') {
+            else if (creep.memory.energyMiner.action == 'dumping') {
                 var dump = Game.getObjectById(creep.memory.dumpid);
                 if (dump != null) {
                     if (dump.hits < dump.hitsMax/2) {

@@ -8,35 +8,25 @@ var paver = {
     },
     phase1: function(creep, t) {
         var stime = Game.cpu.getUsed();
-        if (creep.carry.energy == 0) {
-            creep.memory.qstate = 'entering';
+
+        if (!creep.memory.paver) creep.memory.paver = {};
+
+        if (creep.ticksToLive < 250 && creep.memory.renewQ.state == '') {
+            creep.memory.renewQ.state = 'renewing';
+        }
+        else if (creep.carry.energy == 0) {
+            creep.memory.energyQ.state = 'entering';
         }
         else {
-            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
-                creep.memory.action = 'renewing';
-            }
-
-            if (creep.memory.action == 'renewing') {
-                var s = Game.spawns[rooms[creep.memory.home].spawn];
-                var r = s.renewCreep(creep);
-                if (r == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(s);
-                }
-                else if (r == ERR_FULL) {
-                    creep.memory.action = '';
+            var tlist = t.paver[creep.memory.home];
+            var target = tlist[0];
+            if (target) {
+                if (creep.build(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
                 }
             }
             else {
-                var tlist = t.paver[creep.memory.home];
-                var target = tlist[0];
-                if (target) {
-                    if (creep.build(target) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target);
-                    }
-                }
-                else {
-                    builder[rooms[creep.memory.home].phase](creep, t);
-                }
+                builder[rooms[creep.memory.home].phase](creep, t);
             }
         }
         var etime = (Game.cpu.getUsed() - stime);

@@ -12,17 +12,10 @@ var defender = {
     },
     phase1: function(creep, t) {
         var stime = Game.cpu.getUsed();
-        if (creep.memory.action == 'renewing') {
-            var s = Game.spawns[rooms[creep.memory.home].spawn];
-            var r = s.renewCreep(creep);
-            if (r == ERR_NOT_IN_RANGE) {
-                creep.moveTo(s);
-            }
-            else if (r == ERR_FULL) {
-                creep.memory.action = '';
-            }
-        }
         var target = creep.pos.findClosestByRange(t.defender[creep.memory.home]);
+
+        if (!creep.memory.defender) creep.memory.defender = {};
+
         if (target) {
             creep.memory.action = '';
             if (creep.attack(target) == ERR_NOT_IN_RANGE) {
@@ -30,12 +23,10 @@ var defender = {
             }
         }
         else {
-            if (creep.ticksToLive < 250 && (creep.memory.action == '' || !creep.memory.action) && Memory.rooms[creep.memory.home][rooms[creep.memory.home].phase].enableRenew) {
-                creep.memory.action = 'renewing';
+            if (creep.ticksToLive < 250 && creep.memory.renewQ.state == '') {
+                creep.memory.renewQ.state = 'entering';
             }
-            else if (creep.memory.action == '' || !creep.memory.action) {
-                creep.moveTo(t.defender.waiting[creep.memory.home]);
-            }
+            creep.moveTo(t.defender.waiting[creep.memory.home]);
         }
         var etime = (Game.cpu.getUsed() - stime);
         // console.log(creep.name + ' defender: ' + etime);
